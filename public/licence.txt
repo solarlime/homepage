@@ -1,0 +1,16 @@
+Fonts used:
+
+- Gilroy ExtraBold (licence: EULA-20105160.pdf)
+- Uni Neue Light (licence: EULA-20105170.pdf)
+
+
+Photos used:
+
+sun.svg, moon.svg:
+- Source: https://www.svgrepo.com/collection/weather-4/
+- Licence: https://www.svgrepo.com/page/licensing
+
+logo192.png, logo512.png, favicon.ico:
+- Author: IKRAM ULLAH (@riseasphoenix)
+- Source: https://unsplash.com/photos/087bb8x69oA
+- Licence: https://unsplash.com/license
