@@ -1,3 +1,5 @@
+@use './features/primitives'
+
 @font-face
   font-family: 'UniNeueWebLight'
   src: url('fonts/Uni-Neue_Light.woff2') format('woff2'), url('fonts/Uni-Neue_Light.woff') format('woff')
@@ -12,7 +14,7 @@
 
 .App
   display: grid
-  grid-template-columns: repeat(12, 1fr)
-  grid-template-rows: repeat(12, 1fr)
+  grid-template-columns: repeat(primitives.$columns_count, 1fr)
+  grid-template-rows: repeat(primitives.$rows_count, 1fr)
   height: 100vh
   text-align: center

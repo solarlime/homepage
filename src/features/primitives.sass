@@ -1,17 +1,26 @@
+$columns_count: 12
+$rows_count: 16
+$header_rows_count: 3
+$main_rows_count: 10
+$footer_rows_count: 3
+$base_font_size: 3vmin
+
+
 .button
-  padding: 5px 10px
+  padding: 1vmin 10px
   border: 1px solid
-  border-radius: 15px
+  border-radius: calc(($base_font_size + 2vmin + 2px)/2)
   font-family: inherit
-  font-size: 18px
+  font-size: $base_font_size
   color: inherit
-  line-height: inherit
+  line-height: 1
   background: transparent
   box-sizing: border-box
   cursor: pointer
 
   &:hover
     color: white
+    border-color: #2fa693
     background-color: #2fa693
 
 .button-link

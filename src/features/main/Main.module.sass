@@ -1,10 +1,20 @@
+@use '../primitives'
+$rows_count: primitives.$rows_count
+$header_rows_count: primitives.$header_rows_count
+$main_rows_count: primitives.$main_rows_count
+
 .main
   grid-column: 1/13
-  grid-row: 3/11
+  grid-row: calc($header_rows_count + 1) / calc($header_rows_count + $main_rows_count + 1)
 
   display: grid
+  height: calc($main_rows_count * 100vh / $rows_count)
   padding: 0 4vw
   color: white
   font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
   box-sizing: border-box
   background: #282c34
+
+  .main__title
+    font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+    font-size: 3rem

@@ -1,8 +1,18 @@
 @use '../primitives'
+$rows_count: primitives.$rows_count
+$header_rows_count: primitives.$header_rows_count
+$main_rows_count: primitives.$main_rows_count
+$footer_rows_count: primitives.$footer_rows_count
+$footer_font_size: primitives.$base_font_size - 1vmin
 
 .footer
   grid-column: 1/13
-  grid-row: 11/13
+  grid-row:  calc($header_rows_count + $main_rows_count + 1) / calc($header_rows_count + $main_rows_count + $footer_rows_count + 1)
+
+  display: flex
+  justify-content: center
+  align-items: center
+  height: calc($footer_rows_count * 100vh / $rows_count)
   background: #282c34
   color: white
   font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
