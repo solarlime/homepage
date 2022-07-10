@@ -1,0 +1,51 @@
+@use '../primitives'
+
+$base_font_size: primitives.$base_font_size
+
+.not-found
+  display: grid
+  grid-template: calc(3.5 * $base_font_size) auto auto / minmax(20%, 50%) auto
+  grid-template-areas: 'image header' 'image text' 'image figcaption'
+  gap: 50px
+  width: 100%
+  height: inherit
+  text-align: left
+
+  .not-found__item
+    margin: 0
+
+  .not-found__item_header
+    grid-area: header
+    font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+    font-size: calc(3.5 * $base_font_size)
+
+  .not-found__item_image
+    grid-area: image
+    height: inherit
+
+    img
+      width: 100%
+      height: 100%
+      object-fit: cover
+      object-position: center center
+
+  .not-found__item_text
+    grid-area: text
+    font-size: $base_font_size
+
+    span
+      display: inline-block
+      margin-top: 20px
+
+  .not-found__item_figcaption
+    grid-area: figcaption
+    font-size: calc($base_font_size - 1vmin)
+
+  @media(max-width: 500px)
+    grid-template: auto auto auto / 1fr
+    grid-template-areas: 'header' 'image' 'text'
+
+    .not-found__item_image
+      grid-area: image
+      grid-column: 1
+      grid-row: 2/3

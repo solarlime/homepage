@@ -14,3 +14,8 @@ logo192.png, logo512.png, favicon.ico:
 - Author: IKRAM ULLAH (@riseasphoenix)
 - Source: https://unsplash.com/photos/087bb8x69oA
 - Licence: https://unsplash.com/license
+
+lime.jpg:
+- Author: Victor Figueroa (@vfigueroa)
+- Source: https://unsplash.com/photos/huUI0y0ERMM
+- Licence: https://unsplash.com/license
