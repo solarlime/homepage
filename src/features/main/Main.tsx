@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Routes, Route, useParams } from 'react-router-dom';
 import styles from './Main.module.sass';
-import { ThemeContext } from '../../Theme';
 import NotFound from './NotFound';
+import About from './About';
 
 function Projects() {
   return (
@@ -12,29 +12,20 @@ function Projects() {
   );
 }
 
-function About() {
+function AboutOrNot() {
   const params = useParams();
   if (params.please === process.env.REACT_APP_PLEASE) {
-    return (
-      <article className={styles.main__title}>
-        About
-      </article>
-    );
+    return <About />;
   }
   return (<NotFound />);
 }
 
 function Main() {
-  const { theme } = useContext(ThemeContext);
-
   return (
-    <main
-      className={styles.main}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
-    >
+    <main className={styles.main}>
       <Routes>
         <Route path="/" element={<Projects />} />
-        <Route path="/cv/:please" element={<About />} />
+        <Route path="/cv/:please" element={<AboutOrNot />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>

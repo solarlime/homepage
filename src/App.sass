@@ -1,5 +1,7 @@
 @use './features/primitives'
 
+$rows_count: primitives.$rows_count
+
 @font-face
   font-family: 'UniNeueWebLight'
   src: url('fonts/Uni-Neue_Light.woff2') format('woff2'), url('fonts/Uni-Neue_Light.woff') format('woff')
@@ -12,9 +14,21 @@
   font-weight: normal
   font-style: normal
 
-.App
-  display: grid
-  grid-template-columns: repeat(primitives.$columns_count, 1fr)
-  grid-template-rows: repeat(primitives.$rows_count, 1fr)
+.app
   height: 100vh
   text-align: center
+
+  .app-content
+    display: grid
+    grid-template-columns: repeat(primitives.$columns_count, 1fr)
+    grid-template-rows: repeat(primitives.$rows_count, 1fr)
+    width: 100%
+    height: 100%
+
+    .app-content__sidebar_left
+      grid-column: 1/2
+      grid-row: 1 / calc($rows_count + 1)
+
+    .app-content__sidebar_right
+      grid-column: 24/25
+      grid-row: 1 / calc($rows_count + 1)

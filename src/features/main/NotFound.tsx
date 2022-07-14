@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { createApi } from 'unsplash-js';
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
 import lime from '../../img/lime.jpg';
 import styles from './NotFound.module.sass';
+import { ThemeContext } from '../../Theme';
 
 function NotFound() {
+  const { theme } = useContext(ThemeContext);
+
   // @ts-ignore
   const unsplash = createApi({
     accessKey: process.env.REACT_APP_UNSPLASH,
@@ -38,7 +41,10 @@ function NotFound() {
   }, [content.image]);
 
   return (
-    <article className={styles['not-found']}>
+    <article
+      className={styles['not-found']}
+      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+    >
       <h1 className={`${styles['not-found__item']} ${styles['not-found__item_header']}`}>404</h1>
       <picture className={`${styles['not-found__item']} ${styles['not-found__item_image']}`}>
         {content.image}
