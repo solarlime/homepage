@@ -1,18 +1,23 @@
 @use '../primitives'
+
+$height: primitives.$height
 $rows_count: primitives.$rows_count
 $header_rows_count: primitives.$header_rows_count
 $base_font_size: primitives.$base_font_size
-$logo_font_size: calc($base_font_size + 2vmin + 2px)
+$logo_font_size: primitives.$logo_font_size
 
 .header
   grid-column: 2/24
   grid-row: 1 / calc($header_rows_count + 1)
   height: calc($header_rows_count * 100vh / $rows_count)
+  height: calc($header_rows_count * $height / $rows_count)
+  border-bottom: 1px solid
   font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
   font-size: $logo_font_size
   line-height: 1
   color: white
   background: #282c34
+  box-sizing: border-box
 
   .header-items
     display: flex

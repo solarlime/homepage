@@ -1,9 +1,12 @@
 @use '../primitives'
+
+$height: primitives.$height
 $rows_count: primitives.$rows_count
+$base_font_size: primitives.$base_font_size
 $header_rows_count: primitives.$header_rows_count
 $main_rows_count: primitives.$main_rows_count
 $footer_rows_count: primitives.$footer_rows_count
-$footer_font_size: primitives.$base_font_size - 1vmin
+$footer_font_size: calc($base_font_size - clamp(0.25rem, 1vmin, 0.5rem))
 
 .footer
   grid-column: 2/24
@@ -13,9 +16,12 @@ $footer_font_size: primitives.$base_font_size - 1vmin
   justify-content: center
   align-items: center
   height: calc($footer_rows_count * 100vh / $rows_count)
+  height: calc($footer_rows_count * $height / $rows_count)
+  border-top: 1px solid
   background: #282c34
   color: white
   font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
+  box-sizing: border-box
 
   .footer__item,
   .navigation__item

@@ -1,15 +1,21 @@
+$height: calc(var(--vh, 1vh) * 100)
+$min_width: 350px
 $columns_count: 24
 $rows_count: 20
 $header_rows_count: 3
 $main_rows_count: 14
 $footer_rows_count: 3
-$base_font_size: 3vmin
+$base_font_size: clamp(1rem, 3vmin, 3rem)
+$logo_font_size: calc($base_font_size + clamp(0.5rem, 2vmin, 1rem) + 2px)
 
+article section
+  max-width: 1000px
+  margin: 0 auto
 
 .button
-  padding: 1vmin 10px
+  padding: clamp(0.25rem, 1vmin, 0.5rem) 10px
   border: 1px solid
-  border-radius: calc(($base_font_size + 2vmin + 2px)/2)
+  border-radius: calc($logo_font_size / 2)
   font-family: inherit
   font-size: $base_font_size
   color: inherit

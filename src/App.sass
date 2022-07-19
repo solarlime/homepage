@@ -1,6 +1,8 @@
 @use './features/primitives'
 
 $rows_count: primitives.$rows_count
+$min_width: primitives.$min_width
+$height: primitives.$height
 
 @font-face
   font-family: 'UniNeueWebLight'
@@ -15,7 +17,9 @@ $rows_count: primitives.$rows_count
   font-style: normal
 
 .app
+  min-width: 350px
   height: 100vh
+  height: $height
   text-align: center
 
   .app-content
