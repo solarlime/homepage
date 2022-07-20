@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import styles from './About.module.sass';
-import { ThemeContext } from '../../Theme';
+import { ThemeContext } from '../../../Theme';
 
 function About() {
   const { theme } = useContext(ThemeContext);

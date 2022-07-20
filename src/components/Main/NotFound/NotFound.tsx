@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { createApi } from 'unsplash-js';
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
-import lime from '../../img/lime.jpg';
+import lime from '../../../img/lime.jpg';
 import styles from './NotFound.module.sass';
-import { ThemeContext } from '../../Theme';
+import { ThemeContext } from '../../../Theme';
 
 function NotFound() {
   const { theme } = useContext(ThemeContext);

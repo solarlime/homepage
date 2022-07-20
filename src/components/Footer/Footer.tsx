@@ -14,8 +14,8 @@ function Footer() {
       <div>
         <button className={`${styles.button} ${styles.footer__item}`} type="button">Menu</button>
         <nav className={styles.footer__item}>
-          <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/">Projects</Link>
-          <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/not-found">404</Link>
+          <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/">Main</Link>
+          <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">Projects</Link>
         </nav>
       </div>
     </footer>

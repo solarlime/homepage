@@ -1,8 +1,9 @@
-@use './features/primitives'
+@use 'components/Base'
 
-$rows_count: primitives.$rows_count
-$min_width: primitives.$min_width
-$height: primitives.$height
+$rows_count: Base.$rows_count
+$columns_count: Base.$columns_count
+$min_width: Base.$min_width
+$height: Base.$height
 
 @font-face
   font-family: 'UniNeueWebLight'
@@ -24,8 +25,8 @@ $height: primitives.$height
 
   .app-content
     display: grid
-    grid-template-columns: repeat(primitives.$columns_count, 1fr)
-    grid-template-rows: repeat(primitives.$rows_count, 1fr)
+    grid-template-columns: repeat($columns_count, 1fr)
+    grid-template-rows: repeat($rows_count, 1fr)
     width: 100%
     height: 100%
 

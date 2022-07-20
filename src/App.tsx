@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import './App.sass';
-import Header from './features/header/Header';
-import Main from './features/main/Main';
-import Footer from './features/footer/Footer';
+import Header from './components/Header/Header';
+import Main from './components/Main/Main';
+import Footer from './components/Footer/Footer';
 import { ThemeContext, ThemeProvider } from './Theme';
 
 function Sidebar(props: { side: 'left' | 'right' }) {
