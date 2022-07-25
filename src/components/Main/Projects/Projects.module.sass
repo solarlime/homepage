@@ -1,0 +1,29 @@
+@use '../../Base'
+
+$min_width: Base.$min_width
+$columns_count: Base.$columns_count
+$base_font_size: Base.$base_font_size
+
+.projects
+  display: grid
+  grid-template-rows: calc(4 * $base_font_size) auto
+
+  .projects-container
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(calc($min_width / $columns_count * 22), 1fr))
+    grid-template-rows: auto
+    align-items: stretch
+    gap: $base_font_size
+
+    @media(min-width: 600px)
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+
+    .projects-container__item
+      width: 100%
+      height: auto
+      border: 1px solid #ccc
+      object-fit: cover
+      object-position: top center
+      box-sizing: border-box
+
+
