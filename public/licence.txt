@@ -19,3 +19,8 @@ lime.jpg:
 - Author: Victor Figueroa (@vfigueroa)
 - Source: https://unsplash.com/photos/huUI0y0ERMM
 - Licence: https://unsplash.com/license
+
+github.svg, linkedin.svg, telegram.svg:
+- Author: Gil Barbara (gilbarbara)
+- Source: https://github.com/gilbarbara/logos
+- Licence: https://github.com/gilbarbara/logos/blob/master/LICENSE.txt

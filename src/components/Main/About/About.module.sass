@@ -2,50 +2,50 @@
 
 $min_width: Base.$min_width
 $columns_count: Base.$columns_count
+
+$multiplier: 2.5
 $base_font_size: Base.$base_font_size
+$logo_font_size: Base.$logo_font_size
+$base_font: calc($multiplier * $base_font_size)
+$base_padding: Base.$base_padding
+$padding: calc($multiplier * $base_padding)
+$logo_font: Base.logoFont($base_font, $padding)
+$ext_logo_font: Base.logoFont($logo_font, $padding)
 
 .about
   display: grid
-  //overflow: hidden
-  overflow-y: scroll
-  scroll-behavior: smooth
-  scrollbar-width: none
   grid-template: repeat(3, 100%) / 1fr
   grid-template-areas: 'whoami' 'skills' 'projects'
 
   &::-webkit-scrollbar
     width: 0
 
-  .about_title
-    margin: 0 0 calc($base_font_size / 2) 0
-    font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
-    font-size: calc(2.7 * $base_font_size)
-
   .about__item
-    //overflow-y: scroll
-    margin-top: $base_font_size
-    margin-bottom: $base_font_size
+    padding-bottom: calc($logo_font_size + 2 * $base_font_size)
 
-  .about__whoami
+  .about__contacts
     grid-area: whoami
     height: inherit
     text-align: left
 
     display: grid
-    grid-template-columns: 1fr calc(9 * $base_font_size)
-    grid-template-rows: calc(9 * $base_font_size) 1fr
+    grid-template-columns: 1fr calc(10 * $base_font_size)
+    grid-template-rows: calc(10 * $base_font_size) 1fr
     grid-template-areas: 'title image' 'text text'
     gap: calc(1.2 * $base_font_size)
 
-    .whoami__title
+    .contacts__title
       grid-area: title
       margin: 0
 
-      .whoami__title_subtitle
-        margin: 0
-        font-size: calc(1.8 * $base_font_size)
+      .contacts__title_title
+        font-size: clamp(1.7rem, 6vmin, 4.5rem)
 
-    .whoami__image
+      .contacts__title_subtitle
+        margin: 0
+        font-size: clamp(1.3rem, 5vmin, 3.8rem)
+
+    .contacts__image
       grid-area: image
       height: inherit
 
@@ -56,18 +56,29 @@ $base_font_size: Base.$base_font_size
         object-fit: cover
         object-position: center center
 
-    .whoami__text
+    .contacts__buttons
       grid-area: text
       align-self: center
       margin: 0
-      quotes: "“" "”" "‘" "’"
-      font-size: calc(1.5 * $base_font_size)
 
-    .whoami__text::before
-      content: open-quote
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
 
-    .whoami__text::after
-      content: close-quote
+      .contacts__buttons__item
+        position: relative
+        font-size: $base_font
+        border-radius: calc($logo_font / 2)
+        padding: $padding
+
+        svg
+          display: block
+          width: $base_font
+          height: $base_font
+
+        &:hover svg,
+        &:focus svg
+          fill: white
 
   .about__skills
     grid-area: skills

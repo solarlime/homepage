@@ -1,6 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from './About.module.sass';
+import { ReactComponent as GitHub } from '../../../img/github.svg';
+import { ReactComponent as LinkedIn } from '../../../img/linkedin.svg';
+import { ReactComponent as Email } from '../../../img/email.svg';
+import { ReactComponent as Telegram } from '../../../img/telegram.svg';
 import { ThemeContext } from '../../../Theme';
+
+function getAge() {
+  const birthDate = new Date(process.env.REACT_APP_BIRTH_DATE!);
+  const date = Date.now();
+  const dif = new Date(date - birthDate.getTime());
+  return dif.getFullYear() - 1970;
+}
 
 function About() {
   const { theme } = useContext(ThemeContext);
@@ -17,17 +28,18 @@ function About() {
 
   return (
     <article
-      className={styles.about}
+      className={`${styles.about} ${styles.base}`}
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
-      <section id={sections[0]} className={`${styles.about__whoami} ${styles.about__item}`}>
-        <h1 className={styles.whoami__title}>
-          <p className={styles.about_title}>
-            Hi!
+      <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
+        <h1 className={styles.contacts__title}>
+          <p className={`${styles.base__item__title} ${styles.contacts__title_title}`}>
+            {process.env.REACT_APP_ME}
           </p>
-          <p className={styles.whoami__title_subtitle}>{`I am ${process.env.REACT_APP_ME}`}</p>
+          <p className={styles.contacts__title_subtitle}>Frontend developer,</p>
+          <p className={styles.contacts__title_subtitle}>{`${getAge()} years`}</p>
         </h1>
-        <picture className={styles.whoami__image}>
+        <picture className={styles.contacts__image}>
           <img
             sizes="100w"
             srcSet={`${process.env.REACT_APP_FILES}/me320.jpg 320w, 
@@ -37,15 +49,23 @@ function About() {
             alt="Me"
           />
         </picture>
-        <blockquote className={styles.whoami__text}>
-          I am inspired by different patterns of industrial design.
-          However, the better thing is an opportunity to animate them,
-          to provide an ability to interact with them.
-          At this moment, I feel that I have really created something new.
-        </blockquote>
+        <div className={styles.contacts__buttons}>
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">
+            <GitHub fill={theme.color} />
+          </a>
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer">
+            <LinkedIn fill={theme.color} />
+          </a>
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">
+            <Telegram fill={theme.color} />
+          </a>
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${process.env.REACT_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`}>
+            <Email fill={theme.color} />
+          </a>
+        </div>
       </section>
-      <section id={sections[1]} className={`${styles.about__skills} ${styles.about__item}`}>
-        <h1 className={styles.about_title}>Skills</h1>
+      <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
+        <h1 className={styles.base__item__title}>Skills</h1>
         <ul>
           <li>HTML</li>
           <li>CSS</li>
@@ -56,12 +76,13 @@ function About() {
           <li>React Router</li>
           <li>Redux (+ Thunk)</li>
           <li>MongoDB</li>
-          <li>NodeJS</li>
-          <li>Koa</li>
+          <li>NodeJS + Koa</li>
+          <li>Jest</li>
+          <li>Puppeteer</li>
         </ul>
       </section>
-      <section id={sections[2]} className={`${styles.about__projects} ${styles.about__item}`}>
-        <h1 className={styles.about_title}>Projects</h1>
+      <section id={sections[2]} className={`${styles.about__projects} ${styles.base__item} ${styles.about__item}`}>
+        <h1 className={styles.base__item__title}>Projects</h1>
         <div className={styles.projects__container}>
           <img
             className={styles.container__item}
@@ -121,6 +142,7 @@ function About() {
       </section>
       <button
         className={`${styles.button} ${styles['navigation-button']}`}
+        style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
         type="button"
         onClick={click}
       >
