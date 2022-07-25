@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
-import { Routes, Route, useParams } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
-import Projects from './Projects/Projects';
-import Project from './Projects/Project/Project';
 import { ThemeContext } from '../../Theme';
 
 export function Intro() {
@@ -54,15 +52,7 @@ export function AboutOrNot() {
 function Main() {
   return (
     <main className={styles.main}>
-      <Routes>
-        <Route path="/" element={<Intro />}>
-          <Route path="projects" element={<Projects />}>
-            <Route path="/projects/:project" element={<Project />} />
-          </Route>
-          <Route path="cv/:please" element={<AboutOrNot />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+      <Outlet />
     </main>
   );
 }

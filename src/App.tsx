@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 import './App.sass';
+import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Main from './components/Main/Main';
+import Main, { AboutOrNot, Intro } from './components/Main/Main';
 import Footer from './components/Footer/Footer';
 import { ThemeContext, ThemeProvider } from './Theme';
+import Projects from './components/Main/Projects/Projects';
+import Project from './components/Main/Projects/Project/Project';
+import NotFound from './components/Main/NotFound/NotFound';
 
 function Sidebar(props: { side: 'left' | 'right' }) {
   const { theme } = useContext(ThemeContext);
@@ -33,7 +37,16 @@ function App(): React.ReactElement {
   return (
     <div className="app">
       <ThemeProvider>
-        <AppContent />
+        <Routes>
+          <Route path="/" element={<AppContent />}>
+            <Route index element={<Intro />} />
+            <Route path="projects" element={<Projects />}>
+              <Route path=":project" element={<Project />} />
+            </Route>
+            <Route path="cv/:please" element={<AboutOrNot />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+        </Routes>
       </ThemeProvider>
     </div>
   );
