@@ -1,16 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './About.module.sass';
 import { ThemeContext } from '../../../Theme';
 
 function About() {
   const { theme } = useContext(ThemeContext);
 
+  const sections = ['contacts', 'skills', 'facts'];
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const next = document.getElementById(sections[index])!;
+    next.scrollIntoView();
+  });
+
+  const click = () => setIndex((index + 1) % 3);
+
   return (
     <article
       className={styles.about}
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
-      <section id="me" className={`${styles.about__whoami} ${styles.about__item}`}>
+      <section id={sections[0]} className={`${styles.about__whoami} ${styles.about__item}`}>
         <h1 className={styles.whoami__title}>
           <p className={styles.about_title}>
             Hi!
@@ -34,7 +44,7 @@ function About() {
           At this moment, I feel that I have really created something new.
         </blockquote>
       </section>
-      <section id="skills" className={`${styles.about__skills} ${styles.about__item}`}>
+      <section id={sections[1]} className={`${styles.about__skills} ${styles.about__item}`}>
         <h1 className={styles.about_title}>Skills</h1>
         <ul>
           <li>HTML</li>
@@ -50,7 +60,7 @@ function About() {
           <li>Koa</li>
         </ul>
       </section>
-      <section id="projects" className={`${styles.about__projects} ${styles.about__item}`}>
+      <section id={sections[2]} className={`${styles.about__projects} ${styles.about__item}`}>
         <h1 className={styles.about_title}>Projects</h1>
         <div className={styles.projects__container}>
           <img
@@ -109,6 +119,13 @@ function About() {
           />
         </div>
       </section>
+      <button
+        className={`${styles.button} ${styles['navigation-button']}`}
+        type="button"
+        onClick={click}
+      >
+        {(index === 2) ? 'To top' : 'Next'}
+      </button>
     </article>
   );
 }
