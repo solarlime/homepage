@@ -31,7 +31,15 @@ $logo_font_size: Base.$logo_font_size
     box-sizing: border-box
 
     .header-items__item_logo
+      height: $logo_font_size
       text-transform: lowercase
+
+      .logo-container
+        display: inline-block
+        height: inherit
+
+        .logo
+          height: inherit
 
     .header-items__item_rest
       display: flex
@@ -47,10 +55,10 @@ $logo_font_size: Base.$logo_font_size
         display: none
 
         &:checked + .slider
-          background-color: #2fa693
+          background-color: #78B856
 
         &:focus + .slider
-          box-shadow: 0 0 1px #2fa693
+          box-shadow: 0 0 1px #78B856
 
         &:checked + .slider:before
           background-color: white

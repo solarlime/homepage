@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../Theme';
+import logo from '../../img/logo.svg';
 
 function ThemeChanger(props: { toggleTheme: () => void }) {
   const { toggleTheme } = props;
@@ -22,7 +24,11 @@ function Header() {
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
       <ul className={styles['header-items']}>
-        <li className={styles['header-items__item_logo']}>solarlime.dev</li>
+        <li className={styles['header-items__item_logo']}>
+          <Link className={`${styles['logo-container']}`} to="/">
+            <img className={styles.logo} src={logo} alt="Main page" />
+          </Link>
+        </li>
         <li className={styles['header-items__item_rest']}>
           <ThemeChanger toggleTheme={toggleTheme} />
           <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
