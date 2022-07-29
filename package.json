@@ -16,6 +16,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.53.0",
     "typescript": "^4.6.4",
+    "uniqid": "^5.4.0",
     "unsplash-js": "^7.0.15",
     "web-vitals": "^2.1.4"
   },
@@ -38,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uniqid": "^5.3.2",
     "@typescript-eslint/eslint-plugin": "^5.21.0",
     "@typescript-eslint/parser": "^5.21.0",
     "eslint": "^8.14.0",

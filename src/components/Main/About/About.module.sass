@@ -82,6 +82,24 @@ $ext_logo_font: Base.logoFont($logo_font, $padding)
   .about__skills
     grid-area: skills
 
+    display: grid
+    grid-template: calc(4 * $base_font_size) auto / 1fr
+
+    .tag-cloud
+      align-self: center
+      padding: 0 $base_font_size
+      margin: 0
+      list-style: none
+      vertical-align: middle
+
+      .tag-cloud__item
+        display: inline-block
+        margin: 0 10px
+        font-size: clamp(1, random(3), 3)+rem
+
+        &:hover
+          color: #FFCF48
+
   .about__projects
     grid-area: projects
     display: grid

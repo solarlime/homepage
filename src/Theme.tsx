@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 interface Theme {
-  color: string, backgroundColor: string,
+  name: 'light' | 'dark', color: string, backgroundColor: string,
 }
 
 interface Themes {
@@ -16,10 +16,10 @@ interface ThemesContext {
 
 export const themes: Themes = {
   light: {
-    color: '#282C34', backgroundColor: '#FFFFFF',
+    name: 'light', color: '#282C34', backgroundColor: '#FFFFFF',
   },
   dark: {
-    color: '#FFFFFF', backgroundColor: '#282C34',
+    name: 'dark', color: '#FFFFFF', backgroundColor: '#282C34',
   },
 };
 

@@ -5,6 +5,7 @@ import { ReactComponent as LinkedIn } from '../../../img/linkedin.svg';
 import { ReactComponent as Email } from '../../../img/email.svg';
 import { ReactComponent as Telegram } from '../../../img/telegram.svg';
 import { ThemeContext } from '../../../Theme';
+import TagCloud from './TagCloud';
 
 function getAge() {
   const birthDate = new Date(process.env.REACT_APP_BIRTH_DATE!);
@@ -66,20 +67,7 @@ function About() {
       </section>
       <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>Skills</h1>
-        <ul>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>Sass</li>
-          <li>JavaScript</li>
-          <li>TypeScript</li>
-          <li>React</li>
-          <li>React Router</li>
-          <li>Redux (+ Thunk)</li>
-          <li>MongoDB</li>
-          <li>NodeJS + Koa</li>
-          <li>Jest</li>
-          <li>Puppeteer</li>
-        </ul>
+        <TagCloud themeName={theme.name} />
       </section>
       <section id={sections[2]} className={`${styles.about__projects} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>Projects</h1>
