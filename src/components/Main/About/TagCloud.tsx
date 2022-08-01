@@ -4,13 +4,15 @@ import styles from './About.module.sass';
 
 const id = uniqid;
 
+type T = string | Array<string>;
+
 /**
  * A function for array shuffling.
  * A Fisher–Yates shuffle algorithm (implemented by Durstenfeld) is used.
  * Source: https://javascript.info/task/shuffle
  * @param array - array for shuffling
  */
-const shuffleArray = (array: Array<string>): Array<string> => {
+export const shuffleArray = (array: Array<T>): Array<T> => {
   for (let i = array.length - 1; i > 0; i -= 1) {
     // Выбираем индекс случайным образом (от 0 до i)
     const j = Math.floor(Math.random() * (i + 1));

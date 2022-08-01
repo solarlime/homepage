@@ -6,7 +6,11 @@ import { ReactComponent as Email } from '../../../img/email.svg';
 import { ReactComponent as Telegram } from '../../../img/telegram.svg';
 import { ThemeContext } from '../../../Theme';
 import TagCloud from './TagCloud';
+import FactsList from './FactsList';
 
+/**
+ * A function for counting the age
+ */
 function getAge() {
   const birthDate = new Date(process.env.REACT_APP_BIRTH_DATE!);
   const date = Date.now();
@@ -14,6 +18,13 @@ function getAge() {
   return dif.getFullYear() - 1970;
 }
 
+/**
+ * A component for a navigation button
+ * @param props - color: a colour for a text,
+ *                bgColor: a colour for a background,
+ *                sections: an array with section ids
+ * @constructor
+ */
 function NavigationButton(props: { color: string, bgColor: string, sections: Array<string> }) {
   const [index, setIndex] = useState(0);
   const { color, bgColor, sections } = props;
@@ -23,7 +34,8 @@ function NavigationButton(props: { color: string, bgColor: string, sections: Arr
     next.scrollIntoView();
   }, [index]);
 
-  const click = () => setIndex((index + 1) % 3);
+  // It is not needed to reset index after scrolling the whole page. Just take a remainder.
+  const click = () => setIndex((index + 1) % sections.length);
 
   return (
     <button
@@ -37,9 +49,12 @@ function NavigationButton(props: { color: string, bgColor: string, sections: Arr
   );
 }
 
+/**
+ * A component for rendering an about page
+ * @constructor
+ */
 function About() {
   const { theme } = useContext(ThemeContext);
-
   const sections = ['contacts', 'skills', 'facts'];
 
   return (
@@ -84,64 +99,9 @@ function About() {
         <h1 className={styles.base__item__title}>Skills</h1>
         <TagCloud themeName={theme.name} />
       </section>
-      <section id={sections[2]} className={`${styles.about__projects} ${styles.base__item} ${styles.about__item}`}>
-        <h1 className={styles.base__item__title}>Projects</h1>
-        <div className={styles.projects__container}>
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/like-a-trello320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/like-a-trello640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/like-a-trello1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/like-a-trello.jpg`}
-            alt="Simple Kanban board"
-          />
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/dogs-and-facts320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/dogs-and-facts640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/dogs-and-facts1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/dogs-and-facts.jpg`}
-            alt="Dogs and facts"
-          />
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/simple-chat320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/simple-chat640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/simple-chat1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/simple-chat.jpg`}
-            alt="Simple chat"
-          />
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/chest-of-notes320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/chest-of-notes640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/chest-of-notes1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/chest-of-notes.jpg`}
-            alt="Chest of notes"
-          />
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/help-desk320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/help-desk640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/help-desk1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/help-desk.jpg`}
-            alt="Help desk"
-          />
-          <img
-            className={styles.container__item}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/retro-game320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/retro-game640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/retro-game1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/retro-game.jpg`}
-            alt="Retro game"
-          />
-        </div>
+      <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
+        <h1 className={styles.base__item__title}>About me</h1>
+        <FactsList />
       </section>
       <NavigationButton color={theme.color} bgColor={theme.backgroundColor} sections={sections} />
     </article>
