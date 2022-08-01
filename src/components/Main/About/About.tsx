@@ -14,18 +14,33 @@ function getAge() {
   return dif.getFullYear() - 1970;
 }
 
-function About() {
-  const { theme } = useContext(ThemeContext);
-
-  const sections = ['contacts', 'skills', 'facts'];
+function NavigationButton(props: { color: string, bgColor: string, sections: Array<string> }) {
   const [index, setIndex] = useState(0);
+  const { color, bgColor, sections } = props;
 
   useEffect(() => {
     const next = document.getElementById(sections[index])!;
     next.scrollIntoView();
-  });
+  }, [index]);
 
   const click = () => setIndex((index + 1) % 3);
+
+  return (
+    <button
+      className={`${styles.button} ${styles['navigation-button']}`}
+      style={{ color, backgroundColor: bgColor }}
+      type="button"
+      onClick={click}
+    >
+      {(index === 2) ? 'To top' : 'Next'}
+    </button>
+  );
+}
+
+function About() {
+  const { theme } = useContext(ThemeContext);
+
+  const sections = ['contacts', 'skills', 'facts'];
 
   return (
     <article
@@ -128,14 +143,7 @@ function About() {
           />
         </div>
       </section>
-      <button
-        className={`${styles.button} ${styles['navigation-button']}`}
-        style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
-        type="button"
-        onClick={click}
-      >
-        {(index === 2) ? 'To top' : 'Next'}
-      </button>
+      <NavigationButton color={theme.color} bgColor={theme.backgroundColor} sections={sections} />
     </article>
   );
 }
