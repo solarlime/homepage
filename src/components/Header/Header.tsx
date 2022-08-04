@@ -4,12 +4,12 @@ import styles from './Header.module.sass';
 import { ThemeContext } from '../../Theme';
 import logo from '../../img/logo.svg';
 
-function ThemeChanger(props: { toggleTheme: () => void }) {
-  const { toggleTheme } = props;
+function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark' }) {
+  const { toggleTheme, themeName } = props;
 
   return (
     <label className={styles['theme-switch']} htmlFor="theme-switch">
-      <input id="theme-switch" type="checkbox" onChange={toggleTheme} />
+      <input id="theme-switch" type="checkbox" onChange={toggleTheme} checked={(themeName === 'dark')} />
       <span className={styles.slider} />
     </label>
   );
@@ -30,7 +30,7 @@ function Header() {
           </Link>
         </li>
         <li className={styles['header-items__item_rest']}>
-          <ThemeChanger toggleTheme={toggleTheme} />
+          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
           <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
         </li>
       </ul>

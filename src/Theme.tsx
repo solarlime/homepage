@@ -25,8 +25,11 @@ export const themes: Themes = {
 
 export const ThemeContext = React.createContext<ThemesContext>({} as ThemesContext);
 
+const isDark = window.matchMedia('(prefers-color-scheme: dark)');
+const systemTheme = (isDark.matches) ? themes.dark : themes.light;
+
 export function ThemeProvider(props: { children: any }) {
-  const [theme, setTheme] = useState(themes.light);
+  const [theme, setTheme] = useState(systemTheme);
   const toggleTheme = () => {
     setTheme((oldTheme) => ((oldTheme === themes.light) ? themes.dark : themes.light));
   };
