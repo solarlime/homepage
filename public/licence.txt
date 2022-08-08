@@ -2,6 +2,7 @@ Fonts used:
 
 - Gilroy ExtraBold (licence: EULA-20105160.pdf)
 - Uni Neue Light (licence: EULA-20105170.pdf)
+- JetBrains Mono (licence: https://github.com/JetBrains/JetBrainsMono/blob/master/OFL.txt)
 
 
 Photos used:
