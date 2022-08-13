@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import uniqid from 'uniqid';
 import styles from './About.module.sass';
 
@@ -47,7 +47,7 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
     'ESLint',
     'Jest',
     'Puppeteer'];
-  return (
+  return useMemo(() => (
     <ul className={styles['tag-cloud']}>
       {shuffleArray(data).map((item) => (
         <li
@@ -59,7 +59,7 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
         </li>
       ))}
     </ul>
-  );
+  ), []);
 }
 
 export default TagCloud;

@@ -1,5 +1,5 @@
 import uniqid from 'uniqid';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
 
@@ -56,7 +56,7 @@ function FactsListItem(props: { id: string, item: Array<string> }) {
  * @constructor
  */
 function FactsList() {
-  return (
+  return useMemo(() => (
     <ul className={styles.list}>
       {shuffled().map((item) => {
         const id = uniqid();
@@ -65,7 +65,7 @@ function FactsList() {
         );
       })}
     </ul>
-  );
+  ), []);
 }
 
 export default FactsList;
