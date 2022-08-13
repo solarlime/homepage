@@ -5,7 +5,7 @@ Fonts used:
 - JetBrains Mono (licence: https://github.com/JetBrains/JetBrainsMono/blob/master/OFL.txt)
 
 
-Photos used:
+Images used:
 
 sun.svg, moon.svg:
 - Source: https://www.svgrepo.com/collection/weather-4/
@@ -25,3 +25,7 @@ github.svg, linkedin.svg, telegram.svg:
 - Author: Gil Barbara (gilbarbara)
 - Source: https://github.com/gilbarbara/logos
 - Licence: https://github.com/gilbarbara/logos/blob/master/LICENSE.txt
+
+imac.svg:
+- Source: https://www.svgrepo.com/svg/423355/imac
+- Licence: https://www.svgrepo.com/page/licensing

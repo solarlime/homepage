@@ -26,11 +26,16 @@ $logo_font_size: Base.$logo_font_size
     flex-direction: column
     align-items: center
     text-align: center
+    overflow-x: hidden
 
-    .name
-      font-family: "JetBrainsMono", monospace
-      font-size: calc(2.5 * $base_font_size)
-      color: #78B856
+    .intro__title
+      flex-shrink: 0
+      margin: calc($base_font_size / 2) 0 calc(4 * $base_font_size) 0
+
+      .name
+        font-family: "JetBrainsMono", monospace
+        font-size: calc(2.5 * $base_font_size)
+        color: #78B856
 
     .intro__title_subtitle
       margin: 0
@@ -57,3 +62,40 @@ $logo_font_size: Base.$logo_font_size
         object-fit: cover
         object-position: center center
         animation: memoji 1s cubic-bezier(.18,.89,.32,1.28) forwards
+
+    .intro__imac
+      $width: calc(19 * $base_font_size)
+      $height: calc(0.889 * $width)
+      flex-shrink: 0
+
+      .imac
+        position: sticky
+        display: flex
+        align-items: center
+        justify-content: center
+        top: calc(100% - $height + $base_font_size)
+        width: $width
+        height: $height
+        padding: calc(1.5 * $base_font_size) calc(1.5 * $base_font_size) calc(7 * $base_font_size) calc(1.5 * $base_font_size)
+        margin: 0
+        font-size: calc($base_font_size / 1.2)
+        box-sizing: border-box
+        background-image: url("../../img/imac.svg")
+        background-repeat: no-repeat
+        background-position: center
+        background-size: cover
+
+        p
+          margin: 0
+
+      .imac-space
+        width: $width
+        height: calc($height + $base_font_size)
+        margin: 0
+        box-sizing: border-box
+
+    .intro__box
+      flex-shrink: 0
+      width: 100%
+      height: calc(2 * $base_font_size)
+      background-color: #78B856

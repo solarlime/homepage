@@ -73,12 +73,21 @@ export function Intro() {
             alt="Me"
           />
         </picture>
-        <blockquote className={styles.intro__text}>
-          I am inspired by different patterns of industrial design.
-          However, the better thing is an opportunity to animate them,
-          to provide an ability to interact with them.
-          At this moment, I feel that I have really created something new.
-        </blockquote>
+        <div className={styles.intro__imac}>
+          <div
+            className={styles.imac}
+            style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+          >
+            <p>
+              I am inspired by different patterns of industrial design.
+              However, the better thing is an opportunity to animate them,
+              to provide an ability to interact with them.
+              At this moment, I feel that I have really created something new.
+            </p>
+          </div>
+          <div className={styles['imac-space']} />
+        </div>
+        <div className={styles.intro__box} />
       </section>
     </article>
   );
