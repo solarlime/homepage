@@ -1,0 +1,18 @@
+@use '../../Base'
+
+$base_font_size: Base.$base_font_size
+
+.tag-cloud
+  align-self: center
+  padding: 0 $base_font_size
+  margin: 0
+  list-style: none
+
+  .tag-cloud__item
+    display: inline-block
+    margin: 0 10px
+    font-size: clamp(1, random(3), 3)+rem
+    text-shadow: #282C34 0 0
+
+    &:hover
+      color: #FFCF48
