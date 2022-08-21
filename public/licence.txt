@@ -11,10 +11,8 @@ sun.svg, moon.svg:
 - Source: https://www.svgrepo.com/collection/weather-4/
 - Licence: https://www.svgrepo.com/page/licensing
 
-logo192.png, logo512.png, favicon.ico:
-- Author: IKRAM ULLAH (@riseasphoenix)
-- Source: https://unsplash.com/photos/087bb8x69oA
-- Licence: https://unsplash.com/license
+logo192.png, logo512.png, favicon.png, imac-extras.svg:
+- Author: me :)
 
 lime.jpg:
 - Author: Victor Figueroa (@vfigueroa)
@@ -29,9 +27,6 @@ github.svg, linkedin.svg, telegram.svg:
 imac.svg:
 - Based on: https://www.svgrepo.com/svg/423355/imac
 - Licence: https://www.svgrepo.com/page/licensing
-
-imac-extras.svg
-- Source: me :)
 
 cat.svg:
 - Based on: https://www.svgrepo.com/svg/85124/cat
