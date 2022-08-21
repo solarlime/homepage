@@ -1,4 +1,5 @@
 @use '../Base'
+@use './About/TagCloud.module'
 
 $min_width: Base.$min_width
 $height: Base.$height
@@ -22,11 +23,20 @@ $logo_font_size: Base.$logo_font_size
   background: #282c34
 
   .intro
+    $width: calc(19 * $base_font_size)
+    $height: calc(0.889 * $width)
+    $base_box_size: calc(2 * $base_font_size)
     display: flex
     flex-direction: column
     align-items: center
+    padding: 0
     text-align: center
     overflow-x: hidden
+
+    h2
+      margin: 0 0 calc(0.5 * $base_box_size) 0
+      font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+      font-size: calc(2 * $base_font_size)
 
     .intro__title
       flex-shrink: 0
@@ -46,6 +56,7 @@ $logo_font_size: Base.$logo_font_size
       flex-shrink: 0
       width: calc(11 * $base_font_size)
       height: calc(11 * $base_font_size)
+      margin-top: $base_font_size
       border-radius: 50%
       background-color: white
       overflow: hidden
@@ -64,8 +75,6 @@ $logo_font_size: Base.$logo_font_size
         animation: memoji 1s cubic-bezier(.18,.89,.32,1.28) forwards
 
     .intro__imac
-      $width: calc(19 * $base_font_size)
-      $height: calc(0.889 * $width)
       flex-shrink: 0
 
       .imac
@@ -73,7 +82,7 @@ $logo_font_size: Base.$logo_font_size
         display: flex
         align-items: center
         justify-content: center
-        top: calc(100% - $height + $base_font_size)
+        top: calc(100% - $height)
         width: $width
         height: $height
         padding: calc(1.5 * $base_font_size) calc(1.5 * $base_font_size) calc(7 * $base_font_size) calc(1.5 * $base_font_size)
@@ -94,8 +103,182 @@ $logo_font_size: Base.$logo_font_size
         margin: 0
         box-sizing: border-box
 
-    .intro__box
+    .intro__table
+      position: relative
       flex-shrink: 0
       width: 100%
-      height: calc(2 * $base_font_size)
-      background-color: #78B856
+      min-height: $height
+      padding: $base_box_size $base_box_size 0 $base_box_size
+      margin-bottom: $base_font_size
+      border-radius: $base_box_size $base_box_size 0 0
+      box-sizing: border-box
+      background: #78B856
+
+      &:before, &:after
+        position: absolute
+        bottom: calc(-1 * $base_font_size)
+        content: ''
+        height: $base_font_size
+        background: #FFCF48
+
+      &:before
+        left: 0
+        content: ''
+        min-width: $base_box_size
+        width: 10%
+
+      &:after
+        right: 0
+        content: ''
+        max-width: calc(100% - 5.5 * $base_box_size)
+        width: calc(90% - 4.5 * $base_box_size)
+
+      .imac-extras
+        position: absolute
+        top: calc(-1 * $height)
+        left: calc(50% - $width / 2)
+        width: $width
+        height: $height
+        margin: 0 auto
+
+      .table
+        width: 100%
+        height: 100%
+        padding: calc(1.5 * $base_box_size) 0 calc(2.5 * $base_box_size) 0
+        border-radius: $base_font_size $base_font_size 0 0
+        box-sizing: border-box
+        background: #282C34
+
+        .table__cat
+          $cat_width: calc(2 * $base_box_size)
+          position: absolute
+          left: calc(80% - $cat_width)
+          bottom: 0
+          width: $cat_width
+
+        @keyframes hole
+          from
+            transform: rotate(87deg)
+          to
+            transform: rotate(93deg)
+
+        .table__hole
+          position: absolute
+          bottom: calc(-1 * $base_font_size)
+          left: 10%
+          background: #FFCF48
+          width: calc(4.5 * $base_box_size)
+          height: $base_font_size
+          animation: hole 2s alternate-reverse infinite ease-in-out
+          transform-origin: bottom left
+
+    .intro__projects
+      position: relative
+      flex-shrink: 0
+      width: 100%
+      padding: calc(1.5 * $base_box_size) 0 0 0
+      box-sizing: border-box
+
+      .projects__title
+        width: calc(90% - 4.5 * $base_box_size)
+        margin-left: auto
+        text-align: left
+
+      .projects__text
+        width: calc(90% - 4.5 * $base_box_size)
+        margin: 0 0 calc(1.5 * $base_box_size) auto
+        text-align: left
+        font-size: $base_font_size
+
+      .projects__chest
+        display: block
+        width: calc(4 * $base_box_size)
+        margin-left: calc(10% + $base_box_size / 4)
+        cursor: pointer
+
+        &:hover
+          .chest, .cap
+            border-color: #78B856
+            transition: border 0.25s ease-out
+
+            p:before
+              width: 100%
+              transition: width 0.25s ease-out
+
+        .chest
+          position: relative
+          width: calc(4 * $base_box_size)
+          height: calc(2 * $base_box_size)
+          background: #FFCF48
+          outline: 5px dotted #78B856
+          outline-offset: -10px
+          border: calc($base_box_size / 14) solid #282C34
+          border-radius: 0 0 calc($base_box_size / 4) calc($base_box_size / 4)
+          box-sizing: border-box
+          transition: border 0.5s ease-out
+
+          p
+            position: relative
+            display: inline-block
+            padding: 0 4px
+            margin: 0
+            border: 1px double
+            transform: translateY(calc($base_box_size / 1.5)) rotateZ(-15deg)
+            transform-origin: center
+            font-size: $base_font_size
+            color: #282C34
+            font-family: JetBrainsMono, monospace
+            text-transform: uppercase
+
+            &:before
+              content: ''
+              position: absolute
+              top: 0
+              left: 0
+              height: 100%
+              width: 0
+              opacity: 0.2
+              background: #282C34
+              transition: width 0.25s ease-out
+
+          &:after
+            position: absolute
+            content: ''
+            top: 0
+            left: calc(50% - $base_box_size / 4)
+            width: calc($base_box_size / 2)
+            height: calc($base_box_size / 2)
+            background: #282C34
+            border-radius: 0 0 calc($base_box_size / 2) calc($base_box_size / 2)
+
+        .cap
+          width: calc(4 * $base_box_size)
+          height: $base_box_size
+          border: calc($base_box_size / 14) solid #282C34
+          border-bottom: none
+          border-radius: calc($base_box_size / 2) calc($base_box_size / 2) 0 0
+          background: #78B856
+          box-sizing: border-box
+          transition: border 0.5s ease-out
+
+      .projects__tambourines
+        position: absolute
+        bottom: 0
+        right: $base_box_size
+        display: block
+        width: calc(3.5 * $base_box_size)
+
+    .intro__final
+      flex-shrink: 0
+      width: 100%
+      padding: $base_box_size 0
+      font-size: $base_font_size
+      border-radius: $base_font_size $base_font_size 0 0
+      color: #282C34
+      background: #FFCF48
+
+      p
+        margin: 0 0 $base_font_size 0
+        font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+
+

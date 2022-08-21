@@ -1,9 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
+import { useParams, Outlet, Link } from 'react-router-dom';
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import { ThemeContext } from '../../Theme';
+import { ReactComponent as ImacExtras } from '../../img/imac-extras.svg';
+import { ReactComponent as Cat } from '../../img/cat.svg';
+import { ReactComponent as Tambourines } from '../../img/tambourines.svg';
+import TagCloud from './About/TagCloud';
 
 /**
  * A component for rendering a name.
@@ -87,7 +91,45 @@ export function Intro() {
           </div>
           <div className={styles['imac-space']} />
         </div>
-        <div className={styles.intro__box} />
+        <div className={styles.intro__table}>
+          <ImacExtras className={styles['imac-extras']} />
+          <div
+            className={styles.table}
+            style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+          >
+            <h2 className={styles.table__title}>
+              What I use
+            </h2>
+            <TagCloud themeName={theme.name} />
+            <Cat className={styles.table__cat} />
+            <div className={styles.table__hole} />
+          </div>
+        </div>
+        <div className={styles.intro__projects}>
+          <h2 className={styles.projects__title}>
+            What I&apos;ve done
+          </h2>
+          <p className={styles.projects__text}>
+            Latest works are available in the chest.
+            <br />
+            Made with love and sometimes with rain dances. :)
+          </p>
+          <Link className={styles.projects__chest} to="/projects">
+            <div className={styles.cap} />
+            <div className={styles.chest}>
+              <p>Projects</p>
+            </div>
+          </Link>
+          <Tambourines className={styles.projects__tambourines} />
+        </div>
+        <div className={styles.intro__final}>
+          <p>
+            Interested in working together?
+            <br />
+            Let&apos;s make something great!
+          </p>
+          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+        </div>
       </section>
     </article>
   );

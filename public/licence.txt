@@ -27,5 +27,16 @@ github.svg, linkedin.svg, telegram.svg:
 - Licence: https://github.com/gilbarbara/logos/blob/master/LICENSE.txt
 
 imac.svg:
-- Source: https://www.svgrepo.com/svg/423355/imac
+- Based on: https://www.svgrepo.com/svg/423355/imac
+- Licence: https://www.svgrepo.com/page/licensing
+
+imac-extras.svg
+- Source: me :)
+
+cat.svg:
+- Based on: https://www.svgrepo.com/svg/85124/cat
+- Licence: https://www.svgrepo.com/page/licensing
+
+tambourines.svg
+- Based on: https://www.svgrepo.com/svg/160399/tambourine
 - Licence: https://www.svgrepo.com/page/licensing
