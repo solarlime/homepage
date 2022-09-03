@@ -35,3 +35,7 @@ cat.svg:
 tambourines.svg
 - Based on: https://www.svgrepo.com/svg/160399/tambourine
 - Licence: https://www.svgrepo.com/page/licensing
+
+ru.png, en.png
+- Source: https://www.flaticon.com/packs/countrys-flags
+- Licence: https://www.freepikcompany.com/legal#nav-flaticon

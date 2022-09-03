@@ -3,6 +3,7 @@
 $height: Base.$height
 $rows_count: Base.$rows_count
 $base_font_size: Base.$base_font_size
+$base_padding: Base.$base_padding
 $header_rows_count: Base.$header_rows_count
 $main_rows_count: Base.$main_rows_count
 $footer_rows_count: Base.$footer_rows_count
@@ -13,7 +14,6 @@ $footer_font_size: calc($base_font_size - clamp(0.25rem, 1vmin, 0.5rem))
   grid-row:  calc($header_rows_count + $main_rows_count + 1) / calc($header_rows_count + $main_rows_count + $footer_rows_count + 1)
 
   display: flex
-  justify-content: center
   align-items: center
   height: calc($footer_rows_count * 100vh / $rows_count)
   height: calc($footer_rows_count * $height / $rows_count)
@@ -23,9 +23,37 @@ $footer_font_size: calc($base_font_size - clamp(0.25rem, 1vmin, 0.5rem))
   font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
   box-sizing: border-box
 
-  .footer__item
-    display: grid
-    grid-template: auto / 1fr 1fr
+  .footer__item_copyright
+    margin: 0
+    line-height: 1
+    font-size: calc(($base_font_size + 2 * $base_padding) / 2)
+    text-align: left
+
+  .footer__item_buttons
+    flex-shrink: 0
+
     .navigation__item
       display: inline-block
-      flex-grow: 1
+
+  .language-switch
+    flex-shrink: 0
+    margin-left: auto
+    margin-right: 20px
+
+    input
+
+      &:checked + .slider
+        background-color: #ccc
+
+      &:checked + .slider:before
+        background-color: white
+        background-image: url("../../img/en.png")
+        background-size: cover
+
+    .slider
+      background-color: #ccc
+
+      &:before
+        background-color: white
+        background-image: url("../../img/ru.png")
+        background-size: cover

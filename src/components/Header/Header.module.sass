@@ -45,50 +45,14 @@ $logo_font_size: Base.$logo_font_size
       display: flex
 
     .theme-switch
-      position: relative
-      display: inline-block
-      width: calc($logo_font_size * 2 - 8px)
-      height: $logo_font_size
       margin-right: 20px
 
       input
-        display: none
-
-        &:checked + .slider
-          background-color: #78B856
-
-        &:focus + .slider
-          box-shadow: 0 0 1px #78B856
 
         &:checked + .slider:before
-          background-color: white
           background-image: url("../../img/sun.svg")
-          transform: translateX(calc($logo_font_size - 8px))
 
       .slider
-        position: absolute
-        cursor: pointer
-        top: 0
-        left: 0
-        right: 0
-        bottom: 0
-        border-radius: $logo_font_size
-        background-color: #ccc
-        -webkit-transition: .4s
-        transition: .4s
 
         &:before
-          position: absolute
-          content: ""
-          height: calc($logo_font_size - 8px)
-          width: calc($logo_font_size - 8px)
-          left: 4px
-          bottom: 4px
-          border-radius: 50%
-          background-color: #282c34
           background-image: url("../../img/moon.svg")
-          background-repeat: no-repeat
-          background-position: center
-          background-size: 80%
-          -webkit-transition: .4s
-          transition: .4s

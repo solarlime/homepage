@@ -4,17 +4,27 @@ import styles from './Header.module.sass';
 import { ThemeContext } from '../../Theme';
 import logo from '../../img/logo.svg';
 
+/**
+ * A component for rendering a theme changer switcher
+ * @param props - toggleTheme: a function to be called on a click,
+ *                themeName: a string with a chosen theme name
+ * @constructor
+ */
 function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark' }) {
   const { toggleTheme, themeName } = props;
 
   return (
-    <label className={styles['theme-switch']} htmlFor="theme-switch">
+    <label className={`${styles['theme-switch']} ${styles.switcher}`} htmlFor="theme-switch">
       <input id="theme-switch" type="checkbox" onChange={toggleTheme} checked={(themeName === 'dark')} />
       <span className={styles.slider} />
     </label>
   );
 }
 
+/**
+ * A component for rendering a site footer
+ * @constructor
+ */
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
