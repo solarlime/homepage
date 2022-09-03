@@ -2,17 +2,27 @@
 
 $base_font_size: Base.$base_font_size
 
-.tag-cloud
+.wrapper
   align-self: center
-  padding: 0 $base_font_size
-  margin: 0
-  list-style: none
 
-  .tag-cloud__item
-    display: inline-block
-    margin: 0 10px
-    font-size: clamp(1, random(3), 3)+rem
-    text-shadow: #282C34 0 0
+  .tag-cloud
+    padding: 0 $base_font_size
+    margin: 0
+    list-style: none
 
-    &:hover
-      color: #FFCF48
+    .tag-cloud__item
+      display: inline-block
+      margin: 0 10px
+      font-size: clamp(1, random(3), 3)+rem
+      text-shadow: #282C34 0 0
+
+      &:hover
+        color: #FFCF48
+
+  .ps
+    margin: $base_font_size 0 0 0
+    padding: 0 calc(3 * $base_font_size)
+    font-size: calc(0.8 * $base_font_size)
+
+    &:after
+      content: ' 😇'

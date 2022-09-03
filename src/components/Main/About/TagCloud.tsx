@@ -48,17 +48,24 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
     'Jest',
     'Puppeteer'];
   return useMemo(() => (
-    <ul className={styles['tag-cloud']}>
-      {shuffleArray(data).map((item) => (
-        <li
-          className={styles['tag-cloud__item']}
-          key={id()}
-          style={{ fontSize: `clamp(1.5rem, ${2 * Math.random() + 1}rem, 3rem)`, color: `${(Math.random() < 0.5) ? colors[0] : colors[1]}` }}
-        >
-          {item}
-        </li>
-      ))}
-    </ul>
+    <div className={styles.wrapper}>
+      <ul className={styles['tag-cloud']}>
+        {shuffleArray(data).map((item) => (
+          <li
+            className={styles['tag-cloud__item']}
+            key={id()}
+            style={{ fontSize: `clamp(1.5rem, ${2 * Math.random() + 1}rem, 3rem)`, color: `${(Math.random() < 0.5) ? colors[0] : colors[1]}` }}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+      <p
+        className={styles.ps}
+      >
+        I prefer WebStorm and sometimes use Vectornator, Figma, Pixelmator Pro, and Terminal.
+      </p>
+    </div>
   ), []);
 }
 
