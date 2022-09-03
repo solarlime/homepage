@@ -81,16 +81,17 @@ function About() {
           />
         </picture>
         <div className={styles.contacts__buttons}>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">
+          <img className={styles.qr} src={`${process.env.REACT_APP_FILES}/qr.svg`} alt="about me" />
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={process.env.REACT_APP_LINK_GITHUB}>
             <GitHub fill={theme.color} />
           </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer">
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={process.env.REACT_APP_LINK_LINKEDIN}>
             <LinkedIn fill={theme.color} />
           </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={process.env.REACT_APP_LINK_TELEGRAM}>
             <Telegram fill={theme.color} />
           </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${process.env.REACT_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`}>
+          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${process.env.REACT_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={process.env.REACT_APP_LINK_MAIL}>
             <Email fill={theme.color} />
           </a>
         </div>

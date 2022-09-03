@@ -36,7 +36,7 @@ function FactsListItem(props: { id: string, item: Array<string> }) {
   const { id, item } = props;
 
   return (
-    <li className={styles.list__item} key={id}>
+    <li className={styles.list__item} key={id} data-id={(item[0] === 'education' || item[0] === 'courses') ? item[0] : id}>
       <button
         className={`${styles.fact_name} ${(status) ? styles.closed : styles.opened}`}
         type="button"

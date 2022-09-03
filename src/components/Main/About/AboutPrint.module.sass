@@ -1,0 +1,198 @@
+@media print
+  @page
+    size: A4 portrait
+    margin: 1cm
+
+  *
+    padding: 0 !important
+    margin: 0 !important
+    font-size: 16pt !important
+    text-align: left !important
+
+  html,
+  body
+    width: 210mm
+    height: 275mm
+
+    body
+      padding: 1cm 1cm 1cm 1cm !important
+      box-sizing: border-box
+
+      div[id=root],
+      div[class=app],
+      div[class=app-content]
+        display: block !important
+        width: 100% !important
+        height: 100% !important
+
+        header,
+        footer,
+        div[class=app-content__sidebar_left],
+        div[class=app-content__sidebar_right]
+          display: none !important
+
+        main
+          $photo_size: 6.3cm
+          $big_margin: 0.4cm !important
+          width: inherit
+          height: inherit
+          color: #282C34
+          background: white
+
+          h1
+            font-size: 20pt !important
+
+          article,
+          section
+            display: grid
+            margin: 0 !important
+            padding: 0 !important
+            color: inherit !important
+            background: inherit !important
+
+          .about
+            grid-template: $photo_size auto / $photo_size auto
+            grid-template-areas: 'contacts contacts' 'skills facts'
+            gap: 1cm
+
+            .about__contacts
+              grid-area: contacts
+              grid-template: auto / $photo_size auto
+              grid-template-areas: 'photo whoami' 'photo links'
+              column-gap: 1cm
+              overflow: hidden
+
+              .contacts__image
+                grid-area: photo
+                width: $photo_size
+                height: $photo_size
+
+                img
+                  width: 100%
+                  height: auto
+                  border-radius: 50%
+
+              .contacts__title
+                grid-area: whoami
+                margin-bottom: $big_margin
+
+                .contacts__title_title
+                  font-size: 30pt !important
+
+                .contacts__title_subtitle
+                  display: inline-block
+                  margin-right: 0.1cm !important
+
+              .contacts__buttons
+                grid-area: links
+
+                .contacts__buttons__item
+                  $width: 0.7cm
+                  display: block
+                  position: relative
+                  width: calc(100% - 3.8cm - 0.3cm)
+                  height: $width
+                  margin-top: 0.2cm !important
+                  border: 0
+                  font-size: 12pt !important
+
+                  &:hover
+                    color: inherit
+                    background-color: inherit
+
+                  svg
+                    width: $width
+                    height: $width
+                    fill: #282c34
+
+                  &:after
+                    position: absolute
+                    top: 0
+                    left: calc(1.2 * $width)
+                    height: $width
+                    padding-top: 0.15cm
+                    content: attr(data-url)
+
+            .about__skills
+              grid-area: skills
+              display: flex
+              flex-direction: column
+
+              h1
+                margin-bottom: $big_margin
+
+              .tag-cloud
+
+                li
+                  margin-right: $big_margin
+                  color: inherit !important
+
+              .ps
+                margin-top: $big_margin
+                font-size: 12pt !important
+
+                &:after
+                  content: ''
+
+            .about-me
+              grid-area: facts
+              margin-right: 0.3cm !important
+
+              h1
+                display: none
+
+              .list
+                display: flex
+                flex-direction: column
+
+                li
+                  flex-shrink: 0
+
+                  .fact_name
+                    display: none
+
+                  .fact_text
+                    font-size: 12pt !important
+
+                li[data-id=education]
+                  order: -2
+
+                  .fact_text
+                    margin-bottom: 0.3cm !important
+
+                    &:before
+                      display: block
+                      content: 'Education'
+                      font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+                      font-size: 20pt !important
+                      margin-bottom: $big_margin
+
+                li[data-id=courses]
+                  order: -1
+
+                  &:after
+                    display: block
+                    content: 'Some facts'
+                    font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+                    font-size: 20pt !important
+                    margin-top: 1cm
+                    margin-bottom: $big_margin
+
+                  .fact_name
+                    display: none
+
+                li:not([data-id=education]):not([data-id=courses])
+
+                  .fact_text
+                    display: list-item
+                    list-style: disc
+                    margin-left: 0.5cm !important
+
+            .qr
+              width: 3.8cm
+              margin-left: 0.3cm !important
+              margin-right: 0.3cm !important
+              float: right
+
+            .about-buttons
+              display: none

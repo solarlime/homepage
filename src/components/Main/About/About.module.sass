@@ -1,5 +1,6 @@
 @use '../../Base'
 @use './TagCloud.module'
+@use './AboutPrint.module'
 
 $min_width: Base.$min_width
 $columns_count: Base.$columns_count
@@ -13,145 +14,159 @@ $padding: calc($multiplier * $base_padding)
 $logo_font: Base.logoFont($base_font, $padding)
 $ext_logo_font: Base.logoFont($logo_font, $padding)
 
-.about
-  display: grid
-  grid-template: repeat(3, 100%) / 1fr
-  grid-template-areas: 'whoami' 'skills' 'about-me'
-
-  &::-webkit-scrollbar
-    width: 0
-
-  .about__item
-    padding-bottom: calc($logo_font_size + 2 * $base_font_size)
-
-  .about__contacts
-    grid-area: whoami
-    height: inherit
-    text-align: left
-
+@media screen
+  .about
     display: grid
-    grid-template-columns: 1fr calc(10 * $base_font_size)
-    grid-template-rows: calc(10 * $base_font_size) 1fr
-    grid-template-areas: 'title image' 'text text'
-    gap: calc(1.2 * $base_font_size)
+    grid-template: repeat(3, 100%) / 1fr
+    grid-template-areas: 'whoami' 'skills' 'about-me'
 
-    .contacts__title
-      grid-area: title
-      margin: 0
+    &::-webkit-scrollbar
+      width: 0
 
-      .contacts__title_title
-        font-size: clamp(1.7rem, 6vmin, 4.5rem)
+    .about__item
+      padding-bottom: calc($logo_font_size + 2 * $base_font_size)
 
-      .contacts__title_subtitle
-        margin: 0
-        font-size: clamp(1.3rem, 5vmin, 3.8rem)
-
-    .contacts__image
-      grid-area: image
+    .about__contacts
+      grid-area: whoami
       height: inherit
-
-      img
-        width: 100%
-        height: 100%
-        border-radius: 50%
-        object-fit: cover
-        object-position: center center
-
-    .contacts__buttons
-      grid-area: text
-      align-self: center
-      margin: 0
-
-      display: flex
-      flex-wrap: wrap
-      justify-content: space-between
-
-      .contacts__buttons__item
-        position: relative
-        font-size: $base_font
-        border-radius: calc($logo_font / 2)
-        padding: $padding
-
-        svg
-          display: block
-          width: $base_font
-          height: $base_font
-
-        &:hover svg
-          fill: white
-
-  .about__skills
-    grid-area: skills
-
-    display: grid
-    grid-template: calc(4 * $base_font_size) auto / 1fr
-
-  .about-me
-    grid-area: about-me
-    display: grid
-    grid-template-rows: calc(4 * $base_font_size) auto
-
-    .list
-      padding: 0
-      margin: 0
-      list-style: none
+      text-align: left
 
       display: grid
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
-      grid-auto-rows: 1fr
-      gap: calc($base_font_size / 1.5)
+      grid-template-columns: 1fr calc(10 * $base_font_size)
+      grid-template-rows: calc(10 * $base_font_size) 1fr
+      grid-template-areas: 'title image' 'text text'
+      gap: calc(1.2 * $base_font_size)
 
-      .list__item
-        position: relative
+      .contacts__title
+        grid-area: title
+        margin: 0
 
-        .fact_name
-          position: absolute
-          left: 0
-          top: 0
+        .contacts__title_title
+          font-size: clamp(1.7rem, 6vmin, 4.5rem)
+
+        .contacts__title_subtitle
+          margin: 0
+          font-size: clamp(1.3rem, 5vmin, 3.8rem)
+
+      .contacts__image
+        grid-area: image
+        height: inherit
+
+        img
           width: 100%
           height: 100%
-          padding: $base_padding
-          margin: 0
-          border: 1px solid #282C34
-          font-family: inherit
-          font-size: $base_font_size
-          color: #282C34
-          background-color: white
-          cursor: pointer
+          border-radius: 50%
+          object-fit: cover
+          object-position: center center
+          background-color: #ccc
+          background-position: center
+          background-repeat: no-repeat
+          background-size: cover
 
-          &:hover
-            border: 0
+      .contacts__buttons
+        grid-area: text
+        align-self: center
+        margin: 0
+
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+
+        .contacts__buttons__item
+          position: relative
+          font-size: $base_font
+          border-radius: calc($logo_font / 2)
+          padding: $padding
+
+          svg
+            display: block
+            width: $base_font
+            height: $base_font
+
+          &:hover svg
+            fill: white
+
+    .about__skills
+      grid-area: skills
+
+      display: grid
+      grid-template: calc(4 * $base_font_size) auto / 1fr
+
+    .about-me
+      grid-area: about-me
+      display: grid
+      grid-template-rows: calc(4 * $base_font_size) auto
+
+      .list
+        padding: 0
+        margin: 0
+        list-style: none
+
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
+        grid-auto-rows: 1fr
+        gap: calc($base_font_size / 1.5)
+
+        .list__item
+          position: relative
+
+          .fact_name
+            position: absolute
+            left: 0
+            top: 0
+            width: 100%
+            height: 100%
+            padding: $base_padding
+            margin: 0
+            border: 1px solid #282C34
+            border-radius: $base_font_size
+            font-family: inherit
+            font-size: $base_font_size
+            color: #282C34
+            background-color: white
+            cursor: pointer
+
+            &:hover
+              border: 0
+              background-color: #78B856
+
+          .fact_text
+            display: flex
+            align-items: center
+            justify-content: center
+            width: 100%
+            height: 100%
+            padding: $base_padding
+            border-radius: $base_font_size
+            font-family: inherit
+            font-size: 1rem
+            background-color: #FFCF48
+            color: #282C34
+            box-sizing: border-box
+
+          .opened
+            transform: scaleX(1)
+            transition: transform 0.5s ease-out 0.5s
+
+          .closed
+            transform: scaleX(0)
+            transition: transform 0.5s ease-in
+
+          button.closed
             background-color: #78B856
 
-        .fact_text
-          display: flex
-          align-items: center
-          justify-content: center
-          width: 100%
-          height: 100%
-          padding: $base_padding
-          font-family: inherit
-          font-size: 1rem
-          background-color: #FFCF48
-          color: #282C34
-          box-sizing: border-box
+          div.closed
+            background-color: #FFCF48
 
-        .opened
-          transform: scaleX(1)
-          transition: transform 0.5s ease-out 0.5s
+    .about-buttons
+      display: grid
+      grid-template: auto / 1fr 1fr
+      column-gap: $base_font_size
+      position: sticky
+      bottom: $base_font_size
+      width: fit-content
+      margin: 0 auto
 
-        .closed
-          transform: scaleX(0)
-          transition: transform 0.5s ease-in
+  .qr
+    display: none
 
-        button.closed
-          background-color: #78B856
-
-        div.closed
-          background-color: #FFCF48
-
-  .navigation-button
-    position: sticky
-    bottom: $base_font_size
-    width: fit-content
-    margin: 0 auto
