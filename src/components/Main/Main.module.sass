@@ -51,6 +51,12 @@ $logo_font_size: Base.$logo_font_size
       margin: 0
       font-size: $base_font_size
 
+    @keyframes memoji
+      from
+        transform: scale(0)
+      to
+        transform: scale(1)
+
     .intro__image
       order: -1
       flex-shrink: 0
@@ -60,19 +66,13 @@ $logo_font_size: Base.$logo_font_size
       border-radius: 50%
       background-color: white
       overflow: hidden
-
-      @keyframes memoji
-        from
-          transform: scale(0)
-        to
-          transform: scale(1)
+      animation: memoji 1s cubic-bezier(.18,.89,.32,1.28) forwards
 
       img
         width: inherit
         border-radius: 50%
         object-fit: cover
         object-position: center center
-        animation: memoji 1s cubic-bezier(.18,.89,.32,1.28) forwards
 
     .intro__imac
       flex-shrink: 0
@@ -148,6 +148,9 @@ $logo_font_size: Base.$logo_font_size
         border-radius: $base_font_size $base_font_size 0 0
         box-sizing: border-box
         background: #282C34
+
+        h2
+          padding: 0 $base_font_size
 
         .table__cat
           $cat_width: calc(2 * $base_box_size)
