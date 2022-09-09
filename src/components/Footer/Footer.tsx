@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Footer.module.sass';
+import { LanguageContext } from '../../Language';
 import { ThemeContext } from '../../Theme';
 
 /**
@@ -34,6 +35,7 @@ const getYear = () => {
  */
 function Footer() {
   const { theme } = useContext(ThemeContext);
+  const { language, toggleLanguage } = useContext(LanguageContext);
   const location = useLocation();
 
   // Links must differ for a CV page & others
@@ -60,8 +62,7 @@ function Footer() {
         <br />
         All Rights Reserved.
       </p>
-      {/* Now LanguageChanger does not work and renders only to show a resulting layout */}
-      <LanguageChanger toggleLanguage={() => {}} languageName="en" />
+      <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
       <nav className={styles.footer__item_buttons}>
         {links()}
       </nav>
