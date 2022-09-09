@@ -4,19 +4,22 @@ import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import { ThemeContext } from '../../Theme';
+import { LanguageContext } from '../../Language';
 import { ReactComponent as ImacExtras } from '../../img/imac-extras.svg';
 import { ReactComponent as Cat } from '../../img/cat.svg';
 import { ReactComponent as Tambourines } from '../../img/tambourines.svg';
 import TagCloud from './About/TagCloud';
+import { getContent, PageComponent } from '../Content/getContent';
 
 /**
  * A component for rendering a name.
  * Takes initName and turns it into finalName
  * @constructor
  */
-function Name() {
+function Name(props: { content: PageComponent }) {
+  const { content } = props;
   const initName = 'solarlime';
-  const finalName = 'Dmitriy';
+  const finalName = content.title_name;
   const [name, setName] = useState(initName);
   const [mode, setMode] = useState('decrease');
 
@@ -34,6 +37,9 @@ function Name() {
     } else {
       timeout = setTimeout(() => {
         setName((oldString) => finalName.substring(0, oldString.length + 1));
+        if (name === finalName) {
+          setMode('finished');
+        }
       }, 250);
     }
     return () => { clearTimeout(timeout); };
@@ -41,7 +47,7 @@ function Name() {
 
   return (
     <span className={styles.name}>
-      {`${name}${(name === initName || name === finalName) ? '' : '_'}`}
+      {`${(mode === 'finished') ? finalName : name}${(name === initName || mode === 'finished') ? '' : '_'}`}
     </span>
   );
 }
@@ -52,6 +58,13 @@ function Name() {
  */
 export function Intro() {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+  const [content, setContent] = useState({} as PageComponent);
+
+  useEffect(() => {
+    getContent(language, 'intro')
+      .then((res) => { setContent(res); });
+  });
 
   return (
     <article
@@ -61,11 +74,11 @@ export function Intro() {
       <section id="me" className={`${styles.intro} ${styles.base__item}`}>
         <h1 className={styles.intro__title}>
           <p className={styles.base__item__title}>
-            {'Hi! I am '}
-            <Name />
+            {content.title}
+            <Name content={content} />
             .
           </p>
-          <p className={styles.intro__title_subtitle}>I turn design into reality. Web reality.</p>
+          <p className={styles.intro__title_subtitle}>{content.subtitle}</p>
         </h1>
         <picture className={styles.intro__image}>
           <img
@@ -83,10 +96,7 @@ export function Intro() {
             style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
           >
             <p>
-              I am inspired by different patterns of industrial design.
-              However, the better thing is an opportunity to animate them,
-              to provide an ability to interact with them.
-              At this moment, I feel that I have really created something new.
+              {content.imac}
             </p>
           </div>
           <div className={styles['imac-space']} />
@@ -98,7 +108,7 @@ export function Intro() {
             style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
           >
             <h2 className={styles.table__title}>
-              What I use
+              {content.table_title}
             </h2>
             <TagCloud themeName={theme.name} />
             <Cat className={styles.table__cat} />
@@ -107,26 +117,26 @@ export function Intro() {
         </div>
         <div className={styles.intro__projects}>
           <h2 className={styles.projects__title}>
-            What I&apos;ve done
+            {content.projects_title}
           </h2>
           <p className={styles.projects__text}>
-            Latest works are available in the chest.
+            {content.projects_text_1}
             <br />
-            Made with love and sometimes with rain dances. :)
+            {content.projects_text_2}
           </p>
           <Link className={styles.projects__chest} to="/projects">
             <div className={styles.cap} />
             <div className={styles.chest}>
-              <p>Projects</p>
+              <p>{content.chest}</p>
             </div>
           </Link>
           <Tambourines className={styles.projects__tambourines} />
         </div>
         <div className={styles.intro__final}>
           <p>
-            Interested in working together?
+            {content.final_1}
             <br />
-            Let&apos;s make something great!
+            {content.final_2}
           </p>
           <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
         </div>

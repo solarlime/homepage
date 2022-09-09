@@ -1,6 +1,10 @@
-import React, { useMemo } from 'react';
+import React, {
+  useContext, useEffect, useMemo, useState,
+} from 'react';
 import uniqid from 'uniqid';
 import styles from './About.module.sass';
+import { LanguageContext } from '../../../Language';
+import { getContent, PageComponent } from '../../Content/getContent';
 
 const id = uniqid;
 
@@ -28,6 +32,8 @@ export const shuffleArray = (array: Array<T>): Array<T> => {
  * @constructor
  */
 function TagCloud(props: { themeName: 'light' | 'dark' }) {
+  const { language } = useContext(LanguageContext);
+  const [content, setContent] = useState({} as PageComponent);
   const { themeName } = props;
   const colors: Array<string> = (themeName === 'dark') ? ['#FFCF48', '#78B856'] : ['#FFBA00', '#78B856'];
   const data = [
@@ -47,6 +53,12 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
     'ESLint',
     'Jest',
     'Puppeteer'];
+
+  useEffect(() => {
+    getContent(language, 'tagCloud')
+      .then((res) => { setContent(res); });
+  });
+
   return useMemo(() => (
     <div className={styles.wrapper}>
       <ul className={styles['tag-cloud']}>
@@ -63,10 +75,10 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
       <p
         className={styles.ps}
       >
-        I prefer WebStorm and sometimes use Vectornator, Figma, Pixelmator Pro, and Terminal.
+        {content.ps}
       </p>
     </div>
-  ), []);
+  ), [content]);
 }
 
 export default TagCloud;

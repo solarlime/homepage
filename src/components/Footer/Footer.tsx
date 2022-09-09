@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Footer.module.sass';
 import { LanguageContext } from '../../Language';
 import { ThemeContext } from '../../Theme';
+import { getContent, PageComponent } from '../Content/getContent';
 
 /**
  * A component for rendering a language changer switcher
@@ -37,6 +38,12 @@ function Footer() {
   const { theme } = useContext(ThemeContext);
   const { language, toggleLanguage } = useContext(LanguageContext);
   const location = useLocation();
+  const [content, setContent] = useState({} as PageComponent);
+
+  useEffect(() => {
+    getContent(language, 'footer')
+      .then((res) => { setContent(res); });
+  });
 
   // Links must differ for a CV page & others
   const links = () => {
@@ -60,7 +67,8 @@ function Footer() {
         {` ${getYear()} `}
         solarlime.dev.
         <br />
-        All Rights Reserved.
+        {content.copyright}
+        .
       </p>
       <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
       <nav className={styles.footer__item_buttons}>
