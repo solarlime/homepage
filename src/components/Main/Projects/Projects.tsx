@@ -1,9 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './Projects.module.sass';
 import { ThemeContext } from '../../../Theme';
+import { getContent, PageComponent } from '../../Content/getContent';
+import { LanguageContext } from '../../../Language';
 
 function Projects() {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+  const [content, setContent] = useState({} as PageComponent);
+
+  useEffect(() => {
+    getContent(language, 'projects')
+      .then((res) => { setContent(res); });
+  });
 
   return (
     <article
@@ -11,7 +20,7 @@ function Projects() {
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
       <section className={`${styles.projects} ${styles.base__item}`}>
-        <h1 className={styles.base__item__title}>Projects</h1>
+        <h1 className={styles.base__item__title}>{content.title}</h1>
         <div className={styles['projects-container']}>
           <img
             className={styles['projects-container__item']}
