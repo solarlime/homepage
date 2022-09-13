@@ -49,7 +49,7 @@ function Footer() {
   const links = () => {
     if (location.pathname === `/cv/${process.env.REACT_APP_PLEASE}`) {
       return (
-        <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">Projects</Link>
+        <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">{content.footer_projects}</Link>
       );
     }
     return (

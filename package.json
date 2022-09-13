@@ -16,6 +16,7 @@
     "react-scripts": "5.0.1",
     "sass": "^1.53.0",
     "typescript": "^4.6.4",
+    "typograf": "^6.14.1",
     "uniqid": "^5.4.0",
     "unsplash-js": "^7.0.15",
     "web-vitals": "^2.1.4"

@@ -1,3 +1,5 @@
+import Typograf from 'typograf';
+
 export interface PageComponent {
   [key: string]: string,
 }
@@ -17,7 +19,11 @@ const memoizedGetContent = () => {
       return Promise.resolve(cache[key]);
     }
     const content = await import(`./${languageName}/${page}`);
-    cache[key] = content.default;
+    const typo = new Typograf({ locale: ['ru', 'en-US'] });
+    const result: PageComponent = {};
+    Object.entries(content.default as PageComponent)
+      .forEach((item) => { result[item[0]] = typo.execute(item[1]); });
+    cache[key] = result;
     return content.default;
   };
 };

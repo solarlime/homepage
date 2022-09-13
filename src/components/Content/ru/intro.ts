@@ -1,7 +1,7 @@
 import { PageComponent } from '../getContent';
 
 const intro: PageComponent = {
-  title: 'Привет! Меня зовут ',
+  title: 'Привет! Меня зовут',
   title_name: 'Дмитрий',
   subtitle: 'Я претворяю дизайн в реальность. Веб-реальность.',
   imac: 'Меня вдохновляют различные образцы промышленного дизайна. '

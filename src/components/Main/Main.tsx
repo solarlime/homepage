@@ -75,6 +75,7 @@ export function Intro() {
         <h1 className={styles.intro__title}>
           <p className={styles.base__item__title}>
             {content.title}
+            {' '}
             <Name content={content} />
             .
           </p>
