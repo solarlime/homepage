@@ -1,28 +1,31 @@
 import uniqid from 'uniqid';
-import React, { useMemo, useState } from 'react';
+import Typograf from 'typograf';
+import React, { useContext, useMemo, useState } from 'react';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
+import { LanguageContext } from '../../../Language';
 
 /**
  * A function for preparing data for a render.
  * Takes JSON, turns object to 2-dimension array, shuffles it.
- * Othervise, an array with error message is returned.
+ * Otherwise, an array with error message is returned.
  */
-const shuffled = () => {
+const shuffled = (language: 'ru' | 'en') => {
   try {
-    const facts = JSON.parse(process.env.REACT_APP_ABOUT_ME!) as Object;
+    const typo = new Typograf({ locale: ['ru', 'en-US'] });
+    const facts = JSON.parse(process.env[`REACT_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
     return shuffleArray(
       Object.entries(facts)
         .map((item) => {
           const newFactName = item[0].replaceAll('_', ' ');
-          return [newFactName, item[1]];
+          return [newFactName, typo.execute(item[1])];
         }),
     );
   } catch (error: unknown) {
     console.log((error as Error).message);
-    const errorArray = [];
-    errorArray.push(['error', 'Something happened, so facts were not rendered. Please, check console and tell me about the problem via Telegram!']);
-    return errorArray;
+    return (language === 'ru')
+      ? [['ошибку', 'Что-то случилось, и факты не удалось загрузить. Проверьте консоль браузера и сообщите мне о проблеме через Telegram']]
+      : [['error', 'Something happened, so facts were not rendered. Please, check console and tell me about the problem via Telegram!']];
   }
 };
 
@@ -31,12 +34,17 @@ const shuffled = () => {
  * @param props - id: a unique id, item: an array with a fact name ([0]) & a fact text ([1])
  * @constructor
  */
-function FactsListItem(props: { id: string, item: Array<string> }) {
+function FactsListItem(props: { id: string, item: Array<string>, language: 'ru' | 'en' }) {
   const [status, setStatus] = useState(false);
-  const { id, item } = props;
+  const { id, item, language } = props;
+  const specials = (language === 'ru') ? ['образование', 'курсы'] : ['education', 'courses'];
 
   return (
-    <li className={styles.list__item} key={id} data-id={(item[0] === 'education' || item[0] === 'courses') ? item[0] : id}>
+    <li
+      className={styles.list__item}
+      key={id}
+      data-id={specials.find((sample) => sample === item[0]) ? item[0] : id}
+    >
       <button
         className={`${styles.fact_name} ${(status) ? styles.closed : styles.opened}`}
         type="button"
@@ -44,7 +52,7 @@ function FactsListItem(props: { id: string, item: Array<string> }) {
         onClick={(event) => { (event.target as HTMLButtonElement).focus(); setStatus(!status); }}
         onBlur={() => setStatus((oldStatus) => ((oldStatus) ? !status : oldStatus))}
       >
-        {`About ${item[0]}`}
+        {(language === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
       </button>
       <div className={`${styles.fact_text} ${(status) ? styles.opened : styles.closed}`}>{item[1]}</div>
     </li>
@@ -56,16 +64,18 @@ function FactsListItem(props: { id: string, item: Array<string> }) {
  * @constructor
  */
 function FactsList() {
+  const { language } = useContext(LanguageContext);
+
   return useMemo(() => (
     <ul className={styles.list}>
-      {shuffled().map((item) => {
+      {shuffled(language).map((item) => {
         const id = uniqid();
         return (
-          <FactsListItem item={item as Array<string>} key={id} id={id} />
+          <FactsListItem item={item as Array<string>} key={id} id={id} language={language} />
         );
       })}
     </ul>
-  ), []);
+  ), [language]);
 }
 
 export default FactsList;

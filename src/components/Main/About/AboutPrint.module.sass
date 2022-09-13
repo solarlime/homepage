@@ -77,6 +77,7 @@
                 margin-bottom: $big_margin
 
                 .contacts__title_title
+                  font-weight: normal
                   font-size: 30pt !important
 
                 .contacts__title_subtitle
@@ -119,6 +120,7 @@
               flex-direction: column
 
               h1
+                font-weight: normal
                 margin-bottom: $big_margin
 
               .tag-cloud
@@ -129,7 +131,7 @@
 
               .ps
                 margin-top: $big_margin
-                font-size: 12pt !important
+                font-size: 10pt !important
 
                 &:after
                   content: ''
@@ -152,9 +154,10 @@
                     display: none
 
                   .fact_text
-                    font-size: 12pt !important
+                    font-size: 10pt !important
 
-                li[data-id=education]
+                li[data-id=education],
+                li[data-id=образование]
                   order: -2
 
                   .fact_text
@@ -167,7 +170,15 @@
                       font-size: 20pt !important
                       margin-bottom: $big_margin
 
-                li[data-id=courses]
+                li[data-id=образование]
+
+                  .fact_text
+
+                    &:before
+                      content: 'Образование'
+
+                li[data-id=courses],
+                li[data-id=курсы]
                   order: -1
 
                   &:after
@@ -175,13 +186,18 @@
                     content: 'Some facts'
                     font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
                     font-size: 20pt !important
-                    margin-top: 1cm
+                    margin-top: 0.8cm
                     margin-bottom: $big_margin
 
                   .fact_name
                     display: none
 
-                li:not([data-id=education]):not([data-id=courses])
+                li[data-id=курсы]
+
+                    &:after
+                      content: 'Немного обо мне'
+
+                li:not([data-id=education]):not([data-id=courses]):not([data-id=образование]):not([data-id=курсы])
 
                   .fact_text
                     display: list-item

@@ -7,15 +7,27 @@ import { ReactComponent as Telegram } from '../../../img/telegram.svg';
 import { ThemeContext } from '../../../Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
+import { LanguageContext } from '../../../Language';
+import { getContent, PageComponent } from '../../Content/getContent';
 
 /**
  * A function for counting the age
  */
-function getAge() {
+function getAge(language: 'ru' | 'en') {
   const birthDate = new Date(process.env.REACT_APP_BIRTH_DATE!);
   const date = Date.now();
   const dif = new Date(date - birthDate.getTime());
-  return dif.getFullYear() - 1970;
+  const age = (dif.getFullYear() - 1970).toString();
+  if (language === 'ru') {
+    if (age.endsWith('1')) {
+      return `${age} год`;
+    }
+    if (age.endsWith('2') || age.endsWith('3') || age.endsWith('4')) {
+      return `${age} года`;
+    }
+    return `${age} лет`;
+  }
+  return `${age} years old`;
 }
 
 /**
@@ -25,9 +37,13 @@ function getAge() {
  *                sections: an array with section ids
  * @constructor
  */
-function NavigationButton(props: { color: string, bgColor: string, sections: Array<string> }) {
+function NavigationButton(props: {
+  color: string, bgColor: string, sections: Array<string>, toTop: string, toNext: string
+}) {
   const [index, setIndex] = useState(0);
-  const { color, bgColor, sections } = props;
+  const {
+    color, bgColor, sections, toTop, toNext,
+  } = props;
 
   useEffect(() => {
     const next = document.getElementById(sections[index])!;
@@ -44,7 +60,7 @@ function NavigationButton(props: { color: string, bgColor: string, sections: Arr
       type="button"
       onClick={click}
     >
-      {(index === 2) ? 'To top' : 'Next'}
+      {(index === 2) ? toTop : toNext}
     </button>
   );
 }
@@ -55,7 +71,15 @@ function NavigationButton(props: { color: string, bgColor: string, sections: Arr
  */
 function About() {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const sections = ['contacts', 'skills', 'facts'];
+  const [content, setContent] = useState({} as PageComponent);
+  const age = getAge(language);
+
+  useEffect(() => {
+    getContent(language, 'about')
+      .then((res) => { setContent(res); });
+  });
 
   return (
     <article
@@ -65,10 +89,13 @@ function About() {
       <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.contacts__title}>
           <p className={`${styles.base__item__title} ${styles.contacts__title_title}`}>
-            {process.env.REACT_APP_ME}
+            {process.env[`REACT_APP_ME_${language}`]}
           </p>
-          <p className={styles.contacts__title_subtitle}>Frontend developer,</p>
-          <p className={styles.contacts__title_subtitle}>{`${getAge()} years`}</p>
+          <p className={styles.contacts__title_subtitle}>
+            {content.subtitle_job}
+            ,
+          </p>
+          <p className={styles.contacts__title_subtitle}>{age}</p>
         </h1>
         <picture className={styles.contacts__image}>
           <img
@@ -97,14 +124,30 @@ function About() {
         </div>
       </section>
       <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
-        <h1 className={styles.base__item__title}>Skills</h1>
+        <h1 className={styles.base__item__title}>{content.skills_title}</h1>
         <TagCloud themeName={theme.name} />
       </section>
       <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
-        <h1 className={styles.base__item__title}>About me</h1>
+        <h1 className={styles.base__item__title}>{content.about_title}</h1>
         <FactsList />
       </section>
-      <NavigationButton color={theme.color} bgColor={theme.backgroundColor} sections={sections} />
+      <div className={styles['about-buttons']}>
+        <NavigationButton
+          color={theme.color}
+          bgColor={theme.backgroundColor}
+          sections={sections}
+          toTop={content.nav_button_top}
+          toNext={content.nav_button_next}
+        />
+        <button
+          style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+          className={`${styles.button}`}
+          type="button"
+          onClick={window.print}
+        >
+          {content.print_button}
+        </button>
+      </div>
     </article>
   );
 }
