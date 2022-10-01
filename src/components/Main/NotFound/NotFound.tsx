@@ -8,6 +8,18 @@ import { ThemeContext } from '../../../Theme';
 import { LanguageContext } from '../../../Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
+interface Photo {
+  image: React.ReactElement | undefined,
+  author: string,
+  userLink: string,
+  photoLink: string,
+}
+
+interface Page {
+  photo: Photo
+  content: PageComponent
+}
+
 /**
  * A component for a 404 page. Uses Unsplash API for random images
  * Each state contains information: a source link,
@@ -24,56 +36,65 @@ function NotFound() {
     accessKey: process.env.REACT_APP_UNSPLASH,
   });
 
-  const init = <div>Loading</div>;
-  let trigger = true;
+  const utm = '?utm_source=Homepage&utm_medium=referral';
+  const loading = (language === 'ru') ? 'Идёт загрузка. Пожалуйста, подождите.' : 'Loading, please wait.';
 
-  const [content, setContent] = useState({} as PageComponent);
-  const [photo, setPhoto] = useState({
-    image: init, author: '', userLink: '', photoLink: '',
-  });
+  const init: Page = {
+    photo: {
+      image: undefined,
+      author: '',
+      userLink: '',
+      photoLink: '',
+    },
+    content: {} as PageComponent,
+  };
+
+  const [page, setPage] = useState(init);
 
   useEffect(() => {
-    getContent(language, 'notFound')
-      .then((res) => { setContent(res); });
-  });
-
-  useEffect(() => {
-    const getImage = async (utm: string) => {
-      const result = await unsplash.photos.getRandom({ collectionIds: ['228275'], orientation: 'portrait' }) as ApiResponse<Random>;
-      if (result.response) {
-        setPhoto({
-          image: <img
-            style={{ backgroundImage: `url("${result.response.urls.thumb}")` }}
-            sizes="100w"
-            srcSet={`${result.response.urls.raw}&w=320&crop=entropy&fit=clip 320w,
+    const getImage = async (res: Page) => {
+      if (!res.photo.image) {
+        const result = await Promise.any([
+          unsplash.photos.getRandom({ collectionIds: ['228275'], orientation: 'portrait' }),
+          new Promise((resolve) => { setTimeout(() => resolve({}), 1000); }),
+        ]) as ApiResponse<Random>;
+        if (result.response) {
+          res.photo = {
+            image: <img
+              style={{ backgroundImage: `url("${result.response.urls.thumb}")` }}
+              sizes="100w"
+              srcSet={`${result.response.urls.raw}&w=320&crop=entropy&fit=clip 320w,
             ${result.response.urls.raw}&w=640&crop=entropy&fit=clip 640w,
             ${result.response.urls.raw}&w=1280&crop=entropy&fit=clip 1280w`}
-            src={`${result.response.urls.raw}&w=1400&crop=entropy&fit=clip`}
-            alt={(result.response.alt_description) ? result.response.alt_description : 'must be nature'}
-          />,
-          author: `${result.response.user.first_name} ${result.response.user.last_name}`,
-          userLink: `${result.response.user.links.html}${utm}`,
-          photoLink: `${result.response.links.html}${utm}`,
-        });
-      }
-    };
-
-    if ((photo.image === init) && trigger) {
-      const utm = '?utm_source=Homepage&utm_medium=referral';
-      getImage(utm)
-        .catch((error) => {
-          console.log(error.message);
-          // Fallback image
-          setPhoto({
+              src={`${result.response.urls.raw}&w=1400&crop=entropy&fit=clip`}
+              alt={(result.response.alt_description) ? result.response.alt_description : 'must be nature'}
+            />,
+            author: `${result.response.user.first_name} ${result.response.user.last_name}`,
+            userLink: `${result.response.user.links.html}${utm}`,
+            photoLink: `${result.response.links.html}${utm}`,
+          };
+        } else {
+          res.photo = {
             image: <img src={lime} alt="lime" />,
             author: 'Victor Figueroa',
             userLink: `https://unsplash.com/@vfigueroa${utm}`,
             photoLink: `https://unsplash.com/photos/huUI0y0ERMM${utm}`,
-          });
-        });
-      trigger = false;
-    }
-  }, [photo.image]);
+          };
+        }
+      }
+      setPage(res);
+    };
+
+    getContent(language, 'notFound')
+      .then((res) => ({
+        photo: page.photo,
+        content: res,
+      }))
+      .then((res) => getImage(res))
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [language]);
 
   return (
     <article
@@ -84,22 +105,40 @@ function NotFound() {
         <div className={`${styles['not-found__item']} ${styles.content}`}>
           <h1 className={`${styles.base__item__title} ${styles.content__item} ${styles.content__item_header}`}>404</h1>
           <p className={`${styles.content__item} ${styles.content__item_text}`}>
-            {content.subtitle_1}
-            <span>{content.subtitle_2}</span>
+            {
+              (!page.photo.image)
+                ? <span className={styles.loading}>{loading}</span>
+                : (
+                  <>
+                    {page.content.subtitle_1}
+                    <span>{page.content.subtitle_2}</span>
+                  </>
+                )
+            }
           </p>
           <p className={`${styles.content__item} ${styles.content__item_figcaption}`}>
-            {content.caption_1}
-            {' '}
-            <a href={photo.userLink} target="_blank" rel="noreferrer">{photo.author}</a>
-            {(language === 'ru') ? '' : ' '}
-            {content.caption_2}
-            {' '}
-            <a href={photo.photoLink} target="_blank" rel="noreferrer">Unsplash</a>
-            .
+            {
+              (!page.photo.image)
+                ? <span className={styles.loading}>{loading}</span>
+                : (
+                  <>
+                    {page.content.caption_1}
+                    {' '}
+                    <a href={page.photo.userLink} target="_blank" rel="noreferrer">{page.photo.author}</a>
+                    {(language === 'ru') ? '' : ' '}
+                    {page.content.caption_2}
+                    {' '}
+                    <a href={page.photo.photoLink} target="_blank" rel="noreferrer">Unsplash</a>
+                    .
+                  </>
+                )
+            }
           </p>
         </div>
         <picture className={`${styles['not-found__item']} ${styles['not-found__item_image']}`}>
-          {photo.image}
+          {
+            (!page.photo.image) ? <div className={styles.loading}>{loading}</div> : page.photo.image
+          }
         </picture>
       </section>
     </article>
