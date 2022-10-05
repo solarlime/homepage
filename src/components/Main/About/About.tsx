@@ -79,7 +79,7 @@ function About() {
   useEffect(() => {
     getContent(language, 'about')
       .then((res) => { setContent(res); });
-  });
+  }, [language]);
 
   return (
     <article

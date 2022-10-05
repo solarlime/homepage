@@ -64,7 +64,7 @@ export function Intro() {
   useEffect(() => {
     getContent(language, 'intro')
       .then((res) => { setContent(res); });
-  });
+  }, [language]);
 
   return (
     <article

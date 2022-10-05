@@ -43,7 +43,7 @@ function Footer() {
   useEffect(() => {
     getContent(language, 'footer')
       .then((res) => { setContent(res); });
-  });
+  }, [language]);
 
   // Links must differ for a CV page & others
   const links = () => {

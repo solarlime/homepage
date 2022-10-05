@@ -12,7 +12,7 @@ function Projects() {
   useEffect(() => {
     getContent(language, 'projects')
       .then((res) => { setContent(res); });
-  });
+  }, [language]);
 
   return (
     <article

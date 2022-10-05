@@ -57,7 +57,7 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
   useEffect(() => {
     getContent(language, 'tagCloud')
       .then((res) => { setContent(res); });
-  });
+  }, [language]);
 
   return useMemo(() => (
     <div className={styles.wrapper}>
