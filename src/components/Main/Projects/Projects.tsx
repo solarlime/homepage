@@ -1,11 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext, useEffect, useMemo, useRef, useState,
+} from 'react';
+import { Link, Outlet, useMatch } from 'react-router-dom';
 import styles from './Projects.module.sass';
 import { ThemeContext } from '../../../Theme';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { LanguageContext } from '../../../Language';
+import { Image } from './Project/Project';
+import projectsObjectList, { ProjectsObject } from './projectsList';
 
-function Projects() {
-  const { theme } = useContext(ThemeContext);
+function ProjectThumbnail(props: ProjectsObject) {
+  const { projectName, kebabedProjectName } = props;
+
+  return (
+    <Link to={`/projects/${kebabedProjectName}`} state={props}>
+      <Image kebabedProjectName={kebabedProjectName} projectName={projectName} styleProp={styles['projects-container__item']} />
+    </Link>
+  );
+}
+
+function Header(props: { collapsed: boolean }) {
+  const { collapsed } = props;
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
 
@@ -15,68 +30,54 @@ function Projects() {
   }, [language]);
 
   return (
+    <h1 className={`${styles.base__item__title} ${(collapsed) ? styles.hidden : ''}`}>{content.title}</h1>
+  );
+}
+
+function Projects() {
+  const { theme } = useContext(ThemeContext);
+  const [collapsed, setCollapsed] = useState(false);
+  const isProjectsPage = useMatch('/projects');
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (isProjectsPage) {
+      setCollapsed(false);
+    } else {
+      setCollapsed(true);
+    }
+  }, [isProjectsPage]);
+
+  return (
     <article
       className={styles.base}
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
       <section className={`${styles.projects} ${styles.base__item}`}>
-        <h1 className={styles.base__item__title}>{content.title}</h1>
-        <div className={styles['projects-container']}>
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/like-a-trello320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/like-a-trello640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/like-a-trello1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/like-a-trello.jpg`}
-            alt="Simple Kanban board"
-          />
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/dogs-and-facts320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/dogs-and-facts640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/dogs-and-facts1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/dogs-and-facts.jpg`}
-            alt="Dogs and facts"
-          />
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/simple-chat320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/simple-chat640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/simple-chat1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/simple-chat.jpg`}
-            alt="Simple chat"
-          />
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/chest-of-notes320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/chest-of-notes640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/chest-of-notes1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/chest-of-notes.jpg`}
-            alt="Chest of notes"
-          />
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/help-desk320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/help-desk640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/help-desk1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/help-desk.jpg`}
-            alt="Help desk"
-          />
-          <img
-            className={styles['projects-container__item']}
-            sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/projects/retro-game320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/retro-game640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/retro-game1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/projects/retro-game.jpg`}
-            alt="Retro game"
-          />
-        </div>
+        <Header collapsed={(collapsed)} />
+        <nav
+          className={(collapsed) ? styles['projects-container-collapsed'] : styles['projects-container']}
+          ref={ref}
+          onWheel={(event) => {
+            const isWheelDown = (event.deltaY + event.deltaX >= 0);
+            if (isWheelDown) {
+              (ref.current! as HTMLElement).scrollBy(10, 0);
+            } else {
+              (ref.current! as HTMLElement).scrollBy(-10, 0);
+            }
+          }}
+        >
+          {useMemo(() => projectsObjectList
+            .map((project) => (
+              <ProjectThumbnail
+                key={project.id}
+                id={project.id}
+                projectName={project.projectName}
+                kebabedProjectName={project.kebabedProjectName}
+              />
+            )), [])}
+        </nav>
+        <Outlet />
       </section>
     </article>
   );

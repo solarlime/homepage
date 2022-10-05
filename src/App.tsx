@@ -5,7 +5,7 @@ import Header from './components/Header/Header';
 import Main, { AboutOrNot, Intro } from './components/Main/Main';
 import Footer from './components/Footer/Footer';
 import Projects from './components/Main/Projects/Projects';
-import Project from './components/Main/Projects/Project/Project';
+import { Project } from './components/Main/Projects/Project/Project';
 import NotFound from './components/Main/NotFound/NotFound';
 import { ThemeContext, ThemeProvider } from './Theme';
 import { LanguageProvider } from './Language';

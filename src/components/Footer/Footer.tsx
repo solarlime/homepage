@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useMatch, useParams } from 'react-router-dom';
 import styles from './Footer.module.sass';
 import { LanguageContext } from '../../Language';
 import { ThemeContext } from '../../Theme';
 import { getContent, PageComponent } from '../Content/getContent';
+import { kebabedList } from '../Main/Projects/projectsList';
 
 /**
  * A component for rendering a language changer switcher
@@ -37,8 +38,9 @@ const getYear = () => {
 function Footer() {
   const { theme } = useContext(ThemeContext);
   const { language, toggleLanguage } = useContext(LanguageContext);
-  const location = useLocation();
   const [content, setContent] = useState({} as PageComponent);
+  const params = useParams();
+  const isCV = useMatch(`/cv/${process.env.REACT_APP_PLEASE}`);
 
   useEffect(() => {
     getContent(language, 'footer')
@@ -47,7 +49,7 @@ function Footer() {
 
   // Links must differ for a CV page & others
   const links = () => {
-    if (location.pathname === `/cv/${process.env.REACT_APP_PLEASE}`) {
+    if (isCV || (params && kebabedList.find((kebabed) => kebabed === params.project))) {
       return (
         <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">{content.footer_projects}</Link>
       );

@@ -1,0 +1,135 @@
+@use '../../../Base'
+
+$base_font_size: Base.$base_font_size
+
+$height: Base.$height
+$rows_count: Base.$rows_count
+$main_rows_count: Base.$main_rows_count
+
+@function project_space($height: $height)
+  $main: calc($main_rows_count * $height / $rows_count)
+  $projects: calc(5 * $base_font_size)
+  $inner_paddings: calc(2 * $base_font_size)
+  @return calc($main - $projects - $inner_paddings)
+
+$project_space: project_space()
+$width: calc(100vw / 24 * 22)
+$max_width: 1000px
+
+p
+  margin: 0
+
+#project
+  position: relative
+  padding-top: $base_font_size
+  padding-bottom: 0
+  overflow-x: hidden
+
+  .project__title
+    position: sticky
+    display: flex
+    align-items: center
+    justify-content: center
+    top: 0
+    left: 0
+    padding: 0 $base_font_size
+    margin: 0
+    height: $project_space
+
+  .project__picture
+    position: relative
+    margin-bottom: $base_font_size
+
+    .wrapper
+      position: sticky
+      top: 0
+      left: 0
+      height: $project_space
+
+      .wrapper__picture
+        width: 100%
+        height: inherit
+
+        .picture
+          display: block
+          width: max-content
+          height: inherit
+          margin: 0 auto
+
+          .img
+            height: $project_space
+            border: 1px solid #ccc
+            object-fit: cover
+            object-position: top center
+            box-sizing: border-box
+
+      @keyframes appear
+        from
+          transform: translateX($base_font_size)
+          opacity: 0
+          visibility: hidden
+
+        1%
+          transform: translateX($base_font_size)
+          opacity: 0.01
+          visibility: visible
+
+        to
+          transform: translateX(0)
+          opacity: 1
+          visibility: visible
+
+      @keyframes disappear
+        from
+          transform: translateX(0)
+          opacity: 1
+          visibility: visible
+
+        99%
+          transform: translateX($base_font_size)
+          opacity: 0.01
+          visibility: visible
+
+        to
+          transform: translateX($base_font_size)
+          opacity: 0
+          visibility: hidden
+
+      .appear
+        animation: appear 1s ease 0s forwards
+
+      .disappear
+        animation: disappear 1s ease 0s forwards
+
+      .aim
+        position: absolute
+        display: flex
+        flex-direction: row
+        align-items: center
+        top: 0
+        left: 0
+        width: $width
+        height: 100%
+        margin-left: min(calc($width / 2), calc($max_width / 2))
+        max-width: $max_width
+        z-index: -1
+
+        @media (max-width: 600px)
+          margin-left: 0
+
+        .aim_original, .aim_total
+          border: 1px #78B856 dotted
+          flex: 0 0 auto
+          width: 100%
+          height: 100%
+          padding: $base_font_size
+          box-sizing: border-box
+
+        .half
+          width: calc(50%)
+
+        .full
+          width: calc(100%)
+
+  .project__rest
+    min-height: $project_space
