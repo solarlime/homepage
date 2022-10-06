@@ -43,7 +43,6 @@ function Project() {
   const [visibility, setVisibility] = useState(initVisibility);
   const isDesktop = (document.documentElement.clientWidth > 600);
   const delay = 400;
-  const extraDelay = (isDesktop) ? 0 : 400;
 
   const transform = () => {
     const space = scrollingSpaceRef.current! as HTMLElement;
@@ -90,23 +89,17 @@ function Project() {
         }
         picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - pictureFix + 1)}, 0)`;
         // eslint-disable-next-line max-len
-        if (space.scrollTop > breakpoints.initialScroll + picture.scrollWidth - pictureFix + delay) {
+        if (space.scrollTop > breakpoints.pictureFull + delay) {
           picture.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay}, 0)`;
-          aim.style.transform = `matrix(1, 0, 0, 1, ${-picture.offsetWidth / 2}, 0)`;
-          // eslint-disable-next-line max-len
-          if (space.scrollTop > breakpoints.initialScroll + delay + picture.scrollWidth - pictureFix) {
-            aim.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay + picture.scrollWidth - pictureFix}, 0)`;
-            // eslint-disable-next-line max-len
-            if (space.scrollTop > breakpoints.initialScroll + delay + extraDelay + picture.scrollWidth - pictureFix) {
-              aim.style.transform = `matrix(1, 0, 0, 1, ${-picture.offsetWidth}, 0)`;
-              if (visibility.total_aim === styles.disappear) {
-                // eslint-disable-next-line max-len
-                setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
-              }
-            } else if (visibility.total_aim === styles.appear) {
-              // eslint-disable-next-line max-len
-              setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.disappear }));
+          aim.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay + picture.scrollWidth - pictureFix}, 0)`;
+          if (space.scrollTop > breakpoints.pictureFull + delay + space.offsetWidth) {
+            picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth + space.offsetWidth - pictureFix)}, 0)`;
+            aim.style.transform = `matrix(1, 0, 0, 1, ${-space.offsetWidth}, 0)`;
+            if (visibility.total_aim === styles.disappear) {
+              setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
             }
+          } else if (visibility.total_aim === styles.appear) {
+            setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.disappear }));
           }
         } else {
           aim.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
@@ -126,11 +119,15 @@ function Project() {
     const picture = pictureRef.current! as HTMLElement;
     const space = scrollingSpaceRef.current! as HTMLElement;
     space.scrollTop = 0;
-    setHeight(
-      // Picture width - to scroll the whole picture.
-      // Picture height - to move the following text from top to bottom
-      picture.scrollWidth + picture.offsetHeight + delay * 2 + extraDelay,
-    );
+    if (isDesktop) {
+      setHeight(
+        picture.scrollWidth + picture.offsetHeight + delay * 2,
+      );
+    } else {
+      setHeight(
+        picture.scrollWidth + space.offsetWidth + picture.offsetHeight + delay * 2,
+      );
+    }
   }, [pictureRef.current, state]);
 
   useEffect(() => {
