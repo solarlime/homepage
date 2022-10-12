@@ -46,8 +46,8 @@ function Project() {
     [key: string]: string,
   } = {
     header: 'visible',
-    original_aim: styles.disappear,
-    total_aim: styles.disappear,
+    original_aim: '',
+    total_aim: '',
   };
   const [visibility, setVisibility] = useState(initVisibility);
   const isDesktop = (document.documentElement.clientWidth > 600);
@@ -74,7 +74,7 @@ function Project() {
       // There's no enough space to put both aim blocks together
       if (space.scrollTop > breakpoints.pictureHalf && isDesktop) {
         // Show the original aim & fix the picture
-        if (visibility.original_aim === styles.disappear) {
+        if (visibility.original_aim === styles.disappear || visibility.original_aim === '') {
           setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.appear }));
         }
         picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - space.offsetWidth / 2 - pictureFix)}, 0)`;
@@ -87,7 +87,7 @@ function Project() {
           if (space.scrollTop > breakpoints.pictureFull + delay) {
             // Finally, fix aims
             aim.style.transform = `matrix(1, 0, 0, 1, ${-picture.offsetWidth / 2}, 0)`;
-            if (visibility.total_aim === styles.disappear) {
+            if (visibility.total_aim === styles.disappear || visibility.total_aim === '') {
               setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
             }
           } else if (visibility.total_aim === styles.appear) {
@@ -99,7 +99,7 @@ function Project() {
         // Another logic is for mobiles
         // It's needed to scroll the whole picture
       } else if (space.scrollTop > breakpoints.pictureFull && !isDesktop) {
-        if (visibility.original_aim === styles.disappear) {
+        if (visibility.original_aim === styles.disappear || visibility.original_aim === '') {
           setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.appear }));
         }
         // An extra pixel is added because of a visible border
@@ -113,7 +113,7 @@ function Project() {
             picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth + space.offsetWidth - pictureFix)}, 0)`;
             aim.style.transform = `matrix(1, 0, 0, 1, ${-space.offsetWidth}, 0)`;
             // And show the second aim
-            if (visibility.total_aim === styles.disappear) {
+            if (visibility.total_aim === styles.disappear || visibility.total_aim === '') {
               setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
             }
           } else if (visibility.total_aim === styles.appear) {
@@ -126,6 +126,8 @@ function Project() {
         setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.disappear }));
       }
     } else {
+      if (visibility.original_aim !== '') setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: '' }));
+      if (visibility.total_aim !== '') setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: '' }));
       if (visibility.header === 'hidden') setVisibility((oldVisibility) => ({ ...oldVisibility, header: 'visible' }));
       picture.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
     }
