@@ -3,10 +3,10 @@ import React, {
 } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import styles from './Project.module.sass';
-import projectsObjectList, { ProjectsObject } from '../projectsList';
 import { ThemeContext } from '../../../../Theme';
 import { LanguageContext } from '../../../../Language';
 import { getContent, PageComponent } from '../../../Content/getContent';
+import getProperties from './getProperties';
 
 function Image(props: {
   kebabedProjectName: string, projectName: string, styleProp: string, callback?: Function
@@ -148,28 +148,22 @@ function Project() {
     }
   };
 
-  let state = location.state as ProjectsObject;
-
   useEffect(() => {
     getContent(language, 'project')
       .then((res) => { setContent(res); });
   }, [language]);
 
-  // Fallback
-  if (!state) {
-    console.log('fallback');
-    const mayBeProject = location.pathname.replace('/projects/', '');
-    const project = projectsObjectList.find((item) => item.kebabedProjectName === mayBeProject);
-    if (!project) {
-      return (
-        <Navigate to="/not-found" />
-      );
-    }
-    state = {
-      id: project.id,
-      projectName: project.projectName,
-      kebabedProjectName: project.kebabedProjectName,
-    };
+  const properties = getProperties(location);
+  if (!properties) {
+    return (
+      <Navigate to="/not-found" />
+    );
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [state, setState] = useState(properties);
+  if (properties !== state) {
+    setState(properties);
   }
 
   return (
