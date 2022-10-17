@@ -7,6 +7,7 @@ import { ThemeContext } from '../../../../Theme';
 import { LanguageContext } from '../../../../Language';
 import { getContent, PageComponent } from '../../../Content/getContent';
 import getProperties from './getProperties';
+import transform, { PageProps } from './transform';
 
 function Image(props: {
   kebabedProjectName: string, projectName: string, styleProp: string, callback?: Function
@@ -41,102 +42,22 @@ function Project() {
   const pictureRef = useRef(null);
   const [content, setContent] = useState({} as PageComponent);
   const [height, setHeight] = useState(0);
-  const initVisibility: {
-    header: 'visible' | 'hidden',
-    [key: string]: string,
-  } = {
-    header: 'visible',
-    original_aim: '',
-    total_aim: '',
+  const initProps: PageProps = {
+    visibility: {
+      header: 'visible',
+      original_aim: '',
+      total_aim: '',
+    },
+    spaceHeight: 0,
+    scrollPoint: 0,
   };
-  const [visibility, setVisibility] = useState(initVisibility);
+  const [pageProps, setPageProps] = useState(initProps);
   const isDesktop = (document.documentElement.clientWidth > 600);
   const delay = 800;
-
-  const transform = () => {
-    const space = scrollingSpaceRef.current! as HTMLElement;
-    // picture = image + margins, picture >= image
-    const picture = pictureRef.current! as HTMLElement;
-    const image = picture.querySelector(`.${styles.img}`)! as HTMLImageElement;
-    const aim = space.querySelector(`.${styles.aim}`)! as HTMLElement;
-    // Picture width can change from image.width to space.width. This fixes any troubles
-    const pictureFix = (picture.scrollWidth - image.scrollWidth) / 2;
-    const breakpoints = {
-      initialScroll: picture.offsetHeight,
-      pictureHalf: picture.offsetHeight + picture.scrollWidth - space.offsetWidth / 2 - pictureFix,
-      pictureFull: picture.offsetHeight + picture.scrollWidth - pictureFix,
-    };
-    // Here a picture begins scrolling
-    if (space.scrollTop > breakpoints.initialScroll) {
-      if (visibility.header === 'visible') setVisibility((oldVisibility) => ({ ...oldVisibility, header: 'hidden' }));
-      picture.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll}, 0)`;
-      // Behaviour differs on desktops / tablets and mobiles.
-      // There's no enough space to put both aim blocks together
-      if (space.scrollTop > breakpoints.pictureHalf && isDesktop) {
-        // Show the original aim & fix the picture
-        if (visibility.original_aim === styles.disappear || visibility.original_aim === '') {
-          setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.appear }));
-        }
-        picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - space.offsetWidth / 2 - pictureFix)}, 0)`;
-        // The delay is needed to give some space for reading without a chance to scroll over
-        if (space.scrollTop > breakpoints.pictureHalf + delay) {
-          // Then, continue moving
-          picture.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay}, 0)`;
-          aim.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.pictureHalf + delay}, 0)`;
-          // Until the picture is gone
-          if (space.scrollTop > breakpoints.pictureFull + delay) {
-            // Finally, fix aims
-            aim.style.transform = `matrix(1, 0, 0, 1, ${-picture.offsetWidth / 2}, 0)`;
-            if (visibility.total_aim === styles.disappear || visibility.total_aim === '') {
-              setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
-            }
-          } else if (visibility.total_aim === styles.appear) {
-            setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.disappear }));
-          }
-        } else {
-          aim.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
-        }
-        // Another logic is for mobiles
-        // It's needed to scroll the whole picture
-      } else if (space.scrollTop > breakpoints.pictureFull && !isDesktop) {
-        if (visibility.original_aim === styles.disappear || visibility.original_aim === '') {
-          setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.appear }));
-        }
-        // An extra pixel is added because of a visible border
-        picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - pictureFix + 1)}, 0)`;
-        // Show the original aim after scrolling the picture
-        if (space.scrollTop > breakpoints.pictureFull + delay) {
-          picture.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay}, 0)`;
-          aim.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay + picture.scrollWidth - pictureFix}, 0)`;
-          // The next step is to scroll over the first aim
-          if (space.scrollTop > breakpoints.pictureFull + delay + space.offsetWidth) {
-            picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth + space.offsetWidth - pictureFix)}, 0)`;
-            aim.style.transform = `matrix(1, 0, 0, 1, ${-space.offsetWidth}, 0)`;
-            // And show the second aim
-            if (visibility.total_aim === styles.disappear || visibility.total_aim === '') {
-              setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.appear }));
-            }
-          } else if (visibility.total_aim === styles.appear) {
-            setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: styles.disappear }));
-          }
-        } else {
-          aim.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
-        }
-      } else if (visibility.original_aim === styles.appear) {
-        setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: styles.disappear }));
-      }
-    } else {
-      if (visibility.original_aim !== '') setVisibility((oldVisibility) => ({ ...oldVisibility, original_aim: '' }));
-      if (visibility.total_aim !== '') setVisibility((oldVisibility) => ({ ...oldVisibility, total_aim: '' }));
-      if (visibility.header === 'hidden') setVisibility((oldVisibility) => ({ ...oldVisibility, header: 'visible' }));
-      picture.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
-    }
-  };
 
   const detectSize = () => {
     const space = scrollingSpaceRef.current! as HTMLElement;
     const picture = pictureRef.current! as HTMLElement;
-    space.scrollTop = 0;
     if (isDesktop) {
       setHeight(
         picture.scrollWidth + picture.offsetHeight + delay * 2,
@@ -148,21 +69,41 @@ function Project() {
     }
   };
 
+  const properties = getProperties(location);
+  const [state, setState] = useState(properties);
+
   useEffect(() => {
+    const space = scrollingSpaceRef.current! as HTMLElement;
+
+    let scrollTimeout: NodeJS.Timeout;
+
+    const excessScrollsHandler = () => {
+      space.style.overflowY = 'hidden';
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        space.removeEventListener('scroll', excessScrollsHandler);
+        space.style.overflowY = 'scroll';
+      }, 100);
+    };
+
+    space.addEventListener('scroll', excessScrollsHandler);
+    space.dispatchEvent(new Event('scroll'));
+
     getContent(language, 'project')
       .then((res) => { setContent(res); });
-  }, [language]);
+    return () => {
+      space.scrollTop = 0;
+    };
+  }, [language, state]);
 
-  const properties = getProperties(location);
-  if (!properties) {
+  if (!properties || !state) {
     return (
       <Navigate to="/not-found" />
     );
   }
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [state, setState] = useState(properties);
-  if (properties !== state) {
+  const projectChanged = (properties.id !== state.id);
+  if (projectChanged) {
     setState(properties);
   }
 
@@ -175,9 +116,15 @@ function Project() {
         id={styles.project}
         className={styles.base__item}
         ref={scrollingSpaceRef}
-        onScroll={transform}
+        onScroll={(event) => transform(
+          event.target as HTMLDivElement,
+          pageProps,
+          setPageProps,
+          delay,
+          isDesktop,
+        )}
       >
-        <h1 className={`${styles.base__item__title} ${styles.project__title}`} style={{ visibility: `${visibility.header}` }}>{state.projectName}</h1>
+        <h1 className={`${styles.base__item__title} ${styles.project__title}`} style={{ visibility: `${pageProps.visibility.header}` }}>{state.projectName}</h1>
         <div className={styles.project__picture} style={{ height: `${height}px` }}>
           <div className={styles.wrapper}>
             <div
@@ -194,55 +141,69 @@ function Project() {
               </picture>
             </div>
             <div className={styles.aim}>
-              <p className={`${styles.aim_original} ${visibility.original_aim} ${(isDesktop) ? styles.half : styles.full}`}>
-                Изначальная цель:
-                <br />
-                <span>
+              <div className={`${styles.aim_original} ${pageProps.visibility.original_aim} ${(isDesktop) ? styles.half : styles.full}`}>
+                <h2 className={styles.aim__title}>Изначальная цель:</h2>
+                <p className={styles.aim__text}>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   Mauris a purus ac elit eleifend rutrum. Class aptent taciti
                   sociosqu ad litora torquent per conubia nostra, per inceptos
                   himenaeos. Praesent vitae commodo purus. Aliquam eu efficitur massa.
-                </span>
-              </p>
-              <p className={`${styles.aim_total} ${visibility.total_aim} ${(isDesktop) ? styles.half : styles.full}`}>
-                Конечная цель:
-                <br />
-                <span>
+                </p>
+              </div>
+              <div className={`${styles.aim_total} ${pageProps.visibility.total_aim} ${(isDesktop) ? styles.half : styles.full}`}>
+                <h2 className={styles.aim__title}>Конечная цель:</h2>
+                <p className={styles.aim__text}>
                   Etiam faucibus odio quis nibh imperdiet vulputate. Nam molestie urna nulla,
                   sit amet faucibus dolor ultricies quis. Proin elementum dictum scelerisque.
                   Vivamus ultricies, leo sit amet viverra vulputate, ligula nisi maximus arcu,
                   in tempus orci ante sit amet enim. Mauris rutrum felis nisl, quis commodo
                   tortor blandit at. Nulla ut commodo mauris. Nulla facilisi. Cras ac nisl mi.
-                </span>
-              </p>
+                </p>
+              </div>
             </div>
           </div>
         </div>
         <div className={styles.project__rest}>
-          <p>
-            Результат:
-            <br />
-            <span>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Mauris a purus ac elit eleifend rutrum. Class aptent taciti
-              sociosqu ad litora torquent per conubia nostra, per inceptos
-              himenaeos. Praesent vitae commodo purus. Aliquam eu efficitur massa.
-            </span>
-          </p>
-          <p>
-            Недостатки:
-            <br />
-            <span>
-              Etiam faucibus odio quis nibh imperdiet vulputate. Nam molestie urna nulla,
-              sit amet faucibus dolor ultricies quis. Proin elementum dictum scelerisque.
-              Vivamus ultricies, leo sit amet viverra vulputate, ligula nisi maximus arcu,
-              in tempus orci ante sit amet enim. Mauris rutrum felis nisl, quis commodo
-              tortor blandit at. Nulla ut commodo mauris. Nulla facilisi. Cras ac nisl mi.
-            </span>
-          </p>
-          <p>
-            {content.some_content}
-          </p>
+          <div className={`${styles.rest__item} ${styles.rest__item_result}`} style={{ backgroundColor: theme.backgroundColor }}>
+            <h2 className={styles.rest__item__title}>Результат:</h2>
+            <ul className={styles.rest__item__list}>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Mauris a purus ac elit eleifend rutrum.
+              </li>
+              <li>
+                Class aptent taciti sociosqu ad litora torquent
+                per conubia nostra, per inceptos himenaeos.
+              </li>
+              <li>Praesent vitae commodo purus. Aliquam eu efficitur massa.</li>
+              <li>
+                Etiam faucibus odio quis nibh imperdiet vulputate.
+                Nam molestie urna nulla, sit amet faucibus dolor ultricies quis.
+              </li>
+              <li>
+                Proin elementum dictum scelerisque. Vivamus ultricies, leo sit amet viverra
+                vulputate, ligula nisi maximus arcu, in tempus orci ante sit amet enim.
+              </li>
+              <li>
+                Mauris rutrum felis nisl, quis commodo tortor blandit at.
+                Nulla ut commodo mauris. Nulla facilisi. Cras ac nisl mi.
+              </li>
+            </ul>
+          </div>
+          <div className={`${styles.rest__item} ${styles.rest__item_drawbacks}`}>
+            <h2 className={styles.rest__item__title}>Недостатки:</h2>
+            <ul className={styles.rest__item__list}>
+              <li>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Mauris a purus ac elit eleifend rutrum.
+              </li>
+              <li>
+                Class aptent taciti sociosqu ad litora torquent
+                per conubia nostra, per inceptos himenaeos.
+              </li>
+              <li>{content.some_content}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ sun.svg, moon.svg:
 - Source: https://www.svgrepo.com/collection/weather-4/
 - Licence: https://www.svgrepo.com/page/licensing
 
-logo192.png, logo512.png, favicon.png, imac-extras.svg:
+logo.svg, lime-logo.svg, logo192.png, logo512.png, favicon.png, imac-extras.svg:
 - Author: me :)
 
 lime.jpg:
