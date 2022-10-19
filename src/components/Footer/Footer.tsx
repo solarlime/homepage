@@ -72,10 +72,10 @@ function Footer() {
         {content.copyright}
         .
       </p>
-      <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
       <nav className={styles.footer__item_buttons}>
         {links()}
       </nav>
+      <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
     </footer>
   );
 }

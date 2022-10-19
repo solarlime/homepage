@@ -40,8 +40,8 @@ function Header() {
           </Link>
         </li>
         <li className={styles['header-items__item_rest']}>
-          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
           <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
         </li>
       </ul>
     </header>
