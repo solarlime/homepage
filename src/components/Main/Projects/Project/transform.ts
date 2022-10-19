@@ -88,9 +88,11 @@ const transform = (
   const list = space.querySelector(`.${styles.rest__item_result} ul`) as HTMLUListElement;
   const items = Array.from(list.children) as Array<HTMLLIElement>;
 
+  const baseAppearPoint = breakpoints.pictureFull + pictureFix
+    + 2 * delay + picture.offsetHeight * 0.5;
   const appearPoint = (isDesktop)
-    ? breakpoints.pictureFull + delay + space.offsetWidth + picture.offsetHeight * 0.5
-    : breakpoints.pictureFull + 2 * delay + space.offsetWidth + picture.offsetHeight * 0.5;
+    ? baseAppearPoint
+    : baseAppearPoint + space.offsetWidth;
 
   const results = () => renderResults(
     items,
