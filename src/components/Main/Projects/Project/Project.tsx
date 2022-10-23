@@ -72,6 +72,13 @@ function Project() {
   const properties = getProperties(location);
   const [state, setState] = useState(properties);
 
+  if (!properties || !state) {
+    return (
+      <Navigate to="/not-found" />
+    );
+  }
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const space = scrollingSpaceRef.current! as HTMLElement;
 
@@ -95,12 +102,6 @@ function Project() {
       space.scrollTop = 0;
     };
   }, [language, state]);
-
-  if (!properties || !state) {
-    return (
-      <Navigate to="/not-found" />
-    );
-  }
 
   const projectChanged = (properties.id !== state.id);
   if (projectChanged) {
