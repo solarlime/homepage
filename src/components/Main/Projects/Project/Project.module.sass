@@ -16,6 +16,7 @@ $project_space: project_space()
 $width: calc(100vw / 24 * 22)
 $max_width: 1000px
 $text_font_size: clamp(1rem, 2.3vmin, 2rem)
+$gap: 20px
 
 p
   margin: 0
@@ -111,7 +112,7 @@ p
         left: 0
         width: $width
         height: 100%
-        margin-left: min(calc($width / 2), calc($max_width / 2))
+        margin-left: calc(min(calc($width / 2), calc($max_width / 2)) + $gap / 2)
         max-width: $max_width
         z-index: -1
 
@@ -138,8 +139,12 @@ p
             font-size: $text_font_size
             text-align: left
 
+        @media (min-width: 601px)
+          .aim_total
+            margin-left: calc($gap)
+
         .half
-          width: calc(50%)
+          width: calc(50% - $gap / 2)
 
         .full
           width: calc(100%)

@@ -80,9 +80,11 @@ const transform = (
   const aim = space.querySelector(`.${styles.aim}`)! as HTMLElement;
   // Picture width can change from image.width to space.width. This fixes any troubles
   const pictureFix = (picture.scrollWidth - image.scrollWidth) / 2;
+  const gap = 20;
   const breakpoints = {
     initialScroll: picture.offsetHeight,
-    pictureHalf: picture.offsetHeight + picture.scrollWidth - space.offsetWidth / 2 - pictureFix,
+    pictureHalf: picture.offsetHeight + picture.scrollWidth
+      - space.offsetWidth / 2 - pictureFix + gap / 2,
     pictureFull: picture.offsetHeight + picture.scrollWidth - pictureFix,
   };
   const list = space.querySelector(`.${styles.rest__item_result} ul`) as HTMLUListElement;
@@ -91,7 +93,7 @@ const transform = (
   const baseAppearPoint = breakpoints.pictureFull + pictureFix
     + 2 * delay + picture.offsetHeight * 0.5;
   const appearPoint = (isDesktop)
-    ? baseAppearPoint
+    ? baseAppearPoint + 2 * gap
     : baseAppearPoint + space.offsetWidth;
 
   const results = () => renderResults(
@@ -119,16 +121,16 @@ const transform = (
           visibility: { ...oldProps.visibility, original_aim: styles.appear },
         }));
       }
-      picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - space.offsetWidth / 2 - pictureFix)}, 0)`;
+      picture.style.transform = `matrix(1, 0, 0, 1, ${-(picture.scrollWidth - space.offsetWidth / 2 - pictureFix + gap / 2)}, 0)`;
       // The delay is needed to give some space for reading without a chance to scroll over
       if (space.scrollTop > breakpoints.pictureHalf + delay) {
         // Then, continue moving
         picture.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.initialScroll + delay}, 0)`;
         aim.style.transform = `matrix(1, 0, 0, 1, ${-space.scrollTop + breakpoints.pictureHalf + delay}, 0)`;
         // Until the picture is gone
-        if (space.scrollTop > breakpoints.pictureFull + delay) {
+        if (space.scrollTop > breakpoints.pictureFull + gap + delay) {
           // Finally, fix aims
-          aim.style.transform = `matrix(1, 0, 0, 1, ${-picture.offsetWidth / 2}, 0)`;
+          aim.style.transform = `matrix(1, 0, 0, 1, ${-(picture.offsetWidth / 2 + gap / 2)}, 0)`;
           if (pageProps.visibility.total_aim === styles.disappear || pageProps.visibility.total_aim === '') {
             setPageProps((oldProps) => ({
               ...oldProps,
