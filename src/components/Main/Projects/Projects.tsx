@@ -13,7 +13,7 @@ function ProjectThumbnail(props: ProjectsObject) {
   const { projectName, kebabedProjectName } = props;
 
   return (
-    <a href={`https://${process.env.REACT_APP_LINK_GITHUB}/${kebabedProjectName}`} target="_blank" rel="noreferrer">
+    <a href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${kebabedProjectName}`} target="_blank" rel="noreferrer">
       <Image kebabedProjectName={kebabedProjectName} projectName={projectName} styleProp={styles['projects-container__item']} />
     </a>
   );
