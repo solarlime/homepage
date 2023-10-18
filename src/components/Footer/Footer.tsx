@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useMatch, useParams } from 'react-router-dom';
 import styles from './Footer.module.sass';
 import { LanguageContext } from '../../Language';
@@ -40,7 +40,7 @@ function Footer() {
   const { language, toggleLanguage } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
   const params = useParams();
-  const isCV = useMatch(`/cv/${process.env.REACT_APP_PLEASE}`);
+  const isCV = useMatch(`/cv/${import.meta.env.VITE_APP_PLEASE}`);
 
   useEffect(() => {
     getContent(language, 'footer')
@@ -55,7 +55,7 @@ function Footer() {
       );
     }
     return (
-      <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">GitHub</a>
+      <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">GitHub</a>
     );
   };
 

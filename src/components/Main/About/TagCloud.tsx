@@ -1,4 +1,4 @@
-import React, {
+import {
   useContext, useEffect, useMemo, useState,
 } from 'react';
 import uniqid from 'uniqid';
@@ -52,7 +52,11 @@ function TagCloud(props: { themeName: 'light' | 'dark' }) {
     'Redux',
     'ESLint',
     'Jest',
-    'Puppeteer'];
+    'Puppeteer',
+    'Playwright',
+    'Express',
+    'Vite',
+  ];
 
   useEffect(() => {
     getContent(language, 'tagCloud')

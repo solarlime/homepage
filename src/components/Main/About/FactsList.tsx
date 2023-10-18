@@ -1,6 +1,7 @@
 import uniqid from 'uniqid';
+// @ts-ignore
 import Typograf from 'typograf';
-import React, { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
 import { LanguageContext } from '../../../Language';
@@ -13,7 +14,7 @@ import { LanguageContext } from '../../../Language';
 const shuffled = (language: 'ru' | 'en') => {
   try {
     const typo = new Typograf({ locale: ['ru', 'en-US'] });
-    const facts = JSON.parse(process.env[`REACT_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
+    const facts = JSON.parse(import.meta.env[`VITE_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
     return shuffleArray(
       Object.entries(facts)
         .map((item) => {

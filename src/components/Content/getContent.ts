@@ -1,3 +1,4 @@
+// @ts-ignore
 import Typograf from 'typograf';
 
 export interface PageComponent {
@@ -18,7 +19,7 @@ const memoizedGetContent = () => {
     if (`${languageName}-${page}` in cache) {
       return Promise.resolve(cache[key]);
     }
-    const content = await import(`./${languageName}/${page}`);
+    const content = await import(`./${languageName}/${page}.ts`);
     const typo = new Typograf({ locale: ['ru', 'en-US'] });
     const result: PageComponent = {};
     Object.entries(content.default as PageComponent)
