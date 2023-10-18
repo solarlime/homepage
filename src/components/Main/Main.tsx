@@ -1,13 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useParams, Outlet, Link } from 'react-router-dom';
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import { ThemeContext } from '../../Theme';
 import { LanguageContext } from '../../Language';
-import { ReactComponent as ImacExtras } from '../../img/imac-extras.svg';
-import { ReactComponent as Cat } from '../../img/cat.svg';
-import { ReactComponent as Tambourines } from '../../img/tambourines.svg';
+import ImacExtras from '../../img/imac-extras.svg?react';
+import Cat from '../../img/cat.svg?react';
+import Tambourines from '../../img/tambourines.svg?react';
 import TagCloud from './About/TagCloud';
 import { getContent, PageComponent } from '../Content/getContent';
 
@@ -84,10 +84,10 @@ export function Intro() {
         <picture className={styles.intro__image}>
           <img
             sizes="100w"
-            srcSet={`${process.env.REACT_APP_FILES}/memoji320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/memoji640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/memoji1280.jpg 1280w`}
-            src={`${process.env.REACT_APP_FILES}/memoji.jpg`}
+            srcSet={`${import.meta.env.VITE_APP_FILES}/memoji320.jpg 320w, 
+            ${import.meta.env.VITE_APP_FILES}/memoji640.jpg 640w, 
+            ${import.meta.env.VITE_APP_FILES}/memoji1280.jpg 1280w`}
+            src={`${import.meta.env.VITE_APP_FILES}/memoji.jpg`}
             alt="Me"
           />
         </picture>
@@ -139,7 +139,7 @@ export function Intro() {
             <br />
             {content.final_2}
           </p>
-          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
         </div>
       </section>
     </article>
@@ -152,7 +152,7 @@ export function Intro() {
  */
 export function AboutOrNot() {
   const params = useParams();
-  if (params.please === process.env.REACT_APP_PLEASE) {
+  if (params.please === import.meta.env.VITE_APP_PLEASE) {
     return <About />;
   }
   return (<NotFound />);

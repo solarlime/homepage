@@ -1,4 +1,4 @@
-import React, {
+import {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -20,10 +20,10 @@ function Image(props: {
     <img
       className={styleProp}
       sizes="100w"
-      srcSet={`${process.env.REACT_APP_FILES}/projects/${kebabedProjectName}320.jpg 320w, 
-            ${process.env.REACT_APP_FILES}/projects/${kebabedProjectName}640.jpg 640w, 
-            ${process.env.REACT_APP_FILES}/projects/${kebabedProjectName}1280.jpg 1280w`}
-      src={`${process.env.REACT_APP_FILES}/projects/${kebabedProjectName}.jpg`}
+      srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${kebabedProjectName}320.jpg 320w, 
+            ${import.meta.env.VITE_APP_FILES}/projects/${kebabedProjectName}640.jpg 640w, 
+            ${import.meta.env.VITE_APP_FILES}/projects/${kebabedProjectName}1280.jpg 1280w`}
+      src={`${import.meta.env.VITE_APP_FILES}/projects/${kebabedProjectName}.jpg`}
       alt={`${projectName}`}
       onLoad={() => { if (callback) callback(); }}
     />

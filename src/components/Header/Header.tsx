@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../Theme';
@@ -40,7 +40,7 @@ function Header() {
           </Link>
         </li>
         <li className={styles['header-items__item_rest']}>
-          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${process.env.REACT_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
           <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
         </li>
       </ul>

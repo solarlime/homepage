@@ -33,7 +33,7 @@ function NotFound() {
 
   // @ts-ignore
   const unsplash = createApi({
-    accessKey: process.env.REACT_APP_UNSPLASH,
+    accessKey: import.meta.env.VITE_APP_UNSPLASH,
   });
 
   const utm = '?utm_source=Homepage&utm_medium=referral';
