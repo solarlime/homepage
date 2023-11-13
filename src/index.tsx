@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from './Theme';
+import { LanguageProvider } from './Language';
 import App from './App';
 
 const root = ReactDOM.createRoot(
@@ -21,7 +23,11 @@ window.dispatchEvent(new Event('resize'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider>
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
