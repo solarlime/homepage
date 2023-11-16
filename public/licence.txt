@@ -1,8 +1,6 @@
 Fonts used:
 
-- Gilroy ExtraBold (licence: EULA-20105160.pdf)
-- Uni Neue Light (licence: EULA-20105170.pdf)
-- JetBrains Mono (licence: https://github.com/JetBrains/JetBrainsMono/blob/master/OFL.txt)
+- PT Root UI VF (SIL OFL v.1.1: https://scripts.sil.org/OFL)
 
 
 Images used:
@@ -11,7 +9,7 @@ sun.svg, moon.svg:
 - Source: https://www.svgrepo.com/collection/weather-4/
 - Licence: https://www.svgrepo.com/page/licensing
 
-logo.svg, lime-logo.svg, logo192.png, logo512.png, favicon.png, imac-extras.svg:
+logo.svg, email.svg, lime-logo.svg, logo192.png, logo512.png, favicon.png, imac-extras.svg:
 - Author: me :)
 
 lime.jpg:
@@ -38,4 +36,12 @@ tambourines.svg
 
 ru.png, en.png
 - Source: https://www.flaticon.com/packs/countrys-flags
+- Licence: https://www.freepikcompany.com/legal#nav-flaticon
+
+print.svg:
+- Source: https://www.flaticon.com/free-icon/print_1828929
+- Licence: https://www.freepikcompany.com/legal#nav-flaticon
+
+download.svg:
+- Source: https://www.flaticon.com/free-icon/direct-download_2810390
 - Licence: https://www.freepikcompany.com/legal#nav-flaticon

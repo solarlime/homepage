@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useMatch, useParams } from 'react-router-dom';
 import styles from './Footer.module.sass';
 import { LanguageContext } from '../../Language';
 import { ThemeContext } from '../../Theme';
 import { getContent, PageComponent } from '../Content/getContent';
-import { kebabedList } from '../Main/Projects/projectsList';
+import ru from '../../img/ru.png';
+import en from '../../img/en.png';
 
 /**
  * A component for rendering a language changer switcher
@@ -12,13 +12,17 @@ import { kebabedList } from '../Main/Projects/projectsList';
  *                languageName: a string with a chosen language
  * @constructor
  */
-function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru' | 'en' }) {
-  const { toggleLanguage, languageName } = props;
+function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru' | 'en', languageButton: string }) {
+  const { toggleLanguage, languageName, languageButton } = props;
 
   return (
-    <label className={`${styles['language-switch']} ${styles.switcher}`} htmlFor="language-switch">
+    <label className={`${styles['language-switch']} ${styles.switcher} ${(document.documentElement.clientWidth < 550) ? '' : styles.height}`} htmlFor="language-switch">
       <input id="language-switch" type="checkbox" onChange={toggleLanguage} checked={(languageName === 'en')} />
-      <span className={styles.slider} />
+      {
+        (document.documentElement.clientWidth < 550)
+          ? <img src={(languageName === 'ru') ? en : ru} alt="Change theme" />
+          : <span>{languageButton}</span>
+      }
     </label>
   );
 }
@@ -39,43 +43,25 @@ function Footer() {
   const { theme } = useContext(ThemeContext);
   const { language, toggleLanguage } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
-  const params = useParams();
-  const isCV = useMatch(`/cv/${import.meta.env.VITE_APP_PLEASE}`);
 
   useEffect(() => {
     getContent(language, 'footer')
       .then((res) => { setContent(res); });
   }, [language]);
 
-  // Links must differ for a CV page & others
-  const links = () => {
-    if (isCV || (params && kebabedList.find((kebabed) => kebabed === params.project))) {
-      return (
-        <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">{content.footer_projects}</Link>
-      );
-    }
-    return (
-      <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">GitHub</a>
-    );
-  };
-
   return (
     <footer
       className={styles.footer}
       style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
     >
-      <p className={styles.footer__item_copyright}>
-        Copyright &copy;
-        {` ${getYear()} `}
-        solarlime.dev.
-        <br />
-        {content.copyright}
-        .
-      </p>
-      <nav className={styles.footer__item_buttons}>
-        {links()}
-      </nav>
-      <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
+      <div className={styles['footer-items']}>
+        <p className={styles['footer-items__item_copyright']}>
+          &copy;
+          {` ${getYear()} `}
+          solarlime.dev
+        </p>
+        <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} languageButton={content.language} />
+      </div>
     </footer>
   );
 }

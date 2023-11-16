@@ -1,8 +1,16 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../Theme';
 import Logo from './Logo';
+import Github from '../../img/github.svg?react';
+import Telegram from '../../img/telegram.svg?react';
+import Print from '../../img/print.svg?react';
+// import Download from '../../img/download.svg?react';
+import moon from '../../img/moon.svg';
+import sun from '../../img/sun.svg';
+import { LanguageContext } from '../../Language';
+import { getContent, PageComponent } from '../Content/getContent';
 
 /**
  * A component for rendering a theme changer switcher
@@ -14,9 +22,9 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
   const { toggleTheme, themeName } = props;
 
   return (
-    <label className={`${styles['theme-switch']} ${styles.switcher}`} htmlFor="theme-switch">
+    <label className={styles.switcher} htmlFor="theme-switch">
       <input id="theme-switch" type="checkbox" onChange={toggleTheme} checked={(themeName === 'dark')} />
-      <span className={styles.slider} />
+      <img src={(themeName === 'dark') ? sun : moon} alt="Change theme" />
     </label>
   );
 }
@@ -27,6 +35,14 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
  */
 function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+  const [content, setContent] = useState({} as PageComponent);
+  const isCV = useMatch(`/cv/${import.meta.env.VITE_APP_PLEASE}`);
+
+  useEffect(() => {
+    getContent(language, 'header')
+      .then((res) => { setContent(res); });
+  }, [language]);
 
   return (
     <header
@@ -40,7 +56,30 @@ function Header() {
           </Link>
         </li>
         <li className={styles['header-items__item_rest']}>
-          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+          {(isCV) ? (
+            <>
+              {/* <button className={`${styles.link}`} type="button" onClick={() => alert('Under construction')}> */}
+              {/*  /!* TODO: pdf generation *!/ */}
+              {/*  {(document.documentElement.clientWidth < 650) ? <Download fill={theme.color} /> : content.download} */}
+              {/* </button> */}
+              <button className={`${styles.link}`} type="button" onClick={window.print}>
+                {
+                  (document.documentElement.clientWidth < 650)
+                    ? <Print fill={theme.color} />
+                    : content.print
+                }
+              </button>
+            </>
+          ) : (
+            <>
+              <a className={`${styles.link}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">
+                {(document.documentElement.clientWidth < 550) ? <Github fill={theme.color} /> : 'github'}
+              </a>
+              <a className={`${styles.link}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">
+                {(document.documentElement.clientWidth < 550) ? <Telegram fill={theme.color} /> : 'telegram'}
+              </a>
+            </>
+          )}
           <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
         </li>
       </ul>

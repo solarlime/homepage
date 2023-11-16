@@ -9,11 +9,13 @@ import { ThemeContext } from './Theme';
 
 function AppContent() {
   return (
-    <div className="app-content">
+    <>
       <Header />
-      <Main />
+      <div className="app-content">
+        <Main />
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

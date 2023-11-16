@@ -14,12 +14,12 @@ interface ThemesContext {
   toggleTheme: () => void
 }
 
-export const themes: Themes = {
+const themes: Themes = {
   light: {
     name: 'light', color: '#282C34', backgroundColor: '#FFFFFF', accentColor: '#66A345', extraColor: '#F36B00',
   },
   dark: {
-    name: 'dark', color: '#FFFFFF', backgroundColor: '#282C34', accentColor: '#78b856', extraColor: '#ffcf48',
+    name: 'dark', color: '#EEEEEE', backgroundColor: '#282C34', accentColor: '#78b856', extraColor: '#ffcf48',
   },
 };
 

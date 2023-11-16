@@ -12,7 +12,7 @@ interface LanguagesContext {
   toggleLanguage: () => void
 }
 
-export const languages: Languages = {
+const languages: Languages = {
   ru: 'ru',
   en: 'en',
 };

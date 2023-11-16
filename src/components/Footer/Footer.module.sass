@@ -1,59 +1,52 @@
 @use '../Base'
 
-$height: Base.$height
-$rows_count: Base.$rows_count
-$base_font_size: Base.$base_font_size
-$base_padding: Base.$base_padding
-$header_rows_count: Base.$header_rows_count
-$main_rows_count: Base.$main_rows_count
-$footer_rows_count: Base.$footer_rows_count
-$footer_font_size: calc($base_font_size - clamp(0.25rem, 1vmin, 0.5rem))
+
+$bar_height_size: Base.$bar_height_size
+$bar_font_size: Base.$bar_font_size
+$bar_content_height: Base.$bar_content_height
+$footer_margin_size: clamp(20px, 7vw, 50px)
 
 .footer
-  grid-column: 2/24
-  grid-row:  calc($header_rows_count + $main_rows_count + 1) / calc($header_rows_count + $main_rows_count + $footer_rows_count + 1)
-
   display: flex
-  align-items: center
-  height: calc($footer_rows_count * 100vh / $rows_count)
-  height: calc($footer_rows_count * $height / $rows_count)
-  border-top: 1px solid
-  background: #282c34
-  color: white
-  font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
-  box-sizing: border-box
+  justify-content: space-between
+  width: 100%
+  height: $bar_height_size
+  margin: 0 auto
+  font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
+  font-size: $bar_font_size
+  font-weight: 500
+  line-height: 1
+  box-shadow: 0 -4px 10px 0 rgba(0, 0, 0, 0.25)
 
-  .footer__item_copyright
-    margin: 0
-    line-height: 1
-    font-size: calc(($base_font_size + 2 * $base_padding) / 2)
-    text-align: left
+  .footer-items
+    display: flex
+    justify-content: space-between
+    align-items: center
+    min-width: 280px
+    width: 100%
+    max-width: 1100px
+    height: 100%
+    padding: 0
+    margin: 0 $footer_margin_size
+    list-style: none
+    box-sizing: border-box
 
-  .footer__item_buttons
-    flex-shrink: 0
-    margin-left: auto
-    margin-right: $base_font_size
-
-    .navigation__item
+    .footer-items__item_copyright
       display: inline-block
+      flex-shrink: 0
+      margin: 0
+      text-align: left
 
-  .language-switch
-    flex-shrink: 0
+    .height
+      height: auto
 
-    input
+    .language-switch
+      display: inline-block
+      flex-shrink: 0
+      cursor: pointer
 
-      &:checked + .slider
-        background-color: #ccc
+      img
+        height: $bar_content_height
 
-      &:checked + .slider:before
-        background-color: white
-        background-image: url("../../img/en.png")
-        background-size: cover
-
-    .slider
-      background-color: #ccc
-
-      &:before
-        background-color: white
-        background-image: url("../../img/ru.png")
-        background-size: cover
+      span
+        display: inline-block

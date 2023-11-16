@@ -5,7 +5,7 @@ export interface PageComponent {
   [key: string]: string,
 }
 
-const pages = ['intro', 'tagCloud', 'about', 'projects', 'project', 'notFound', 'footer'] as const;
+const pages = ['intro', 'tagCloud', 'about', 'projects', 'project', 'notFound', 'footer', 'header'] as const;
 type Pages = typeof pages[number];
 
 /**
