@@ -163,8 +163,10 @@ export function AboutOrNot() {
  * @constructor
  */
 function Main() {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>
       <Outlet />
     </main>
   );

@@ -10,15 +10,16 @@ $main_rows_count: Base.$main_rows_count
 $base_font_size: Base.$base_font_size
 $logo_font_size: Base.$logo_font_size
 
-.main
-  grid-column: 2/24
-  grid-row: calc($header_rows_count + 1) / calc($header_rows_count + $main_rows_count + 1)
+$bar_height_size: Base.$bar_height_size
+$side_margin: Base.$global_margin_size
 
-  height: calc($main_rows_count * 100vh / $rows_count)
-  height: calc($main_rows_count * $height / $rows_count)
-  padding: 0
+.main
+  min-width: 280px
+  max-width: 1100px
+  margin: 0 $side_margin
+  padding: $bar_height_size 0 0 0
   color: white
-  font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
+  font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
   box-sizing: border-box
   background: #282c34
 
@@ -43,7 +44,6 @@ $logo_font_size: Base.$logo_font_size
       margin: calc($base_font_size / 2) 0 calc(4 * $base_font_size) 0
 
       .name
-        font-family: "JetBrainsMono", monospace
         font-size: calc(2.5 * $base_font_size)
         color: #78B856
 

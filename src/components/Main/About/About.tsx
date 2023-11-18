@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import styles from './About.module.sass';
+import React, { useContext, useEffect, useState } from 'react';
+import styles from './About.module.css';
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
@@ -69,7 +69,7 @@ function NavigationButton(props: {
  * A component for rendering an about page
  * @constructor
  */
-function About() {
+function About(): React.ReactElement {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const sections = ['contacts', 'skills', 'facts'];
@@ -88,7 +88,7 @@ function About() {
     >
       <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.contacts__title}>
-          <p className={`${styles.base__item__title} ${styles.contacts__title_title}`}>
+          <p className={styles.contacts__title_title}>
             {import.meta.env[`VITE_APP_ME_${language}`]}
           </p>
           <p className={styles.contacts__title_subtitle}>
@@ -97,31 +97,34 @@ function About() {
           </p>
           <p className={styles.contacts__title_subtitle}>{age}</p>
         </h1>
-        <picture className={styles.contacts__image}>
-          <img
-            sizes="100w"
-            srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 320w, 
-            ${import.meta.env.VITE_APP_FILES}/me640.jpg 640w, 
-            ${import.meta.env.VITE_APP_FILES}/me1280.jpg 1280w`}
-            src={`${import.meta.env.VITE_APP_FILES}/me.jpg`}
-            alt="Me"
-          />
-        </picture>
         <div className={styles.contacts__buttons}>
           <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
-            <GitHub fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
-            <LinkedIn fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
-            <Telegram fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
-            <Email fill={theme.color} />
-          </a>
+          <div>
+            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
+              <GitHub fill={theme.color} />
+              <span>github</span>
+            </a>
+            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
+              <Email fill={theme.color} />
+              <span>e-mail</span>
+            </a>
+          </div>
+          <div>
+            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
+              <LinkedIn fill={theme.color} />
+              <span>linkedin</span>
+            </a>
+            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
+              <Telegram fill={theme.color} />
+              <span>telegram</span>
+            </a>
+          </div>
         </div>
+        <picture className={styles.contacts__image}>
+          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me640.jpg 2x`} media="(min-width: 320px)" />
+          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me640.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me1280.jpg 2x`} media="(min-width: 640px)" />
+          <img src={`${import.meta.env.VITE_APP_FILES}/me1280.jpg`} alt="Me" />
+        </picture>
       </section>
       <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>{content.skills_title}</h1>
@@ -131,23 +134,6 @@ function About() {
         <h1 className={styles.base__item__title}>{content.about_title}</h1>
         <FactsList />
       </section>
-      <div className={styles['about-buttons']}>
-        <NavigationButton
-          color={theme.color}
-          bgColor={theme.backgroundColor}
-          sections={sections}
-          toTop={content.nav_button_top}
-          toNext={content.nav_button_next}
-        />
-        <button
-          style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
-          className={`${styles.button}`}
-          type="button"
-          onClick={window.print}
-        >
-          {content.print_button}
-        </button>
-      </div>
     </article>
   );
 }

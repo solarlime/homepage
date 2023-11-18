@@ -2,7 +2,7 @@ import {
   useContext, useEffect, useMemo, useState,
 } from 'react';
 import uniqid from 'uniqid';
-import styles from './About.module.sass';
+import styles from './About.module.css';
 import { LanguageContext } from '../../../Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
