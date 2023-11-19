@@ -1,0 +1,111 @@
+@use '../../Base'
+@use './TagCloud.module'
+@use './AboutPrint.module'
+
+$button-color: #{"var(--button-color)"}
+$hover-color: #{"var(--hover-color)"}
+$hover-bg-color: #{"var(--hover-bg-color)"}
+
+$photo-size: #{"var(--photo-size)"}
+$button-font-size: #{"var(--button-font-size)"}
+$svg-size: #{"var(--svg-size)"}
+$outline: #{"var(--outline)"}
+$gap: #{"var(--gap)"}
+$small-gap: #{"var(--small-gap)"}
+
+@media screen
+  .about
+    padding-top: calc($gap * 2)
+
+    .about__item
+        margin-bottom: calc($gap * 2)
+
+    .about__contacts
+        display: grid
+        grid-template-areas: 'title image' 'buttons image'
+        // Automatic sizes generate extra pixels. Don't know, why
+        grid-template-rows: calc($photo-size - $gap - calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2))  calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2)
+        gap: $gap
+        text-align: left
+
+        .contacts__title
+          grid-area: title
+          margin: 0
+
+          .contacts__title_title
+            margin: 0 0 $small-gap 0
+            font-size: calc($button-font-size * 2.13)
+            font-weight: 700
+
+          .contacts__title_subtitle
+            margin: 0
+            font-size: calc($button-font-size * 1.67)
+            font-weight: 400
+
+        .contacts__image
+          grid-area: image
+          height: inherit
+          width: auto
+          margin-left: auto
+
+          img
+            width: $photo-size
+            height: $photo-size
+            border-radius: $button-font-size
+            object-fit: cover
+            object-position: center center
+            background-color: #EEEEEE
+            background-position: center
+            background-repeat: no-repeat
+            background-size: cover
+
+        .contacts__buttons
+          grid-area: buttons
+          align-self: end
+          margin: 0
+          display: flex
+          gap: $small-gap
+
+          div
+            display: flex
+            flex-direction: column
+            flex-shrink: 0
+            gap: $small-gap
+
+            .contacts__buttons__item
+              svg
+                display: block
+                width: $svg-size
+                height: $svg-size
+                margin-right: calc($button-font-size * 0.66)
+                fill: currentColor
+
+@media screen and (max-width: 899px)
+  .about
+    .about__contacts
+      grid-template-areas: 'title image' 'buttons buttons'
+      grid-template-rows: auto auto
+
+      .contacts__buttons div
+        flex-direction: row
+        flex-grow: 1
+
+        .contacts__buttons__item
+          flex-grow: 1
+          justify-content: center
+
+@media screen and (max-width: 699px)
+  .about
+    .about__contacts
+      .contacts__title
+        .contacts__title_title
+          font-size: calc(calc($button-font-size * 2.13) / 1.4)
+
+        .contacts__title_subtitle
+          font-size: calc(calc($button-font-size * 1.67) / 1.4)
+
+      .contacts__buttons div
+        flex-direction: column
+
+.qr
+  display: none

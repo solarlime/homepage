@@ -1,35 +1,10 @@
 @use '../Base'
 
-
-$bar_height_size: Base.$bar_height_size
-$bar_font_size: Base.$bar_font_size
-$bar_content_height: Base.$bar_content_height
-$footer_margin_size: clamp(20px, 7vw, 50px)
-
 .footer
-  display: flex
-  justify-content: space-between
-  width: 100%
-  height: $bar_height_size
-  margin: 0 auto
-  font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
-  font-size: $bar_font_size
-  font-weight: 500
-  line-height: 1
-  box-shadow: 0 -4px 10px 0 rgba(0, 0, 0, 0.25)
+  @include Base.bar(-4px)
 
   .footer-items
-    display: flex
-    justify-content: space-between
-    align-items: center
-    min-width: 280px
-    width: 100%
-    max-width: 1100px
-    height: 100%
-    padding: 0
-    margin: 0 $footer_margin_size
-    list-style: none
-    box-sizing: border-box
+    @include Base.bar_items
 
     .footer-items__item_copyright
       display: inline-block
@@ -46,7 +21,7 @@ $footer_margin_size: clamp(20px, 7vw, 50px)
       cursor: pointer
 
       img
-        height: $bar_content_height
+        height: Base.$bar-content-height
 
       span
         display: inline-block

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import styles from './About.module.css';
+import styles from './About.module.sass';
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
@@ -31,41 +31,6 @@ function getAge(language: 'ru' | 'en') {
 }
 
 /**
- * A component for a navigation button
- * @param props - color: a colour for a text,
- *                bgColor: a colour for a background,
- *                sections: an array with section ids
- * @constructor
- */
-function NavigationButton(props: {
-  color: string, bgColor: string, sections: Array<string>, toTop: string, toNext: string
-}) {
-  const [index, setIndex] = useState(0);
-  const {
-    color, bgColor, sections, toTop, toNext,
-  } = props;
-
-  useEffect(() => {
-    const next = document.getElementById(sections[index])!;
-    next.scrollIntoView();
-  }, [index]);
-
-  // It is not needed to reset index after scrolling the whole page. Just take a remainder.
-  const click = () => setIndex((index + 1) % sections.length);
-
-  return (
-    <button
-      className={`${styles.button} ${styles['navigation-button']}`}
-      style={{ color, backgroundColor: bgColor }}
-      type="button"
-      onClick={click}
-    >
-      {(index === 2) ? toTop : toNext}
-    </button>
-  );
-}
-
-/**
  * A component for rendering an about page
  * @constructor
  */
@@ -76,6 +41,13 @@ function About(): React.ReactElement {
   const [content, setContent] = useState({} as PageComponent);
   const age = getAge(language);
 
+  interface ExtendedCSS extends React.CSSProperties {
+    '--button-color': string,
+    '--hover-color': string,
+    '--hover-bg-color': string,
+    '--focus-color': string,
+  }
+
   useEffect(() => {
     getContent(language, 'about')
       .then((res) => { setContent(res); });
@@ -83,8 +55,15 @@ function About(): React.ReactElement {
 
   return (
     <article
-      className={`${styles.about} ${styles.base}`}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      className={`${styles.about}`}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--button-color': (theme.name === 'dark') ? theme.extraColor : theme.color,
+        '--hover-color': theme.backgroundColor,
+        '--hover-bg-color': theme.extraColor,
+        '--focus-color': theme.accentColor,
+      } as ExtendedCSS}
     >
       <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.contacts__title}>

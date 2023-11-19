@@ -1,17 +1,10 @@
 @use '../Base'
 @use './About/TagCloud.module'
 
-$min_width: Base.$min_width
-$height: Base.$height
-$rows_count: Base.$rows_count
-$columns_count: Base.$columns_count
-$header_rows_count: Base.$header_rows_count
-$main_rows_count: Base.$main_rows_count
-$base_font_size: Base.$base_font_size
-$logo_font_size: Base.$logo_font_size
+$base_font_size: 20px
 
-$bar_height_size: Base.$bar_height_size
-$side_margin: Base.$global_margin_size
+$bar_height_size: #{"var(--bar-height-size)"}
+$side_margin: #{"var(--side-margin-size)"}
 
 .main
   min-width: 280px

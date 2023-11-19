@@ -2,7 +2,7 @@ import uniqid from 'uniqid';
 // @ts-ignore
 import Typograf from 'typograf';
 import { useContext, useMemo, useState } from 'react';
-import styles from './About.module.css';
+import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
 import { LanguageContext } from '../../../Language';
 

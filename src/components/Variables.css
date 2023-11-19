@@ -1,0 +1,121 @@
+:root {
+    /* Globals */
+    --side-margin-size: clamp(20px, 7vw, 50px);
+    --button-font-size: 30px;
+    --svg-size: 36px;
+    --outline: 3px;
+    --base-font-size-pixels: 24;
+    --gap: 50px;
+
+    /* Header & footer */
+    --bar-font-size: 20px;
+    --bar-height-size: clamp(80px, 10vw, 90px);
+    --bar-content-height: clamp(24px, 3vw, 30px);
+
+    /* CV page */
+    --photo-size: 500px;
+    --small-gap: 20px;
+}
+
+@media screen and (max-width: 1199px) {
+    :root {
+        /* Globals */
+        --button-font-size: 27px;
+        --svg-size: 32px;
+        --gap: 35px;
+
+        /* CV page */
+        --photo-size: 450px;
+    }
+}
+
+@media screen and (max-width: 1099px) {
+    :root {
+        /* Globals */
+        --button-font-size: 25px;
+        --svg-size: 30px;
+
+        /* CV page */
+        --photo-size: 400px;
+    }
+}
+
+@media screen and (max-width: 999px) {
+    :root {
+        /* Globals */
+        --button-font-size: 23px;
+        --svg-size: 28px;
+        --outline: 2px;
+
+        /* CV page */
+        --photo-size: 350px;
+    }
+}
+
+@media screen and (max-width: 899px) {
+    :root {
+        /* Globals */
+        --button-font-size: 22px;
+        --svg-size: 26px;
+        --base-font-size-pixels: 22;
+
+        /* CV page */
+        --photo-size: 250px;
+    }
+}
+
+@media screen and (max-width: 799px) {
+    :root {
+        /* Globals */
+        --button-font-size: 19px;
+        --svg-size: 24px;
+
+        /* CV page */
+        --photo-size: 200px;
+    }
+}
+
+@media screen and (max-width: 699px) {
+    :root {
+        /* Globals */
+        --button-font-size: 27px;
+        --svg-size: 32px;
+
+        /* CV page */
+        --photo-size: 250px;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    :root {
+        /* Globals */
+        --button-font-size: 23px;
+        --svg-size: 28px;
+        --base-font-size-pixels: 20;
+
+        /* CV page */
+        --photo-size: 220px;
+    }
+}
+@media screen and (max-width: 499px) {
+    :root {
+        /* Globals */
+        --button-font-size: 19px;
+        --svg-size: 24px;
+        --gap: 20px;
+
+        /* CV page */
+        --photo-size: 180px;
+    }
+}
+@media screen and (max-width: 399px) {
+    :root {
+        /* Globals */
+        --button-font-size: 16px;
+        --svg-size: 20px;
+
+        /* CV page */
+        --photo-size: 140px;
+        --small-gap: 10px;
+    }
+}

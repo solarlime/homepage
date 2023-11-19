@@ -1,7 +1,7 @@
 import { PageComponent } from '../getContent';
 
 const header: PageComponent = {
-  print: 'print CV',
+  print: 'print cv',
   download: 'download .pdf',
 };
 
