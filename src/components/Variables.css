@@ -1,6 +1,6 @@
 :root {
     /* Globals */
-    --side-margin-size: clamp(20px, 7vw, 50px);
+    --side-margin-size: 20px;
     --button-font-size: 30px;
     --svg-size: 36px;
     --outline: 3px;
@@ -9,12 +9,19 @@
 
     /* Header & footer */
     --bar-font-size: 20px;
-    --bar-height-size: clamp(80px, 10vw, 90px);
-    --bar-content-height: clamp(24px, 3vw, 30px);
+    --bar-height-size: 80px;
+    --bar-content-height: 24px;
 
     /* CV page */
     --photo-size: 500px;
     --small-gap: 20px;
+}
+@supports (height: clamp(20px, 7vw, 50px)) {
+    :root {
+        --side-margin-size: clamp(20px, 7vw, 50px);
+        --bar-height-size: clamp(80px, 10vw, 90px);
+        --bar-content-height: clamp(24px, 3vw, 30px);
+    }
 }
 
 @media screen and (max-width: 1199px) {
