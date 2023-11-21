@@ -19,7 +19,7 @@ const memoizedGetContent = () => {
     if (`${languageName}-${page}` in cache) {
       return Promise.resolve(cache[key]);
     }
-    const content = await import(`./${languageName}/${page}.ts`);
+    const content = await import(`./${languageName}/${page}.json`);
     const typo = new Typograf({ locale: ['ru', 'en-US'] });
     const result: PageComponent = {};
     Object.entries(content.default as PageComponent)
