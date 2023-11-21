@@ -107,7 +107,7 @@ function About(): React.ReactElement {
       </section>
       <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>{content.skills_title}</h1>
-        <TagCloud themeName={theme.name} />
+        <TagCloud theme={theme} />
       </section>
       <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>{content.about_title}</h1>

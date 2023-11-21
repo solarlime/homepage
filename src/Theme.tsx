@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-interface Theme {
+export interface Theme {
   name: 'light' | 'dark', color: string, backgroundColor: string, accentColor: string, extraColor: string,
 }
 

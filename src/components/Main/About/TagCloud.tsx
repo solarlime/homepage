@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import uniqid from 'uniqid';
-import tags from '../../Content/tagCloud';
+import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
+import { Theme } from '../../../Theme';
 
 const id = uniqid;
 
@@ -28,25 +29,26 @@ export const shuffleArray = (array: Array<T>): Array<T> => {
  * @param props - themeName: a theme name (light or dark)
  * @constructor
  */
-function TagCloud(props: { themeName: 'light' | 'dark' }) {
-  const { themeName } = props;
-  const colors: Array<string> = (themeName === 'dark') ? ['#FFCF48', '#78B856'] : ['#FFBA00', '#78B856'];
+function TagCloud(props: { theme: Theme }): React.ReactElement {
+  const { theme } = props;
 
-  return useMemo(() => (
+  const shuffledTags = useMemo(() => shuffleArray(tags), []);
+
+  return (
     <div className={styles.wrapper}>
       <ul className={styles['tag-cloud']}>
-        {shuffleArray(tags).map((item) => (
+        {shuffledTags.map((item) => (
           <li
             className={styles['tag-cloud__item']}
             key={id()}
-            style={{ color: `${(Math.random() < 0.5) ? colors[0] : colors[1]}` }}
+            style={{ color: `${(Math.random() < 0.5) ? theme.extraColor : theme.accentColor}` }}
           >
             {item}
           </li>
         ))}
       </ul>
     </div>
-  ), []);
+  );
 }
 
 export default TagCloud;
