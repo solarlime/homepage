@@ -28,10 +28,40 @@ export const ThemeContext = React.createContext<ThemesContext>({} as ThemesConte
 const isDark = window.matchMedia('(prefers-color-scheme: dark)');
 const systemTheme = (isDark.matches) ? themes.dark : themes.light;
 
+let initialTheme: Theme;
+const fromLocalStorage = window.localStorage.getItem('themeName');
+if (fromLocalStorage) {
+  try {
+    const previousTheme = JSON.parse(fromLocalStorage);
+    if ('name' in previousTheme) {
+      console.log(`Using previously set ${previousTheme.name} theme.`);
+      initialTheme = previousTheme;
+    } else {
+      throw Error('Parsed values don\'t seem to be a valid theme!');
+    }
+  } catch (e) {
+    console.log((e as Error).message);
+    console.log('There\'s a problem with parsing previous values! Using system theme.');
+    initialTheme = systemTheme;
+  }
+} else {
+  console.log('No previous theme was found! Using system theme.');
+  initialTheme = systemTheme;
+}
+
 export function ThemeProvider(props: { children: any }) {
-  const [theme, setTheme] = useState(systemTheme);
+  const [theme, setTheme] = useState(initialTheme);
   const toggleTheme = () => {
-    setTheme((oldTheme) => ((oldTheme === themes.light) ? themes.dark : themes.light));
+    setTheme((oldTheme) => {
+      let newTheme: Theme;
+      if (oldTheme.name === themes.light.name) {
+        newTheme = themes.dark;
+      } else {
+        newTheme = themes.light;
+      }
+      window.localStorage.setItem('themeName', JSON.stringify(newTheme));
+      return newTheme;
+    });
   };
 
   const { children } = props;
