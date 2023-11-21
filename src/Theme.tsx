@@ -25,15 +25,14 @@ const themes: Themes = {
 
 export const ThemeContext = React.createContext<ThemesContext>({} as ThemesContext);
 
-const isDark = window.matchMedia('(prefers-color-scheme: dark)');
-const systemTheme = (isDark.matches) ? themes.dark : themes.light;
+const defaultTheme = themes.dark;
 
 let initialTheme: Theme;
 const fromLocalStorage = window.localStorage.getItem('themeName');
 if (fromLocalStorage) {
   try {
     const previousTheme = JSON.parse(fromLocalStorage);
-    if ('name' in previousTheme) {
+    if (Object.keys(defaultTheme).every((key, i) => key === Object.keys(previousTheme)[i])) {
       console.log(`Using previously set ${previousTheme.name} theme.`);
       initialTheme = previousTheme;
     } else {
@@ -41,12 +40,12 @@ if (fromLocalStorage) {
     }
   } catch (e) {
     console.log((e as Error).message);
-    console.log('There\'s a problem with parsing previous values! Using system theme.');
-    initialTheme = systemTheme;
+    console.log('There\'s a problem with parsing previous values! Using default theme.');
+    initialTheme = defaultTheme;
   }
 } else {
-  console.log('No previous theme was found! Using system theme.');
-  initialTheme = systemTheme;
+  console.log('No previous theme was found! Using default theme.');
+  initialTheme = defaultTheme;
 }
 
 export function ThemeProvider(props: { children: any }) {
