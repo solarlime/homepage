@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
-import { ThemeContext } from '../../Theme';
+import { ThemeContext } from '../../context/Theme';
 import Logo from './Logo';
 import Github from '../../img/github.svg?react';
 import Telegram from '../../img/telegram.svg?react';
@@ -9,7 +9,7 @@ import Print from '../../img/print.svg?react';
 // import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
-import { LanguageContext } from '../../Language';
+import { LanguageContext } from '../../context/Language';
 import { getContent, PageComponent } from '../Content/getContent';
 
 /**

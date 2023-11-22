@@ -4,8 +4,8 @@ import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
 import lime from '../../../img/lime.jpg';
 import styles from './NotFound.module.sass';
-import { ThemeContext } from '../../../Theme';
-import { LanguageContext } from '../../../Language';
+import { ThemeContext } from '../../../context/Theme';
+import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 interface Photo {
@@ -37,7 +37,7 @@ function NotFound() {
   });
 
   const utm = '?utm_source=Homepage&utm_medium=referral';
-  const loading = (language === 'ru') ? 'Идёт загрузка. Пожалуйста, подождите.' : 'Loading, please wait.';
+  const loading = (language.name === 'ru') ? 'Идёт загрузка. Пожалуйста, подождите.' : 'Loading, please wait.';
 
   const init: Page = {
     photo: {
@@ -125,7 +125,7 @@ function NotFound() {
                     {page.content.caption_1}
                     {' '}
                     <a href={page.photo.userLink} target="_blank" rel="noreferrer">{page.photo.author}</a>
-                    {(language === 'ru') ? '' : ' '}
+                    {(language.name === 'ru') ? '' : ' '}
                     {page.content.caption_2}
                     {' '}
                     <a href={page.photo.photoLink} target="_blank" rel="noreferrer">Unsplash</a>

@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './Theme';
-import { LanguageProvider } from './Language';
+import { ThemeProvider } from './context/Theme';
+import { LanguageProvider } from './context/Language';
 import App from './App';
 
 const root = ReactDOM.createRoot(

@@ -3,9 +3,9 @@ import {
 } from 'react';
 import { Link, Outlet, useMatch } from 'react-router-dom';
 import styles from './Projects.module.sass';
-import { ThemeContext } from '../../../Theme';
+import { ThemeContext } from '../../../context/Theme';
 import { getContent, PageComponent } from '../../Content/getContent';
-import { LanguageContext } from '../../../Language';
+import { LanguageContext } from '../../../context/Language';
 import { Image } from './Project/Project';
 import projectsObjectList, { ProjectsObject } from './projectsList';
 

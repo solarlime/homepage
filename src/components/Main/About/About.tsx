@@ -4,10 +4,10 @@ import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
 import Telegram from '../../../img/telegram.svg?react';
-import { ThemeContext } from '../../../Theme';
+import { ThemeContext } from '../../../context/Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
-import { LanguageContext } from '../../../Language';
+import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 /**
@@ -39,7 +39,7 @@ function About(): React.ReactElement {
   const { language } = useContext(LanguageContext);
   const sections = ['contacts', 'skills', 'facts'];
   const [content, setContent] = useState({} as PageComponent);
-  const age = getAge(language);
+  const age = getAge(language.name);
 
   interface ExtendedCSS extends React.CSSProperties {
     '--button-color': string,
@@ -68,7 +68,7 @@ function About(): React.ReactElement {
       <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.contacts__title}>
           <p className={styles.contacts__title_title}>
-            {import.meta.env[`VITE_APP_ME_${language}`]}
+            {import.meta.env[`VITE_APP_ME_${language.name}`]}
           </p>
           <p className={styles.contacts__title_subtitle}>
             {content.subtitle_job}

@@ -3,8 +3,8 @@ import { useParams, Outlet, Link } from 'react-router-dom';
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
-import { ThemeContext } from '../../Theme';
-import { LanguageContext } from '../../Language';
+import { ThemeContext } from '../../context/Theme';
+import { LanguageContext } from '../../context/Language';
 import ImacExtras from '../../img/imac-extras.svg?react';
 import Cat from '../../img/cat.svg?react';
 import Tambourines from '../../img/tambourines.svg?react';
@@ -111,7 +111,7 @@ export function Intro() {
             <h2 className={styles.table__title}>
               {content.table_title}
             </h2>
-            <TagCloud themeName={theme.name} />
+            <TagCloud theme={theme} />
             <Cat className={styles.table__cat} />
             <div className={styles.table__hole} />
           </div>

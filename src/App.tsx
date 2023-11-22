@@ -5,7 +5,7 @@ import Header from './components/Header/Header';
 import Main, { AboutOrNot, Intro } from './components/Main/Main';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/Main/NotFound/NotFound';
-import { ThemeContext } from './Theme';
+import { ThemeContext } from './context/Theme';
 
 function AppContent() {
   return (

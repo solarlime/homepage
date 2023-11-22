@@ -4,7 +4,7 @@ import Typograf from 'typograf';
 import { useContext, useMemo, useState } from 'react';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
-import { LanguageContext } from '../../../Language';
+import { LanguageContext } from '../../../context/Language';
 
 /**
  * A function for preparing data for a render.
@@ -69,10 +69,10 @@ function FactsList() {
 
   return useMemo(() => (
     <ul className={styles.list}>
-      {shuffled(language).map((item) => {
+      {shuffled(language.name).map((item) => {
         const id = uniqid();
         return (
-          <FactsListItem item={item as Array<string>} key={id} id={id} language={language} />
+          <FactsListItem item={item as Array<string>} key={id} id={id} language={language.name} />
         );
       })}
     </ul>

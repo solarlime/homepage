@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Footer.module.sass';
-import { LanguageContext } from '../../Language';
-import { ThemeContext } from '../../Theme';
+import { LanguageContext } from '../../context/Language';
+import { ThemeContext } from '../../context/Theme';
 import { getContent, PageComponent } from '../Content/getContent';
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
@@ -60,7 +60,11 @@ function Footer() {
           {` ${getYear()} `}
           solarlime.dev
         </p>
-        <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} languageButton={content.language} />
+        <LanguageChanger
+          languageName={language.name}
+          toggleLanguage={toggleLanguage}
+          languageButton={content.language}
+        />
       </div>
     </footer>
   );

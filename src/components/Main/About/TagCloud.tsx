@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import uniqid from 'uniqid';
 import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
-import { Theme } from '../../../Theme';
+import { Theme } from '../../../context/contextTypes';
 
 const id = uniqid;
 
