@@ -27,7 +27,7 @@ function App(): React.ReactElement {
       <Routes>
         <Route path="/" element={<AppContent />}>
           <Route index element={<Intro />} />
-          <Route path="cv/:please" element={<AboutOrNot />} />
+          <Route path=":please" element={<AboutOrNot />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

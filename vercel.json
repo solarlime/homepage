@@ -5,6 +5,12 @@
       "destination": "/"
     }
   ],
+  "redirects": [
+    {
+      "source": "/cv/:path",
+      "destination": "/:path"
+    }
+  ],
   "git": {
     "deploymentEnabled": false
   }

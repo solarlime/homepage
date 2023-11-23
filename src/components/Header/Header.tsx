@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../context/Theme';
@@ -33,11 +33,11 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
  * A component for rendering a site footer
  * @constructor
  */
-function Header() {
+function Header(): React.ReactElement {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
-  const isCV = useMatch(`/cv/${import.meta.env.VITE_APP_PLEASE}`);
+  const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
 
   useEffect(() => {
     getContent(language, 'header')
