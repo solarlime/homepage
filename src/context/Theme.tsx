@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { resolveContext } from './resolveContext';
+import { resolveContext, setContext } from './resolveContext';
 import { Theme, Themes, ThemesContext } from './contextTypes';
 
 const themes: Themes = {
@@ -20,16 +20,7 @@ const initialTheme: Theme = resolveContext(defaultTheme);
 export function ThemeProvider(props: { children: any }) {
   const [theme, setTheme] = useState(initialTheme);
   const toggleTheme = () => {
-    setTheme((oldTheme) => {
-      let newTheme: Theme;
-      if (oldTheme.name === themes.light.name) {
-        newTheme = themes.dark;
-      } else {
-        newTheme = themes.light;
-      }
-      window.localStorage.setItem('theme', JSON.stringify(newTheme));
-      return newTheme;
-    });
+    setTheme((oldTheme) => setContext(oldTheme, themes.dark, themes.light, 'theme'));
   };
 
   const { children } = props;

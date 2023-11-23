@@ -1,7 +1,8 @@
 import { Theme, Language } from './contextTypes';
 
+type Type = 'theme' | 'language';
 interface Context {
-  type: 'theme' | 'language',
+  type: Type,
   fromLocalStorage: string | null,
 }
 
@@ -32,6 +33,17 @@ const resolveContext = <T extends Theme | Language>(defaultContext: T): T => {
   }
 };
 
-const setContext = 'temporary';
+const setContext = <T extends Theme | Language>(
+  oldContext: T, mainContext: T, alternativeContext: T, type: Type,
+): T => {
+  let newContext: T;
+  if (oldContext.name === mainContext.name) {
+    newContext = alternativeContext;
+  } else {
+    newContext = mainContext;
+  }
+  window.localStorage.setItem(type, JSON.stringify(newContext));
+  return newContext;
+};
 
 export { resolveContext, setContext };

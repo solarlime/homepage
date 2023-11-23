@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Language, Languages, LanguagesContext } from './contextTypes';
-import { resolveContext } from './resolveContext';
+import { resolveContext, setContext } from './resolveContext';
 
 const languages: Languages = {
   ru: { name: 'ru' },
@@ -11,21 +11,12 @@ export const LanguageContext = React.createContext<LanguagesContext>({} as Langu
 
 const systemLanguage = (navigator.language.includes('ru')) ? languages.ru : languages.en;
 
-const initialLanguage = resolveContext(systemLanguage);
+const initialLanguage: Language = resolveContext(systemLanguage);
 
 export function LanguageProvider(props: { children: any }) {
   const [language, setLanguage] = useState(initialLanguage);
   const toggleLanguage = () => {
-    setLanguage((oldLanguage) => {
-      let newLanguage: Language;
-      if (oldLanguage.name === languages.ru.name) {
-        newLanguage = languages.en;
-      } else {
-        newLanguage = languages.ru;
-      }
-      window.localStorage.setItem('language', JSON.stringify(newLanguage));
-      return newLanguage;
-    });
+    setLanguage((oldLanguage) => setContext(oldLanguage, languages.ru, languages.en, 'language'));
   };
 
   const { children } = props;
