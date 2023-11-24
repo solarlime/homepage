@@ -7,6 +7,8 @@ import Telegram from '../../../img/telegram.svg?react';
 import { ThemeContext } from '../../../context/Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
+import Bottom from '../Bottom';
+import { ExtendedCSS } from '../../types';
 import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
@@ -40,13 +42,6 @@ function About(): React.ReactElement {
   const sections = ['contacts', 'skills', 'facts'];
   const [content, setContent] = useState({} as PageComponent);
   const age = getAge(language.name);
-
-  interface ExtendedCSS extends React.CSSProperties {
-    '--button-color': string,
-    '--hover-color': string,
-    '--hover-bg-color': string,
-    '--focus-color': string,
-  }
 
   useEffect(() => {
     getContent(language, 'about')
@@ -112,6 +107,15 @@ function About(): React.ReactElement {
       <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
         <h1 className={styles.base__item__title}>{content.about_title}</h1>
         <FactsList />
+      </section>
+      <section className={`${styles.base__item}`}>
+        <Bottom content={{
+          text1: content.bottom_text_1,
+          text2: content.bottom_text_2,
+          text3: content.bottom_text_3,
+          button: content.bottom_button,
+        }}
+        />
       </section>
     </article>
   );

@@ -1,0 +1,56 @@
+@use "../Base"
+
+$hover-color: #{"var(--hover-color)"}
+$hover-bg-color: #{"var(--hover-bg-color)"}
+
+$gap: Base.$gap
+
+.bottom
+  display: flex
+  flex-direction: row
+  align-items: flex-start
+  justify-content: space-between
+  padding: calc($gap * 2)
+  border-radius: Base.$button-font-size Base.$button-font-size 0 0
+  color: #282c34
+  font-size: Base.$button-font-size
+  font-weight: 500
+  background-color: #ffcf48
+
+  .bottom__text
+    margin: 0 calc($gap / 1.3) 0 0
+    font-size: inherit
+    font-weight: inherit
+    color: inherit
+    text-align: left
+
+    span
+      display: inline-block
+
+  .bottom__button
+    font-size: inherit
+    font-weight: inherit
+    color: inherit
+    outline-color: #282c34
+    outline-color: $hover-bg-color
+
+    &:hover
+      color: #EEEEEE
+      color: $hover-color
+      background-color: #282c34
+      background-color: $hover-bg-color
+
+@media screen and (max-width: 999px)
+  .bottom
+    padding: calc($gap * 2) calc($gap * 2)
+
+@media screen and (max-width: 699px)
+  .bottom
+    flex-direction: column
+
+    .bottom__text
+      margin: 0 0 $gap 0
+      text-align: center
+
+    .bottom__button
+      margin: 0 auto

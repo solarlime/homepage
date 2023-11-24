@@ -65,6 +65,8 @@ body
   flex-shrink: 0
   height: $svg-size
   padding: calc($button-font-size * 0.6) calc($button-font-size * 0.93)
+  margin: 0
+  border: 0
   border-radius: $button-font-size
   outline: #FFCF48 solid $outline
   outline: $hover-bg-color solid $outline
@@ -76,6 +78,7 @@ body
   color: inherit
   color: $button-color
   background: transparent
+  box-sizing: content-box
   cursor: pointer
 
   &:hover
