@@ -24,6 +24,8 @@ export const shuffleArray = (array: Array<T>): Array<T> => {
   return array;
 };
 
+const randomArray = (length: number) => [...Array(length)].map(() => Math.random());
+
 /**
  * A component for rendering a tag cloud in random order.
  * @param props - themeName: a theme name (light or dark)
@@ -33,15 +35,16 @@ function TagCloud(props: { theme: Theme }): React.ReactElement {
   const { theme } = props;
 
   const shuffledTags = useMemo(() => shuffleArray(tags), []);
+  const colorsRandom = useMemo(() => randomArray(tags.length), []);
 
   return (
     <div className={styles.wrapper}>
       <ul className={styles['tag-cloud']}>
-        {shuffledTags.map((item) => (
+        {shuffledTags.map((item, i) => (
           <li
             className={styles['tag-cloud__item']}
             key={id()}
-            style={{ color: `${(Math.random() < 0.5) ? theme.extraColor : theme.accentColor}` }}
+            style={{ color: `${(colorsRandom[i] < 0.5) ? theme.extraColor : theme.accentColor}` }}
           >
             {item}
           </li>
