@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../context/Theme';
+import { ExtendedCSS } from '../types';
 import Logo from './Logo';
 import Github from '../../img/github.svg?react';
 import Telegram from '../../img/telegram.svg?react';
@@ -18,14 +19,19 @@ import { getContent, PageComponent } from '../Content/getContent';
  *                themeName: a string with a chosen theme name
  * @constructor
  */
-function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark' }) {
-  const { toggleTheme, themeName } = props;
+function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark', languageName: 'ru' | 'en' }) {
+  const { toggleTheme, themeName, languageName } = props;
 
   return (
-    <label className={styles.switcher} htmlFor="theme-switch">
-      <input id="theme-switch" type="checkbox" onChange={toggleTheme} checked={(themeName === 'dark')} />
-      <img src={(themeName === 'dark') ? sun : moon} alt="Change theme" />
-    </label>
+    <button
+      className={styles.switcher}
+      type="button"
+      aria-label={(languageName === 'ru' ? 'Сменить тему' : 'Change theme')}
+      aria-controls={(languageName === 'ru' ? `Текущая тема: ${(themeName === 'light') ? 'светлая' : 'тёмная'}` : `Theme changed to ${themeName}`)}
+      onClick={toggleTheme}
+    >
+      <img src={(themeName === 'dark') ? sun : moon} alt="" />
+    </button>
   );
 }
 
@@ -47,7 +53,11 @@ function Header(): React.ReactElement {
   return (
     <header
       className={styles.header}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--focus-color': theme.accentColor,
+      } as ExtendedCSS}
     >
       <ul className={styles['header-items']}>
         <li className={styles['header-items__item_logo']}>
@@ -62,7 +72,12 @@ function Header(): React.ReactElement {
               {/*  /!* TODO: pdf generation *!/ */}
               {/*  {(document.documentElement.clientWidth < 650) ? <Download fill={theme.color} /> : content.download} */}
               {/* </button> */}
-              <button className={`${styles.link}`} type="button" onClick={window.print}>
+              <button
+                className={`${styles.link}`}
+                type="button"
+                aria-label={content.print}
+                onClick={window.print}
+              >
                 {
                   (document.documentElement.clientWidth < 650)
                     ? <Print fill={theme.color} />
@@ -80,7 +95,7 @@ function Header(): React.ReactElement {
               </a>
             </>
           )}
-          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} />
+          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} languageName={language.name} />
         </li>
       </ul>
     </header>

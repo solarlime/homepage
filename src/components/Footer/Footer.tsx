@@ -3,6 +3,7 @@ import styles from './Footer.module.sass';
 import { LanguageContext } from '../../context/Language';
 import { ThemeContext } from '../../context/Theme';
 import { getContent, PageComponent } from '../Content/getContent';
+import { ExtendedCSS } from '../types';
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
 
@@ -16,14 +17,19 @@ function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru'
   const { toggleLanguage, languageName, languageButton } = props;
 
   return (
-    <label className={`${styles['language-switch']} ${styles.switcher} ${(document.documentElement.clientWidth < 550) ? '' : styles.height}`} htmlFor="language-switch">
-      <input id="language-switch" type="checkbox" onChange={toggleLanguage} checked={(languageName === 'en')} />
+    <button
+      className={`${(document.documentElement.clientWidth < 550) ? styles.switcher : styles.link}`}
+      type="button"
+      aria-label={(languageName === 'ru' ? 'Сменить язык' : 'Change language')}
+      aria-controls={(languageName === 'ru' ? `Текущий язык: ${(languageName === 'ru') ? 'русский' : 'английский'}` : `Theme changed to ${languageName}`)}
+      onClick={toggleLanguage}
+    >
       {
         (document.documentElement.clientWidth < 550)
-          ? <img src={(languageName === 'ru') ? en : ru} alt="Change theme" />
+          ? <img src={(languageName === 'ru') ? en : ru} alt="" />
           : <span>{languageButton}</span>
       }
-    </label>
+    </button>
   );
 }
 
@@ -52,7 +58,11 @@ function Footer() {
   return (
     <footer
       className={styles.footer}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--focus-color': theme.accentColor,
+      } as ExtendedCSS}
     >
       <div className={styles['footer-items']}>
         <p className={styles['footer-items__item_copyright']}>

@@ -20,6 +20,7 @@ export default function Logo(props: {
       xmlSpace="preserve"
       xmlns="http://www.w3.org/2000/svg"
     >
+      <title>solarlime.dev logo</title>
       <defs />
       <clipPath id="ArtboardFrame">
         <rect height="235.866" width="1094.08" x="0" y="0" />

@@ -39,7 +39,6 @@ function getAge(language: 'ru' | 'en') {
 function About(): React.ReactElement {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
-  const sections = ['contacts', 'skills', 'facts'];
   const [content, setContent] = useState({} as PageComponent);
   const age = getAge(language.name);
 
@@ -50,7 +49,7 @@ function About(): React.ReactElement {
 
   return (
     <article
-      className={`${styles.about}`}
+      className={`${styles.base} ${styles.about}`}
       style={{
         color: theme.color,
         backgroundColor: theme.backgroundColor,
@@ -60,7 +59,7 @@ function About(): React.ReactElement {
         '--focus-color': theme.accentColor,
       } as ExtendedCSS}
     >
-      <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
+      <section className={` ${styles.base__item} ${styles.about__contacts}`}>
         <h1 className={styles.contacts__title}>
           <p className={styles.contacts__title_title}>
             {import.meta.env[`VITE_APP_ME_${language.name}`]}
@@ -74,21 +73,21 @@ function About(): React.ReactElement {
         <div className={styles.contacts__buttons}>
           <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
           <div>
-            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
               <GitHub fill={theme.color} />
               <span>github</span>
             </a>
-            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
               <Email fill={theme.color} />
               <span>e-mail</span>
             </a>
           </div>
           <div>
-            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
               <LinkedIn fill={theme.color} />
               <span>linkedin</span>
             </a>
-            <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
               <Telegram fill={theme.color} />
               <span>telegram</span>
             </a>
@@ -100,11 +99,11 @@ function About(): React.ReactElement {
           <img src={`${import.meta.env.VITE_APP_FILES}/me1280.jpg`} alt="Me" />
         </picture>
       </section>
-      <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
+      <section className={`${styles.base__item} ${styles.about__skills}`}>
         <h1 className={styles.base__item__title}>{content.skills_title}</h1>
         <TagCloud theme={theme} />
       </section>
-      <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
+      <section className={`${styles.base__item} ${styles['about-me']}`}>
         <h1 className={styles.base__item__title}>{content.about_title}</h1>
         <FactsList />
       </section>

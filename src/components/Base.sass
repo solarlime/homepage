@@ -59,6 +59,9 @@ body
   font-weight: 500
   cursor: pointer
 
+  &:hover
+    text-decoration: underline currentColor solid 2px
+
 .button
   display: flex
   align-items: center
@@ -88,10 +91,16 @@ body
     background-color: $hover-bg-color
     outline: none
 
-:where(.button, .link):focus-visible
+:where(.button, .link, .switcher, .logo-container):focus-visible
   outline: #78b856 solid 3px
   outline: $focus-color solid $outline
   outline-offset: calc($outline * -1)
+
+.base
+  padding-top: calc($gap * 2)
+
+.base__item:not(:last-child)
+  margin-bottom: calc($gap * 2)
 
 .base__item__title
   padding: 0
@@ -104,13 +113,13 @@ body
   display: block
   height: $bar-content-height
   width: auto
+  padding: 0
+  margin: 0
+  border: 0
+  background: transparent
 
-  input
-    display: none
+  img
+    height: inherit
 
-  button
-    padding: 0
-    border: 0
-    margin: 0
-    background: transparent
-    color: inherit
+    &:hover
+      filter: opacity(80%)

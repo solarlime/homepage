@@ -21,6 +21,7 @@ function Bottom(props: { content: {
         backgroundColor: (theme.name === 'dark') ? theme.extraColor : theme.accentColor,
         '--hover-color': theme.color,
         '--hover-bg-color': theme.backgroundColor,
+        '--focus-color': (theme.name === 'dark') ? theme.accentColor : theme.color,
       } as ExtendedCSS}
     >
       <p className={styles.bottom__text}>

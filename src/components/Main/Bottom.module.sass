@@ -2,6 +2,7 @@
 
 $hover-color: #{"var(--hover-color)"}
 $hover-bg-color: #{"var(--hover-bg-color)"}
+$focus-color: #{"var(--focus-color)"}
 
 $gap: Base.$gap
 
@@ -33,6 +34,10 @@ $gap: Base.$gap
     color: inherit
     outline-color: #282c34
     outline-color: $hover-bg-color
+
+    &:focus-visible
+      outline-color: #78b856
+      outline-color: $focus-color
 
     &:hover
       color: #EEEEEE
