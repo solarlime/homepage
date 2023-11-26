@@ -7,27 +7,35 @@ import { shuffleArray } from './TagCloud';
 import { LanguageContext } from '../../../context/Language';
 
 /**
- * A function for preparing data for a render.
- * Takes JSON, turns object to 2-dimension array, shuffles it.
- * Otherwise, an array with error message is returned.
+ * A function for importing data from a secret.
+ * Just takes JSON, and parses it. turns object to 2-dimension array, shuffles it.
+ * Otherwise, an object with error message is returned.
  */
-const shuffled = (language: 'ru' | 'en') => {
+const importFacts = (language: 'ru' | 'en') => {
   try {
-    const typo = new Typograf({ locale: ['ru', 'en-US'] });
-    const facts = JSON.parse(import.meta.env[`VITE_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
-    return shuffleArray(
-      Object.entries(facts)
-        .map((item) => {
-          const newFactName = item[0].replaceAll('_', ' ');
-          return [newFactName, typo.execute(item[1])];
-        }),
-    );
+    const rawFacts = JSON.parse(import.meta.env[`VITE_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
+    return rawFacts;
   } catch (error: unknown) {
     console.log((error as Error).message);
     return (language === 'ru')
-      ? [['ошибку', 'Что-то случилось, и факты не удалось загрузить. Проверьте консоль браузера и сообщите мне о проблеме через Telegram']]
-      : [['error', 'Something happened, so facts were not rendered. Please, check console and tell me about the problem via Telegram!']];
+      ? { ошибку: 'Что-то случилось, и факты не удалось загрузить. Проверьте консоль браузера и сообщите мне о проблеме через Telegram' }
+      : { error: 'Something happened, so facts were not rendered. Please, check console and tell me about the problem via Telegram!' };
   }
+};
+
+/**
+ * A function for preparing data for a render.
+ * Takes 2-dimension array, corrects it and shuffles with an order given in a separate array.
+ */
+const shuffledAndCorrected = (facts: string[][], order: Array<number>) => {
+  const typo = new Typograf({ locale: ['ru', 'en-US'] });
+  return order.map((i) => {
+    const [key, value] = facts[i];
+    return [
+      key.replaceAll('_', ' '),
+      typo.execute(value),
+    ];
+  });
 };
 
 /**
@@ -60,6 +68,8 @@ function FactsListItem(props: { id: string, item: Array<string>, language: 'ru' 
   );
 }
 
+const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
+
 /**
  * A component for rendering a list with cards
  * @constructor
@@ -67,16 +77,21 @@ function FactsListItem(props: { id: string, item: Array<string>, language: 'ru' 
 function FactsList() {
   const { language } = useContext(LanguageContext);
 
-  return useMemo(() => (
+  const facts = Object.entries(importFacts(language.name));
+  // @ts-ignore
+  const indexes = useMemo(() => Array(facts.length).fill(1).map((value, i) => i), []);
+
+  const order = useMemo(() => shuffleArray(indexes), []);
+  const shuffledFacts = useMemo(() => shuffledAndCorrected(facts, order), [facts]);
+  const ids = useMemo(() => idsArray(shuffledFacts.length), []);
+
+  return (
     <ul className={styles.list}>
-      {shuffled(language.name).map((item) => {
-        const id = uniqid();
-        return (
-          <FactsListItem item={item as Array<string>} key={id} id={id} language={language.name} />
-        );
-      })}
+      {shuffledFacts.map((item, i) => (
+        <FactsListItem item={item as string[]} key={ids[i]} id={ids[i]} language={language.name} />
+      ))}
     </ul>
-  ), [language]);
+  );
 }
 
 export default FactsList;

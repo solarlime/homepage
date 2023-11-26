@@ -6,20 +6,18 @@ import { Theme } from '../../../context/contextTypes';
 
 const id = uniqid;
 
-type T = string | Array<string>;
-
 /**
  * A function for array shuffling.
  * A Fisher–Yates shuffle algorithm (implemented by Durstenfeld) is used.
  * Source: https://javascript.info/task/shuffle
  * @param array - array for shuffling
  */
-export const shuffleArray = (array: Array<T>): Array<T> => {
+export const shuffleArray = <T extends Array<string> | Array<number>>(array: T): T => {
   for (let i = array.length - 1; i > 0; i -= 1) {
     // Выбираем индекс случайным образом (от 0 до i)
     const j = Math.floor(Math.random() * (i + 1));
     // eslint-disable-next-line no-param-reassign
-    [array[i], array[j]] = [(array[j] as string), (array[i] as string)];
+    [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 };
