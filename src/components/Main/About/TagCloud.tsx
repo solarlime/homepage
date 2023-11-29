@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import uniqid from 'uniqid';
 import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
@@ -29,7 +29,7 @@ const randomArray = (length: number) => [...Array(length)].map(() => Math.random
  * @param props - themeName: a theme name (light or dark)
  * @constructor
  */
-function TagCloud(props: { theme: Theme }): React.ReactElement {
+const TagCloud = memo((props: { theme: Theme }): React.ReactElement => {
   const { theme } = props;
 
   const shuffledTags = useMemo(() => shuffleArray(tags), []);
@@ -50,6 +50,6 @@ function TagCloud(props: { theme: Theme }): React.ReactElement {
       </ul>
     </div>
   );
-}
+});
 
 export default TagCloud;

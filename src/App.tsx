@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import './App.sass';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
@@ -19,7 +19,7 @@ function AppContent() {
   );
 }
 
-function App(): React.ReactElement {
+function App() {
   const { theme } = useContext(ThemeContext);
 
   return (

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
 import { ThemeContext } from '../../context/Theme';
@@ -95,7 +95,11 @@ function Header(): React.ReactElement {
               </a>
             </>
           )}
-          <ThemeChanger toggleTheme={toggleTheme} themeName={theme.name} languageName={language.name} />
+          <ThemeChanger
+            toggleTheme={toggleTheme}
+            themeName={theme.name}
+            languageName={language.name}
+          />
         </li>
       </ul>
     </header>

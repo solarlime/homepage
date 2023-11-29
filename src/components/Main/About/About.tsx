@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './About.module.sass';
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
@@ -36,7 +36,7 @@ function getAge(language: 'ru' | 'en') {
  * A component for rendering an about page
  * @constructor
  */
-function About(): React.ReactElement {
+function About() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);

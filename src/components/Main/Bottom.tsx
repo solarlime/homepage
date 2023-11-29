@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import styles from './Bottom.module.sass';
 import { ThemeContext } from '../../context/Theme';
 import { ExtendedCSS } from '../types';

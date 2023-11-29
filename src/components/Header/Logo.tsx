@@ -1,10 +1,8 @@
-import React from 'react';
-
 export default function Logo(props: {
   className: string,
   green: string,
   notGreen: string
-}): React.ReactElement {
+}) {
   const { className, green, notGreen } = props;
   return (
     <svg

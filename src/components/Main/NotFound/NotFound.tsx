@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { createApi } from 'unsplash-js';
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';

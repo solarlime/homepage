@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import { Language, Languages, LanguagesContext } from './contextTypes';
 import { resolveContext, setContext } from './resolveContext';
 
@@ -7,7 +7,7 @@ const languages: Languages = {
   en: { name: 'en' },
 };
 
-export const LanguageContext = React.createContext<LanguagesContext>({} as LanguagesContext);
+export const LanguageContext = createContext<LanguagesContext>({} as LanguagesContext);
 
 const systemLanguage = (navigator.language.includes('ru')) ? languages.ru : languages.en;
 

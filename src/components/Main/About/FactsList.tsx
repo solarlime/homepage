@@ -1,10 +1,13 @@
 import uniqid from 'uniqid';
 // @ts-ignore
 import Typograf from 'typograf';
-import { useContext, useMemo, useState } from 'react';
+import {forwardRef, memo, useContext, useMemo, useRef,} from 'react';
+import Masonry from 'react-masonry-component';
 import styles from './About.module.sass';
-import { shuffleArray } from './TagCloud';
-import { LanguageContext } from '../../../context/Language';
+import {shuffleArray} from './TagCloud';
+import {LanguageContext} from '../../../context/Language';
+import {ThemeContext} from '../../../context/Theme';
+import {ExtendedCSS} from '../../types';
 
 /**
  * A function for importing data from a secret.
@@ -74,7 +77,7 @@ const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
  * A component for rendering a list with cards
  * @constructor
  */
-function FactsList() {
+const FactsList = memo(() => {
   const { language } = useContext(LanguageContext);
 
   const facts = Object.entries(importFacts(language.name));
@@ -92,6 +95,6 @@ function FactsList() {
       ))}
     </ul>
   );
-}
+});
 
 export default FactsList;

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import { resolveContext, setContext } from './resolveContext';
 import { Theme, Themes, ThemesContext } from './contextTypes';
 
@@ -11,7 +11,7 @@ const themes: Themes = {
   },
 };
 
-export const ThemeContext = React.createContext<ThemesContext>({} as ThemesContext);
+export const ThemeContext = createContext<ThemesContext>({} as ThemesContext);
 
 const defaultTheme = themes.dark;
 
