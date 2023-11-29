@@ -66,8 +66,10 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
           '--extra-color': theme.backgroundColor,
         } as ExtendedCSS}
         onClick={(event) => {
+          const eventTarget = event.target as HTMLButtonElement | HTMLElement;
+          const target = (eventTarget.tagName.toLowerCase() === 'button') ? eventTarget : eventTarget.closest('button')!;
           // ...focus() -  a fix for Safari, where no focus => no blur can be recognised without it
-          (event.target as HTMLButtonElement).focus();
+          target.focus();
           // @ts-ignore
           if (textRef.current && ref.current) {
             textRef.current.classList.toggle(styles.opened);
@@ -76,6 +78,7 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
           }
         }}
         onBlur={() => {
+          console.log('oh');
           // @ts-ignore
           if (textRef.current && ref.current) {
             textRef.current.classList.remove(styles.opened);
@@ -84,7 +87,9 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
           }
         }}
       >
-        {(language === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
+        <span>
+          {(language === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
+        </span>
       </button>
       <div className={`${styles.fact_text}`} ref={textRef}>{item[1]}</div>
     </li>
@@ -108,14 +113,14 @@ const FactsList = memo(() => {
   const order = useMemo(() => shuffleArray(indexes), []);
   const shuffledFacts = useMemo(() => shuffledAndCorrected(facts, order), [facts]);
   const ids = useMemo(() => idsArray(shuffledFacts.length), []);
-  const gap = parseInt(window.getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+  const gap = parseInt(window.getComputedStyle(document.body).getPropertyValue('--small-gap'), 10);
 
   return ( // @ts-ignore
     <Masonry
       className={styles.list}
       elementType="ul"
       options={{
-        gutter: (gap) || 40,
+        gutter: (gap) ? ((gap as number) / 2) : 20,
         transitionDuration: '0.6s',
       }}
       ref={ref}

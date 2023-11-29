@@ -81,11 +81,15 @@ $small-gap: #{"var(--small-gap)"}
       list-style: none
 
       .list__item
-        width: calc(50% - calc($gap / 2))
-        margin-bottom: $gap
+        width: calc(50% - calc($small-gap / 2))
+        margin-bottom: $small-gap
 
         button
           width: stretch
+
+          span
+            width: 100%
+            text-align: center
 
         div
           padding: $small-gap calc($button-font-size * 0.93) 0 calc($button-font-size * 0.93)
