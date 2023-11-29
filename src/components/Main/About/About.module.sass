@@ -17,64 +17,84 @@ $small-gap: #{"var(--small-gap)"}
   .about
 
     .about__contacts
-        display: grid
-        grid-template-areas: 'title image' 'buttons image'
-        // Automatic sizes generate extra pixels. Don't know, why
-        grid-template-rows: calc($photo-size - $gap - calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2))  calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2)
-        gap: $gap
-        text-align: left
+      display: grid
+      grid-template-areas: 'title image' 'buttons image'
+      // Automatic sizes generate extra pixels. Don't know, why
+      grid-template-rows: calc($photo-size - $gap - calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2))  calc($small-gap + ($svg-size + 2 * calc($button-font-size * 0.6)) * 2)
+      gap: $gap
+      text-align: left
 
-        .contacts__title
-          grid-area: title
+      .contacts__title
+        grid-area: title
+        margin: 0
+
+        .contacts__title_title
+          margin: 0 0 $small-gap 0
+          font-size: calc($button-font-size * 2.13)
+          font-weight: 700
+
+        .contacts__title_subtitle
           margin: 0
+          font-size: calc($button-font-size * 1.67)
+          font-weight: 400
 
-          .contacts__title_title
-            margin: 0 0 $small-gap 0
-            font-size: calc($button-font-size * 2.13)
-            font-weight: 700
+      .contacts__image
+        grid-area: image
+        height: inherit
+        width: auto
+        margin-left: auto
 
-          .contacts__title_subtitle
-            margin: 0
-            font-size: calc($button-font-size * 1.67)
-            font-weight: 400
+        img
+          width: $photo-size
+          height: $photo-size
+          border-radius: $button-font-size
+          object-fit: cover
+          object-position: center center
+          background-color: #EEEEEE
+          background-position: center
+          background-repeat: no-repeat
+          background-size: cover
 
-        .contacts__image
-          grid-area: image
-          height: inherit
-          width: auto
-          margin-left: auto
+      .contacts__buttons
+        grid-area: buttons
+        align-self: end
+        margin: 0
+        display: flex
+        gap: $small-gap
 
-          img
-            width: $photo-size
-            height: $photo-size
-            border-radius: $button-font-size
-            object-fit: cover
-            object-position: center center
-            background-color: #EEEEEE
-            background-position: center
-            background-repeat: no-repeat
-            background-size: cover
-
-        .contacts__buttons
-          grid-area: buttons
-          align-self: end
-          margin: 0
+        div
           display: flex
+          flex-direction: column
+          flex-shrink: 0
           gap: $small-gap
 
-          div
-            display: flex
-            flex-direction: column
-            flex-shrink: 0
-            gap: $small-gap
+          .contacts__buttons__item
+            svg
+              display: block
+              width: $svg-size
+              height: $svg-size
+              margin-right: calc($button-font-size * 0.66)
+              fill: currentColor
+    .list
+      padding: 0
+      margin: 0
+      list-style: none
 
-            .contacts__buttons__item
-              svg
-                display: block
-                width: $svg-size
-                height: $svg-size
-                margin-right: calc($button-font-size * 0.66)
-                fill: currentColor
+      .list__item
+        width: calc(50% - calc($gap / 2))
+        margin-bottom: $gap
+
+        button
+          width: stretch
+
+        div
+          padding: $small-gap calc($button-font-size * 0.93) 0 calc($button-font-size * 0.93)
+          height: auto
+          display: none
+          text-align: left
+
+        div.opened
+          display: block
 
 @media screen and (max-width: 899px)
   .about
@@ -102,6 +122,10 @@ $small-gap: #{"var(--small-gap)"}
 
       .contacts__buttons div
         flex-direction: column
+
+    .list
+      .list__item
+        width: 100%
 
 .qr
   display: none

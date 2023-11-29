@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx",
     "preview": "vite preview"
@@ -25,6 +25,7 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-masonry-component": "^6.3.0",
     "react-router-dom": "^6.16.0",
     "typograf": "^7.2.0",
     "uniqid": "^5.4.0",

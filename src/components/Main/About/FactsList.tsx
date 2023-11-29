@@ -1,13 +1,15 @@
 import uniqid from 'uniqid';
 // @ts-ignore
 import Typograf from 'typograf';
-import {forwardRef, memo, useContext, useMemo, useRef,} from 'react';
+import {
+  forwardRef, memo, useContext, useMemo, useRef,
+} from 'react';
 import Masonry from 'react-masonry-component';
 import styles from './About.module.sass';
-import {shuffleArray} from './TagCloud';
-import {LanguageContext} from '../../../context/Language';
-import {ThemeContext} from '../../../context/Theme';
-import {ExtendedCSS} from '../../types';
+import { shuffleArray } from './TagCloud';
+import { LanguageContext } from '../../../context/Language';
+import { ThemeContext } from '../../../context/Theme';
+import { ExtendedCSS } from '../../types';
 
 /**
  * A function for importing data from a secret.
@@ -16,8 +18,7 @@ import {ExtendedCSS} from '../../types';
  */
 const importFacts = (language: 'ru' | 'en') => {
   try {
-    const rawFacts = JSON.parse(import.meta.env[`VITE_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
-    return rawFacts;
+    return JSON.parse(import.meta.env[`VITE_APP_ABOUT_ME_${language}`]!) as { [key: string]: string };
   } catch (error: unknown) {
     console.log((error as Error).message);
     return (language === 'ru')
@@ -46,8 +47,9 @@ const shuffledAndCorrected = (facts: string[][], order: Array<number>) => {
  * @param props - id: a unique id, item: an array with a fact name ([0]) & a fact text ([1])
  * @constructor
  */
-function FactsListItem(props: { id: string, item: Array<string>, language: 'ru' | 'en' }) {
-  const [status, setStatus] = useState(false);
+const FactsListItem = forwardRef((props: { id: string, item: Array<string>, language: 'ru' | 'en' }, ref) => {
+  const { theme } = useContext(ThemeContext);
+  const textRef = useRef<HTMLDivElement>(null);
   const { id, item, language } = props;
   const specials = (language === 'ru') ? ['образование', 'курсы'] : ['education', 'courses'];
 
@@ -58,18 +60,36 @@ function FactsListItem(props: { id: string, item: Array<string>, language: 'ru' 
       data-id={specials.find((sample) => sample === item[0]) ? item[0] : id}
     >
       <button
-        className={`${styles.fact_name} ${(status) ? styles.closed : styles.opened}`}
+        className={`${styles.button}`}
         type="button"
-        // ...focus() -  a fix for Safari, where no focus => no blur can be recognised without it
-        onClick={(event) => { (event.target as HTMLButtonElement).focus(); setStatus(!status); }}
-        onBlur={() => setStatus((oldStatus) => ((oldStatus) ? !status : oldStatus))}
+        style={{
+          '--extra-color': theme.backgroundColor,
+        } as ExtendedCSS}
+        onClick={(event) => {
+          // ...focus() -  a fix for Safari, where no focus => no blur can be recognised without it
+          (event.target as HTMLButtonElement).focus();
+          // @ts-ignore
+          if (textRef.current && ref.current) {
+            textRef.current.classList.toggle(styles.opened);
+            // @ts-ignore
+            ref.current.masonry.layout();
+          }
+        }}
+        onBlur={() => {
+          // @ts-ignore
+          if (textRef.current && ref.current) {
+            textRef.current.classList.remove(styles.opened);
+            // @ts-ignore
+            ref.current.masonry.layout();
+          }
+        }}
       >
         {(language === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
       </button>
-      <div className={`${styles.fact_text} ${(status) ? styles.opened : styles.closed}`}>{item[1]}</div>
+      <div className={`${styles.fact_text}`} ref={textRef}>{item[1]}</div>
     </li>
   );
-}
+});
 
 const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
 
@@ -79,6 +99,7 @@ const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
  */
 const FactsList = memo(() => {
   const { language } = useContext(LanguageContext);
+  const ref = useRef(null);
 
   const facts = Object.entries(importFacts(language.name));
   // @ts-ignore
@@ -87,13 +108,29 @@ const FactsList = memo(() => {
   const order = useMemo(() => shuffleArray(indexes), []);
   const shuffledFacts = useMemo(() => shuffledAndCorrected(facts, order), [facts]);
   const ids = useMemo(() => idsArray(shuffledFacts.length), []);
+  const gap = parseInt(window.getComputedStyle(document.body).getPropertyValue('--gap'), 10);
 
-  return (
-    <ul className={styles.list}>
-      {shuffledFacts.map((item, i) => (
-        <FactsListItem item={item as string[]} key={ids[i]} id={ids[i]} language={language.name} />
+  return ( // @ts-ignore
+    <Masonry
+      className={styles.list}
+      elementType="ul"
+      options={{
+        gutter: (gap) || 40,
+        transitionDuration: '0.6s',
+      }}
+      ref={ref}
+    >
+
+      {shuffledFacts.map((item, i) => ( // @ts-ignore
+        <FactsListItem
+          item={item as string[]}
+          key={ids[i]}
+          id={ids[i]}
+          ref={ref}
+          language={language.name}
+        />
       ))}
-    </ul>
+    </Masonry>
   );
 });
 
