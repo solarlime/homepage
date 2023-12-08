@@ -60,7 +60,7 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
       data-id={specials.find((sample) => sample === item[0]) ? item[0] : id}
     >
       <button
-        className={`${styles.button}`}
+        className={`${styles.button} ${styles.fact_name}`}
         type="button"
         style={{
           '--extra-color': theme.backgroundColor,
