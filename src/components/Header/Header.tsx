@@ -39,7 +39,7 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
  * A component for rendering a site footer
  * @constructor
  */
-function Header(): React.ReactElement {
+function Header() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
@@ -76,7 +76,14 @@ function Header(): React.ReactElement {
                 className={`${styles.link}`}
                 type="button"
                 aria-label={content.print}
-                onClick={window.print}
+                onClick={
+                  () => {
+                    const printTimeout = window.setTimeout(() => {
+                      clearTimeout(printTimeout);
+                      window.print();
+                    }, 1000);
+                  }
+                }
               >
                 {
                   (document.documentElement.clientWidth < 650)
