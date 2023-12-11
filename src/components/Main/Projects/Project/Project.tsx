@@ -3,8 +3,8 @@ import {
 } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import styles from './Project.module.sass';
-import { ThemeContext } from '../../../../Theme';
-import { LanguageContext } from '../../../../Language';
+import { ThemeContext } from '../../../../context/Theme';
+import { LanguageContext } from '../../../../context/Language';
 import { getContent, PageComponent } from '../../../Content/getContent';
 import getProperties from './getProperties';
 import transform, { PageProps } from './transform';

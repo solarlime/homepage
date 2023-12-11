@@ -25,10 +25,11 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "import/no-extraneous-dependencies": "warn",
     "react-refresh/only-export-components": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "react/react-in-jsx-scope": "warn",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [1, { "extensions": [
       ".tsx", ".ts"
     ] }]

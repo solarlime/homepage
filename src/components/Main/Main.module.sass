@@ -1,24 +1,18 @@
 @use '../Base'
 @use './About/TagCloud.module'
 
-$min_width: Base.$min_width
-$height: Base.$height
-$rows_count: Base.$rows_count
-$columns_count: Base.$columns_count
-$header_rows_count: Base.$header_rows_count
-$main_rows_count: Base.$main_rows_count
-$base_font_size: Base.$base_font_size
-$logo_font_size: Base.$logo_font_size
+$base_font_size: 20px
+
+$bar_height_size: #{"var(--bar-height-size)"}
+$side_margin: #{"var(--side-margin-size)"}
 
 .main
-  grid-column: 2/24
-  grid-row: calc($header_rows_count + 1) / calc($header_rows_count + $main_rows_count + 1)
-
-  height: calc($main_rows_count * 100vh / $rows_count)
-  height: calc($main_rows_count * $height / $rows_count)
-  padding: 0
+  min-width: 280px
+  max-width: 1100px
+  margin: 0 $side_margin
+  padding: $bar_height_size 0 0 0
   color: white
-  font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
+  font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
   box-sizing: border-box
   background: #282c34
 
@@ -43,7 +37,6 @@ $logo_font_size: Base.$logo_font_size
       margin: calc($base_font_size / 2) 0 calc(4 * $base_font_size) 0
 
       .name
-        font-family: "JetBrainsMono", monospace
         font-size: calc(2.5 * $base_font_size)
         color: #78B856
 

@@ -1,14 +1,10 @@
-import {
-  useContext, useEffect, useMemo, useState,
-} from 'react';
+import { memo, useMemo } from 'react';
 import uniqid from 'uniqid';
+import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
-import { LanguageContext } from '../../../Language';
-import { getContent, PageComponent } from '../../Content/getContent';
+import { Theme } from '../../../context/contextTypes';
 
 const id = uniqid;
-
-type T = string | Array<string>;
 
 /**
  * A function for array shuffling.
@@ -16,73 +12,44 @@ type T = string | Array<string>;
  * Source: https://javascript.info/task/shuffle
  * @param array - array for shuffling
  */
-export const shuffleArray = (array: Array<T>): Array<T> => {
+export const shuffleArray = <T extends Array<string> | Array<number>>(array: T): T => {
   for (let i = array.length - 1; i > 0; i -= 1) {
     // Выбираем индекс случайным образом (от 0 до i)
     const j = Math.floor(Math.random() * (i + 1));
     // eslint-disable-next-line no-param-reassign
-    [array[i], array[j]] = [(array[j] as string), (array[i] as string)];
+    [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
 };
+
+const randomArray = (length: number) => [...Array(length)].map(() => Math.random());
 
 /**
  * A component for rendering a tag cloud in random order.
  * @param props - themeName: a theme name (light or dark)
  * @constructor
  */
-function TagCloud(props: { themeName: 'light' | 'dark' }) {
-  const { language } = useContext(LanguageContext);
-  const [content, setContent] = useState({} as PageComponent);
-  const { themeName } = props;
-  const colors: Array<string> = (themeName === 'dark') ? ['#FFCF48', '#78B856'] : ['#FFBA00', '#78B856'];
-  const data = [
-    'HTML',
-    'CSS',
-    'Webpack',
-    'Sass',
-    'JavaScript',
-    'Git',
-    'TypeScript',
-    'React',
-    'Koa',
-    'Node.js',
-    'MongoDB',
-    'React Router',
-    'Redux',
-    'ESLint',
-    'Jest',
-    'Puppeteer',
-    'Playwright',
-    'Express',
-    'Vite',
-  ];
+const TagCloud = memo((props: { theme: Theme }): React.ReactElement => {
+  const { theme } = props;
 
-  useEffect(() => {
-    getContent(language, 'tagCloud')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  const shuffledTags = useMemo(() => shuffleArray(tags), []);
+  const colorsRandom = useMemo(() => randomArray(tags.length), []);
 
-  return useMemo(() => (
+  return (
     <div className={styles.wrapper}>
       <ul className={styles['tag-cloud']}>
-        {shuffleArray(data).map((item) => (
+        {shuffledTags.map((item, i) => (
           <li
             className={styles['tag-cloud__item']}
             key={id()}
-            style={{ fontSize: `clamp(1.5rem, ${2 * Math.random() + 1}rem, 3rem)`, color: `${(Math.random() < 0.5) ? colors[0] : colors[1]}` }}
+            style={{ color: `${(colorsRandom[i] < 0.5) ? theme.extraColor : theme.accentColor}` }}
           >
             {item}
           </li>
         ))}
       </ul>
-      <p
-        className={styles.ps}
-      >
-        {content.ps}
-      </p>
     </div>
-  ), [content]);
-}
+  );
+});
 
 export default TagCloud;

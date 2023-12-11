@@ -1,11 +1,12 @@
 // @ts-ignore
 import Typograf from 'typograf';
+import { Language } from '../../context/contextTypes';
 
 export interface PageComponent {
   [key: string]: string,
 }
 
-const pages = ['intro', 'tagCloud', 'about', 'projects', 'project', 'notFound', 'footer'] as const;
+const pages = ['intro', 'tagCloud', 'about', 'projects', 'project', 'notFound', 'footer', 'header'] as const;
 type Pages = typeof pages[number];
 
 /**
@@ -14,12 +15,12 @@ type Pages = typeof pages[number];
  */
 const memoizedGetContent = () => {
   const cache: { [key: string]: PageComponent } = {};
-  return async (languageName: 'en' | 'ru', page: Pages): Promise<PageComponent> => {
-    const key = `${languageName}-${page}`;
-    if (`${languageName}-${page}` in cache) {
+  return async (language: Language, page: Pages): Promise<PageComponent> => {
+    const key = `${language.name}-${page}`;
+    if (`${language.name}-${page}` in cache) {
       return Promise.resolve(cache[key]);
     }
-    const content = await import(`./${languageName}/${page}.ts`);
+    const content = await import(`./${language.name}/${page}.json`);
     const typo = new Typograf({ locale: ['ru', 'en-US'] });
     const result: PageComponent = {};
     Object.entries(content.default as PageComponent)

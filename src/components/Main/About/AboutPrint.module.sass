@@ -1,3 +1,5 @@
+//@use '../Bottom.module'
+
 @media print
   @page
     size: A4 portrait
@@ -36,8 +38,8 @@
           $big_margin: 0.4cm !important
           width: inherit
           height: inherit
-          color: #282C34
-          background: white
+          color: #282C34 !important
+          background: white !important
 
           h1
             font-size: 20pt !important
@@ -69,19 +71,20 @@
 
                 img
                   width: 100%
-                  height: auto
-                  border-radius: 50%
+                  height: 100%
+                  border-radius: 10pt
 
               .contacts__title
                 grid-area: whoami
                 margin-bottom: $big_margin
 
                 .contacts__title_title
-                  font-weight: normal
+                  font-weight: 700
                   font-size: 30pt !important
 
                 .contacts__title_subtitle
                   display: inline-block
+                  font-weight: 500
                   margin-right: 0.1cm !important
 
               .contacts__buttons
@@ -96,10 +99,16 @@
                   margin-top: 0.2cm !important
                   border: 0
                   font-size: 12pt !important
+                  outline: none
+                  color: inherit
+                  background-color: inherit
 
                   &:hover
                     color: inherit
                     background-color: inherit
+
+                  span
+                    display: none
 
                   svg
                     width: $width
@@ -111,7 +120,7 @@
                     top: 0
                     left: calc(1.2 * $width)
                     height: $width
-                    padding-top: 0.15cm
+                    padding-top: 0.1cm
                     content: attr(data-url)
 
             .about__skills
@@ -120,21 +129,16 @@
               flex-direction: column
 
               h1
-                font-weight: normal
+                font-weight: 700
                 margin-bottom: $big_margin
 
               .tag-cloud
 
                 li
                   margin-right: $big_margin
+                  margin-bottom: 0.1cm !important
+                  font-weight: 400
                   color: inherit !important
-
-              .ps
-                margin-top: $big_margin
-                font-size: 10pt !important
-
-                &:after
-                  content: ''
 
             .about-me
               grid-area: facts
@@ -144,10 +148,13 @@
                 display: none
 
               .list
-                display: flex
+                display: flex !important
                 flex-direction: column
+                height: auto !important
+                list-style: none
 
                 li
+                  position: static !important
                   flex-shrink: 0
 
                   .fact_name
@@ -155,18 +162,19 @@
 
                   .fact_text
                     font-size: 10pt !important
+                    text-align: justify !important
+                    margin-bottom: 0.3cm !important
 
                 li[data-id=education],
                 li[data-id=образование]
                   order: -2
 
                   .fact_text
-                    margin-bottom: 0.3cm !important
 
                     &:before
                       display: block
                       content: 'Education'
-                      font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+                      font-weight: 700
                       font-size: 20pt !important
                       margin-bottom: $big_margin
 
@@ -184,7 +192,7 @@
                   &:after
                     display: block
                     content: 'Some facts'
-                    font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+                    font-weight: 700
                     font-size: 20pt !important
                     margin-top: 0.8cm
                     margin-bottom: $big_margin
@@ -205,10 +213,9 @@
                     margin-left: 0.5cm !important
 
             .qr
+              display: block
               width: 3.8cm
+              height: 3.8cm
               margin-left: 0.3cm !important
               margin-right: 0.3cm !important
               float: right
-
-            .about-buttons
-              display: none

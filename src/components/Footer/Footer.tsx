@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useMatch, useParams } from 'react-router-dom';
 import styles from './Footer.module.sass';
-import { LanguageContext } from '../../Language';
-import { ThemeContext } from '../../Theme';
+import { LanguageContext } from '../../context/Language';
+import { ThemeContext } from '../../context/Theme';
 import { getContent, PageComponent } from '../Content/getContent';
-import { kebabedList } from '../Main/Projects/projectsList';
+import { ExtendedCSS } from '../types';
+import ru from '../../img/ru.png';
+import en from '../../img/en.png';
 
 /**
  * A component for rendering a language changer switcher
@@ -12,14 +13,23 @@ import { kebabedList } from '../Main/Projects/projectsList';
  *                languageName: a string with a chosen language
  * @constructor
  */
-function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru' | 'en' }) {
-  const { toggleLanguage, languageName } = props;
+function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru' | 'en', languageButton: string }) {
+  const { toggleLanguage, languageName, languageButton } = props;
 
   return (
-    <label className={`${styles['language-switch']} ${styles.switcher}`} htmlFor="language-switch">
-      <input id="language-switch" type="checkbox" onChange={toggleLanguage} checked={(languageName === 'en')} />
-      <span className={styles.slider} />
-    </label>
+    <button
+      className={`${(document.documentElement.clientWidth < 550) ? styles.switcher : styles.link}`}
+      type="button"
+      aria-label={(languageName === 'ru' ? 'Сменить язык' : 'Change language')}
+      aria-controls={(languageName === 'ru' ? `Текущий язык: ${(languageName === 'ru') ? 'русский' : 'английский'}` : `Theme changed to ${languageName}`)}
+      onClick={toggleLanguage}
+    >
+      {
+        (document.documentElement.clientWidth < 550)
+          ? <img src={(languageName === 'ru') ? en : ru} alt="" />
+          : <span>{languageButton}</span>
+      }
+    </button>
   );
 }
 
@@ -39,43 +49,33 @@ function Footer() {
   const { theme } = useContext(ThemeContext);
   const { language, toggleLanguage } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
-  const params = useParams();
-  const isCV = useMatch(`/cv/${import.meta.env.VITE_APP_PLEASE}`);
 
   useEffect(() => {
     getContent(language, 'footer')
       .then((res) => { setContent(res); });
   }, [language]);
 
-  // Links must differ for a CV page & others
-  const links = () => {
-    if (isCV || (params && kebabedList.find((kebabed) => kebabed === params.project))) {
-      return (
-        <Link className={`${styles.button} ${styles['button-link']} ${styles.navigation__item}`} to="/projects">{content.footer_projects}</Link>
-      );
-    }
-    return (
-      <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer">GitHub</a>
-    );
-  };
-
   return (
     <footer
       className={styles.footer}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--focus-color': theme.accentColor,
+      } as ExtendedCSS}
     >
-      <p className={styles.footer__item_copyright}>
-        Copyright &copy;
-        {` ${getYear()} `}
-        solarlime.dev.
-        <br />
-        {content.copyright}
-        .
-      </p>
-      <nav className={styles.footer__item_buttons}>
-        {links()}
-      </nav>
-      <LanguageChanger languageName={language} toggleLanguage={toggleLanguage} />
+      <div className={styles['footer-items']}>
+        <p className={styles['footer-items__item_copyright']}>
+          &copy;
+          {` ${getYear()} `}
+          solarlime.dev
+        </p>
+        <LanguageChanger
+          languageName={language.name}
+          toggleLanguage={toggleLanguage}
+          languageButton={content.language}
+        />
+      </div>
     </footer>
   );
 }

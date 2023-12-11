@@ -1,56 +1,38 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import './App.sass';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
-import Main, { AboutOrNot, Intro } from './components/Main/Main';
+import Main, { AboutOrNot/* , Intro */ } from './components/Main/Main';
+import Maintenance from './components/Main/Maintenance';
 import Footer from './components/Footer/Footer';
-import Projects from './components/Main/Projects/Projects';
-import { Project } from './components/Main/Projects/Project/Project';
-import NotFound from './components/Main/NotFound/NotFound';
-import { ThemeContext, ThemeProvider } from './Theme';
-import { LanguageProvider } from './Language';
-
-function Sidebar(props: { side: 'left' | 'right' }) {
-  const { theme } = useContext(ThemeContext);
-  const { side } = props;
-
-  return (
-    <div
-      className={`app-content__sidebar_${side}`}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
-    />
-  );
-}
+// import NotFound from './components/Main/NotFound/NotFound';
+import { ThemeContext } from './context/Theme';
 
 function AppContent() {
   return (
-    <div className="app-content">
+    <>
       <Header />
-      <Main />
+      <div className="app-content">
+        <Main />
+      </div>
       <Footer />
-      <Sidebar side="left" />
-      <Sidebar side="right" />
-    </div>
+    </>
   );
 }
 
-function App(): React.ReactElement {
+function App() {
+  const { theme } = useContext(ThemeContext);
+
   return (
-    <div className="app">
-      <ThemeProvider>
-        <LanguageProvider>
-          <Routes>
-            <Route path="/" element={<AppContent />}>
-              <Route index element={<Intro />} />
-              <Route path="projects" element={<Projects />}>
-                <Route path=":project" element={<Project />} />
-              </Route>
-              <Route path="cv/:please" element={<AboutOrNot />} />
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </LanguageProvider>
-      </ThemeProvider>
+    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>
+      <Routes>
+        <Route path="/" element={<AppContent />}>
+          <Route index element={<Maintenance />} />
+          {/* <Route index element={<Intro />} /> */}
+          <Route path=":please" element={<AboutOrNot />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Route>
+      </Routes>
     </div>
   );
 }

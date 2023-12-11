@@ -1,11 +1,11 @@
 import {
   useContext, useEffect, useMemo, useRef, useState,
 } from 'react';
-import { Outlet, useMatch } from 'react-router-dom';
+import { Link, Outlet, useMatch } from 'react-router-dom';
 import styles from './Projects.module.sass';
-import { ThemeContext } from '../../../Theme';
+import { ThemeContext } from '../../../context/Theme';
 import { getContent, PageComponent } from '../../Content/getContent';
-import { LanguageContext } from '../../../Language';
+import { LanguageContext } from '../../../context/Language';
 import { Image } from './Project/Project';
 import projectsObjectList, { ProjectsObject } from './projectsList';
 
@@ -13,9 +13,9 @@ function ProjectThumbnail(props: ProjectsObject) {
   const { projectName, kebabedProjectName } = props;
 
   return (
-    <a href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${kebabedProjectName}`} target="_blank" rel="noreferrer">
+    <Link to={`/projects/${kebabedProjectName}`} state={props} aria-label="link">
       <Image kebabedProjectName={kebabedProjectName} projectName={projectName} styleProp={styles['projects-container__item']} />
-    </a>
+    </Link>
   );
 }
 

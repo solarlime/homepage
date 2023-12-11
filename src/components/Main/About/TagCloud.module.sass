@@ -1,28 +1,34 @@
 @use '../../Base'
 
-$base_font_size: Base.$base_font_size
+$small-gap: #{"var(--small-gap)"}
+
+$base-font-size-pixels: Base.$base-font-size-pixels
 
 .wrapper
   align-self: center
 
   .tag-cloud
-    padding: 0 $base_font_size
+    padding: 0 $base-font-size-pixels+px
     margin: 0
     list-style: none
 
-    .tag-cloud__item
-      display: inline-block
-      margin: 0 10px
-      font-size: clamp(1, random(3), 3)+rem
-      text-shadow: #282C34 0 0
+    @for $i from 1 through 100
+      .tag-cloud__item:nth-child(0n + #{$i})
+        display: inline-block
+        margin: 0 $small-gap
+        text-shadow: #282C34 0 0
+        // From 0.7 to 1.75
+        $rand: random()
+        font-size: calc(($rand * 1.5 + 1) * $base-font-size-pixels * 0.7px)
+        font-weight: calc(($rand * 2 + 3) * 100)
 
-      &:hover
-        color: #FFCF48
+        &:hover
+          color: #FFCF48
 
   .ps
-    margin: $base_font_size 0 0 0
-    padding: 0 calc(3 * $base_font_size)
-    font-size: calc(0.8 * $base_font_size)
+    margin: $base-font-size-pixels+px 0 0 0
+    padding: 0 calc(3 * $base-font-size-pixels)+px
+    font-size: calc(0.8 * $base-font-size-pixels)+px
 
     &:after
       content: ' 😇'

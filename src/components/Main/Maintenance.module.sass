@@ -1,0 +1,15 @@
+@use '../Base'
+
+$base-font-size-pixels: Base.$base-font-size-pixels
+$bar-height-size: Base.$bar-height-size
+
+.maintenance
+  display: flex
+  align-items: center
+  height: calc(100dvh - 2 * $bar-height-size)
+  padding-top: 0
+
+  p
+    padding: 0
+    margin: 0 calc($base-font-size-pixels * 1px)
+    font-size: calc($base-font-size-pixels * 1px)

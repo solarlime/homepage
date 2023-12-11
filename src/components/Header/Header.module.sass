@@ -1,61 +1,48 @@
 @use '../Base'
 
-$height: Base.$height
-$rows_count: Base.$rows_count
-$header_rows_count: Base.$header_rows_count
-$base_font_size: Base.$base_font_size
-$logo_font_size: Base.$logo_font_size
-
 .header
-  grid-column: 2/24
-  grid-row: 1 / calc($header_rows_count + 1)
-  height: calc($header_rows_count * 100vh / $rows_count)
-  height: calc($header_rows_count * $height / $rows_count)
-  border-bottom: 1px solid
-  font-family: UniNeueWebLight, "Helvetica Neue", sans-serif
-  font-size: $logo_font_size
-  line-height: 1
-  color: white
-  background: #282c34
-  box-sizing: border-box
+  position: fixed
+  z-index: 100
+  top: 0
+  left: 0
+  @include Base.bar(4px)
 
   .header-items
-    display: flex
-    justify-content: space-between
-    align-items: center
-    width: 100%
-    height: 100%
-    padding: 0
-    margin: 0
-    list-style: none
-    box-sizing: border-box
+    @include Base.bar_items
 
     .header-items__item_logo
-      height: $logo_font_size
-      text-transform: lowercase
+      height: Base.$bar-content-height
 
       .logo-container
         display: inline-block
         height: inherit
+        color: inherit
 
         .logo
           height: inherit
+          width: auto
+          color: inherit
+
+          &:hover
+            filter: opacity(80%)
 
     .header-items__item_rest
       display: flex
+      height: Base.$bar-content-height
 
-      a
+      a, button:not(:last-child)
+        margin-right: Base.$side-margin-size
+
+      a, button
+        display: flex
+        align-items: center
+        height: inherit
         flex-shrink: 0
-        margin-right: $base_font_size
 
-    .theme-switch
+      img, svg
+        width: auto
+        height: inherit
+        cursor: pointer
 
-      input
-
-        &:checked + .slider:before
-          background-image: url("../../img/sun.svg")
-
-      .slider
-
-        &:before
-          background-image: url("../../img/moon.svg")
+        &:hover
+          filter: opacity(80%)

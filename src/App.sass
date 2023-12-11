@@ -1,45 +1,19 @@
 @use 'components/Base'
 
-$rows_count: Base.$rows_count
-$columns_count: Base.$columns_count
-$min_width: Base.$min_width
-$height: Base.$height
-
 @font-face
-  font-family: 'UniNeueWebLight'
-  src: url('fonts/Uni-Neue_Light.woff2') format('woff2'), url('fonts/Uni-Neue_Light.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'GilroyWebExtraBold'
-  src: url('fonts/Gilroy_ExtraBold.woff2') format('woff2'), url('fonts/Gilroy_ExtraBold.woff') format('woff')
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'JetBrainsMono'
-  src: url('fonts/JetBrainsMono-ExtraBold.woff2') format('woff2')
-  font-weight: normal
+  font-family: 'PTRootUIWebVF'
+  src: url('fonts/pt-root-ui_vf.woff2') format('woff2-variations')
+  font-weight: 300 700
   font-style: normal
 
 .app
-  min-width: 350px
-  height: 100vh
-  height: $height
+  display: flex
+  flex-direction: column
+
+.app-content
+  display: flex
+  justify-content: center
+  flex-shrink: 0
+  width: 100%
+  margin: 0 auto
   text-align: center
-
-  .app-content
-    display: grid
-    grid-template-columns: repeat($columns_count, 1fr)
-    grid-template-rows: repeat($rows_count, 1fr)
-    width: 100%
-    height: 100%
-
-    .app-content__sidebar_left
-      grid-column: 1/2
-      grid-row: 1 / calc($rows_count + 1)
-
-    .app-content__sidebar_right
-      grid-column: 24/25
-      grid-row: 1 / calc($rows_count + 1)

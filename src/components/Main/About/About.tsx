@@ -4,10 +4,12 @@ import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
 import Telegram from '../../../img/telegram.svg?react';
-import { ThemeContext } from '../../../Theme';
+import { ThemeContext } from '../../../context/Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
-import { LanguageContext } from '../../../Language';
+import Bottom from '../Bottom';
+import { ExtendedCSS } from '../../types';
+import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 /**
@@ -31,50 +33,14 @@ function getAge(language: 'ru' | 'en') {
 }
 
 /**
- * A component for a navigation button
- * @param props - color: a colour for a text,
- *                bgColor: a colour for a background,
- *                sections: an array with section ids
- * @constructor
- */
-function NavigationButton(props: {
-  color: string, bgColor: string, sections: Array<string>, toTop: string, toNext: string
-}) {
-  const [index, setIndex] = useState(0);
-  const {
-    color, bgColor, sections, toTop, toNext,
-  } = props;
-
-  useEffect(() => {
-    const next = document.getElementById(sections[index])!;
-    next.scrollIntoView();
-  }, [index]);
-
-  // It is not needed to reset index after scrolling the whole page. Just take a remainder.
-  const click = () => setIndex((index + 1) % sections.length);
-
-  return (
-    <button
-      className={`${styles.button} ${styles['navigation-button']}`}
-      style={{ color, backgroundColor: bgColor }}
-      type="button"
-      onClick={click}
-    >
-      {(index === 2) ? toTop : toNext}
-    </button>
-  );
-}
-
-/**
  * A component for rendering an about page
  * @constructor
  */
 function About() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
-  const sections = ['contacts', 'skills', 'facts'];
   const [content, setContent] = useState({} as PageComponent);
-  const age = getAge(language);
+  const age = getAge(language.name);
 
   useEffect(() => {
     getContent(language, 'about')
@@ -83,13 +49,20 @@ function About() {
 
   return (
     <article
-      className={`${styles.about} ${styles.base}`}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      className={`${styles.base} ${styles.about}`}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--button-color': (theme.name === 'dark') ? theme.extraColor : theme.color,
+        '--hover-color': theme.backgroundColor,
+        '--hover-bg-color': theme.extraColor,
+        '--focus-color': theme.accentColor,
+      } as ExtendedCSS}
     >
-      <section id={sections[0]} className={`${styles.about__contacts} ${styles.base__item} ${styles.about__item}`}>
+      <section className={` ${styles.base__item} ${styles.about__contacts}`}>
         <h1 className={styles.contacts__title}>
-          <p className={`${styles.base__item__title} ${styles.contacts__title_title}`}>
-            {import.meta.env[`VITE_APP_ME_${language}`]}
+          <p className={styles.contacts__title_title}>
+            {import.meta.env[`VITE_APP_ME_${language.name}`]}
           </p>
           <p className={styles.contacts__title_subtitle}>
             {content.subtitle_job}
@@ -97,57 +70,52 @@ function About() {
           </p>
           <p className={styles.contacts__title_subtitle}>{age}</p>
         </h1>
-        <picture className={styles.contacts__image}>
-          <img
-            sizes="100w"
-            srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 320w, 
-            ${import.meta.env.VITE_APP_FILES}/me640.jpg 640w, 
-            ${import.meta.env.VITE_APP_FILES}/me1280.jpg 1280w`}
-            src={`${import.meta.env.VITE_APP_FILES}/me.jpg`}
-            alt="Me"
-          />
-        </picture>
         <div className={styles.contacts__buttons}>
           <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
-            <GitHub fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
-            <LinkedIn fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
-            <Telegram fill={theme.color} />
-          </a>
-          <a className={`${styles.button} ${styles['button-link']} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
-            <Email fill={theme.color} />
-          </a>
+          <div>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
+              <GitHub fill={theme.color} />
+              <span>github</span>
+            </a>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
+              <Email fill={theme.color} />
+              <span>e-mail</span>
+            </a>
+          </div>
+          <div>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
+              <LinkedIn fill={theme.color} />
+              <span>linkedin</span>
+            </a>
+            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
+              <Telegram fill={theme.color} />
+              <span>telegram</span>
+            </a>
+          </div>
         </div>
+        <picture className={styles.contacts__image}>
+          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me640.jpg 2x`} media="(min-width: 320px)" />
+          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me640.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me1280.jpg 2x`} media="(min-width: 640px)" />
+          <img src={`${import.meta.env.VITE_APP_FILES}/me1280.jpg`} alt="Me" />
+        </picture>
       </section>
-      <section id={sections[1]} className={`${styles.about__skills} ${styles.base__item} ${styles.about__item}`}>
+      <section className={`${styles.base__item} ${styles.about__skills}`}>
         <h1 className={styles.base__item__title}>{content.skills_title}</h1>
-        <TagCloud themeName={theme.name} />
+        <TagCloud theme={theme} />
       </section>
-      <section id={sections[2]} className={`${styles['about-me']} ${styles.base__item} ${styles.about__item}`}>
+      <section className={`${styles.base__item} ${styles['about-me']}`}>
         <h1 className={styles.base__item__title}>{content.about_title}</h1>
         <FactsList />
       </section>
-      <div className={styles['about-buttons']}>
-        <NavigationButton
-          color={theme.color}
-          bgColor={theme.backgroundColor}
-          sections={sections}
-          toTop={content.nav_button_top}
-          toNext={content.nav_button_next}
+      <section className={`${styles.base__item}`}>
+        <Bottom content={{
+          text1: content.bottom_text_1,
+          text2: content.bottom_text_2,
+          text3: content.bottom_text_3,
+          button: content.bottom_button,
+        }}
         />
-        <button
-          style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
-          className={`${styles.button}`}
-          type="button"
-          onClick={window.print}
-        >
-          {content.print_button}
-        </button>
-      </div>
+      </section>
     </article>
   );
 }
