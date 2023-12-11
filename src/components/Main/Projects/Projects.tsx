@@ -13,7 +13,7 @@ function ProjectThumbnail(props: ProjectsObject) {
   const { projectName, kebabedProjectName } = props;
 
   return (
-    <Link to={`/projects/${kebabedProjectName}`} state={props}>
+    <Link to={`/projects/${kebabedProjectName}`} state={props} aria-label="link">
       <Image kebabedProjectName={kebabedProjectName} projectName={projectName} styleProp={styles['projects-container__item']} />
     </Link>
   );
