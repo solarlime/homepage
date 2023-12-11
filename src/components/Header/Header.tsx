@@ -68,8 +68,10 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
+              {/* eslint-disable-next-line max-len */}
               {/* <button className={`${styles.link}`} type="button" onClick={() => alert('Under construction')}> */}
               {/*  /!* TODO: pdf generation *!/ */}
+              {/* eslint-disable-next-line max-len */}
               {/*  {(document.documentElement.clientWidth < 650) ? <Download fill={theme.color} /> : content.download} */}
               {/* </button> */}
               <button

@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { useParams, Outlet, Link } from 'react-router-dom';
 import styles from './Main.module.sass';
-import NotFound from './NotFound/NotFound';
+// import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import { ThemeContext } from '../../context/Theme';
 import { LanguageContext } from '../../context/Language';
@@ -10,6 +10,7 @@ import Cat from '../../img/cat.svg?react';
 import Tambourines from '../../img/tambourines.svg?react';
 import TagCloud from './About/TagCloud';
 import { getContent, PageComponent } from '../Content/getContent';
+import Maintenance from './Maintenance';
 
 /**
  * A component for rendering a name.
@@ -155,7 +156,8 @@ export function AboutOrNot() {
   if (params.please === import.meta.env.VITE_APP_PLEASE) {
     return <About />;
   }
-  return (<NotFound />);
+  // return (<NotFound />);
+  return (<Maintenance />);
 }
 
 /**
@@ -166,7 +168,10 @@ function Main() {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <main className={styles.main} style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>
+    <main
+      className={styles.main}
+      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+    >
       <Outlet />
     </main>
   );
