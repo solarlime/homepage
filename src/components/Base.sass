@@ -125,3 +125,13 @@ body
 
     &:hover
       filter: opacity(80%)
+
+button:disabled, button:disabled:hover
+  color: #999999
+  text-decoration: line-through
+
+  svg
+    fill: currentColor
+
+button.pending:disabled, button.pending:disabled:hover
+  text-decoration: none
