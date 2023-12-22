@@ -7,11 +7,12 @@ import Logo from './Logo';
 import Github from '../../img/github.svg?react';
 import Telegram from '../../img/telegram.svg?react';
 import Print from '../../img/print.svg?react';
-// import Download from '../../img/download.svg?react';
+import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
 import { LanguageContext } from '../../context/Language';
 import { getContent, PageComponent } from '../Content/getContent';
+import { Language, Theme } from '../../context/contextTypes';
 
 /**
  * A component for rendering a theme changer switcher
@@ -31,6 +32,79 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
       onClick={toggleTheme}
     >
       <img src={(themeName === 'dark') ? sun : moon} alt="" />
+    </button>
+  );
+}
+
+type State = true | 'pending' | false;
+
+/**
+ * A component for rendering a button for saving pdfs
+ * It triggers server to open the page, save as pdf and send it to client
+ * @constructor
+ */
+function SavePDFButton(props: { language: Language, theme: Theme, content: PageComponent }) {
+  const { language, theme, content } = props;
+  const [disabled, setDisabled] = useState(false as State);
+
+  const handleDownload = () => {
+    setDisabled('pending');
+    fetch(import.meta.env.VITE_APP_SERVER, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Cache-Control': 'no-cache',
+      },
+      body: JSON.stringify({ language: language.name }),
+    })
+      .then(
+        (result) => {
+        // Server sends 500 if there are problems with making pdfs
+          if (result.status === 500) {
+            result.json()
+              .then((parsed) => {
+                console.error(parsed.error);
+                setDisabled(true);
+              });
+          } else {
+            result.blob()
+              .then((blob) => {
+                const url = URL.createObjectURL(blob);
+
+                const linkElement = document.createElement('a');
+                linkElement.href = url;
+                linkElement.download = `CV_Front-end_${import.meta.env[(language.name === 'ru') ? 'VITE_APP_ME_ru' : 'VITE_APP_ME_en']}.pdf`;
+
+                document.body.appendChild(linkElement);
+                linkElement.click();
+                linkElement.parentNode!.removeChild(linkElement);
+                setDisabled(false);
+              });
+          }
+        },
+        // Handling 404
+        () => {
+          setDisabled(true);
+        },
+      );
+  };
+
+  return (
+    <button
+      className={`${styles.link} ${(disabled === 'pending') ? styles.pending : ''}`}
+      type="button"
+      aria-label={content.download}
+      onClick={handleDownload}
+      disabled={(typeof disabled === 'boolean') ? disabled : true}
+    >
+      {
+        // At first, find out if state is 'pending' and then deside what to use: svg or text
+        // eslint-disable-next-line no-nested-ternary
+        (typeof disabled === 'boolean')
+          ? ((document.documentElement.clientWidth < 650)
+            ? <Download fill={(!disabled) ? theme.color : ''} /> : content.download)
+          : '...'
+      }
     </button>
   );
 }
@@ -68,12 +142,7 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
-              {/* eslint-disable-next-line max-len */}
-              {/* <button className={`${styles.link}`} type="button" onClick={() => alert('Under construction')}> */}
-              {/*  /!* TODO: pdf generation *!/ */}
-              {/* eslint-disable-next-line max-len */}
-              {/*  {(document.documentElement.clientWidth < 650) ? <Download fill={theme.color} /> : content.download} */}
-              {/* </button> */}
+              <SavePDFButton language={language} theme={theme} content={content} />
               <button
                 className={`${styles.link}`}
                 type="button"
