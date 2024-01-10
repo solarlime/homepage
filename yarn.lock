@@ -2832,7 +2832,7 @@ __metadata:
     typograf: ^7.3.0
     uniqid: ^5.4.0
     unsplash-js: ^7.0.18
-    vite: ^5.0.7
+    vite: ^5.0.11
     vite-plugin-svgr: ^4.2.0
   languageName: unknown
   linkType: soft
@@ -4825,9 +4825,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.7":
-  version: 5.0.7
-  resolution: "vite@npm:5.0.7"
+"vite@npm:^5.0.11":
+  version: 5.0.11
+  resolution: "vite@npm:5.0.11"
   dependencies:
     esbuild: ^0.19.3
     fsevents: ~2.3.3
@@ -4861,7 +4861,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 18dcf69ccdb6d79d28c678dec4054ac92fd352fd8b2a1a1eb9512a7791d7036bc625bc1ee7c255edc940ad63ebbde8cc4407954e82c71dcbb70b1afeb345c267
+  checksum: 262e41f25ce0cc5fc3c2065b1796f64ec115d3ac2d9625dbfb36d6628ba10e63684ef5515bb2ff1aa8e34c6f89e9c10e8211cb88f6c7f0da6869362851345437
   languageName: node
   linkType: hard
 
