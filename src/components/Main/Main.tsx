@@ -143,6 +143,18 @@ export function Intro() {
           <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
         </div>
       </section>
+      <section id="bottom" className={`${styles.intro} ${styles.base__item}`}>
+        <Tambourines className={styles.tambourines} />
+        <Bottom
+          content={{
+            text1: content.bottom_text_1,
+            text2: content.bottom_text_2,
+            text3: content.bottom_text_3,
+            button: content.bottom_button,
+          }}
+          bgColor={theme.extraColor}
+        />
+      </section>
     </article>
   );
 }

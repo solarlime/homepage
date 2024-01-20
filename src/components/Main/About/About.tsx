@@ -108,12 +108,14 @@ function About() {
         <FactsList />
       </section>
       <section className={`${styles.base__item}`}>
-        <Bottom content={{
-          text1: content.bottom_text_1,
-          text2: content.bottom_text_2,
-          text3: content.bottom_text_3,
-          button: content.bottom_button,
-        }}
+        <Bottom
+          content={{
+            text1: content.bottom_text_1,
+            text2: content.bottom_text_2,
+            text3: content.bottom_text_3,
+            button: content.bottom_button,
+          }}
+          bgColor={(theme.name === 'dark') ? theme.extraColor : theme.accentColor}
         />
       </section>
     </article>

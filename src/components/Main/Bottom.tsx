@@ -1,16 +1,19 @@
 import { useContext } from 'react';
+import { useMatch } from 'react-router-dom';
 import styles from './Bottom.module.sass';
 import { ThemeContext } from '../../context/Theme';
 import { ExtendedCSS } from '../types';
 
 function Bottom(props: { content: {
   text1: string, text2: string, text3: string, button: string,
-} }): React.ReactElement {
+}, bgColor: string }) {
   const { theme } = useContext(ThemeContext);
+  const isMain = useMatch('/');
   const {
     content: {
       text1, text2, text3, button,
     },
+    bgColor,
   } = props;
 
   return (
@@ -18,7 +21,7 @@ function Bottom(props: { content: {
       className={styles.bottom}
       style={{
         color: theme.backgroundColor,
-        backgroundColor: (theme.name === 'dark') ? theme.extraColor : theme.accentColor,
+        backgroundColor: bgColor,
         '--hover-color': theme.color,
         '--hover-bg-color': theme.backgroundColor,
         '--focus-color': (theme.name === 'dark') ? theme.accentColor : theme.color,
@@ -31,7 +34,26 @@ function Bottom(props: { content: {
         {' '}
         <span>{text3}</span>
       </p>
-      <button className={`${styles.button} ${styles.bottom__button}`} type="button" onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}>{button}</button>
+      {
+        (isMain) ? (
+          <a
+            className={`${styles.button} ${styles.bottom__button}`}
+            href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Telegram
+          </a>
+        ) : (
+          <button
+            className={`${styles.button} ${styles.bottom__button}`}
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+          >
+            {button}
+          </button>
+        )
+}
     </div>
   );
 }
