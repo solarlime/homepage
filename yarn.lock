@@ -919,12 +919,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.10.4":
-  version: 20.10.4
-  resolution: "@types/node@npm:20.10.4"
+"@types/node@npm:^20.11.6":
+  version: 20.11.6
+  resolution: "@types/node@npm:20.11.6"
   dependencies:
     undici-types: ~5.26.4
-  checksum: 054b296417e771ab524bea63cf3289559c6bdf290d45428f7cc68e9b00030ff7a0ece47b8c99a26b4f47a443919813bcf42beadff2f0bea7d8125fa541d92eb0
+  checksum: 54b3739f42d9c2266fd724d8ecbf50bc64eb0563343b65a6ea874a51a7fc8bb4793bf3a1b2222e40e3b7bd62cf5af5609899bf1a3de8b69748dcac65e63e8bdc
   languageName: node
   linkType: hard
 
@@ -2805,7 +2805,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "homepage@workspace:."
   dependencies:
-    "@types/node": ^20.10.4
+    "@types/node": ^20.11.6
     "@types/react": ^18.2.43
     "@types/react-dom": ^18.2.17
     "@types/uniqid": ^5.3.4
