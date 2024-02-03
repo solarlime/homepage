@@ -94,9 +94,11 @@ function About() {
           </div>
         </div>
         <picture className={styles.contacts__image}>
-          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me640.jpg 2x`} media="(min-width: 320px)" />
-          <source srcSet={`${import.meta.env.VITE_APP_FILES}/me640.jpg 1x, ${import.meta.env.VITE_APP_FILES}/me1280.jpg 2x`} media="(min-width: 640px)" />
-          <img src={`${import.meta.env.VITE_APP_FILES}/me1280.jpg`} alt="Me" />
+          <source
+            srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 320w, ${import.meta.env.VITE_APP_FILES}/me640.jpg 640w, ${import.meta.env.VITE_APP_FILES}/me1280.jpg 1280w`}
+            sizes="(max-width: 899px) 250px, (max-width: 1280px) 500px, 1000px"
+          />
+          <img src={`${import.meta.env.VITE_APP_FILES}/me.jpg`} alt="Me" />
         </picture>
       </section>
       <section className={`${styles.base__item} ${styles.about__skills}`}>
