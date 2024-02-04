@@ -48,6 +48,9 @@ $max-width: 1100px
 body
   font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
 
+svg
+  display: block
+
 .link
   padding: 0
   border: 0
@@ -93,7 +96,7 @@ body
     background-color: $hover-bg-color
     outline: none
 
-:where(.button, .link, .switcher, .logo-container):focus-visible
+:where(.button, .link, .switcher, .logo-container, a):focus-visible
   outline: #78b856 solid 3px
   outline: $focus-color solid $outline
   outline-offset: calc($outline * -1)

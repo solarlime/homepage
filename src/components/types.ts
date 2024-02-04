@@ -6,4 +6,6 @@ export interface ExtendedCSS extends React.CSSProperties {
   '--hover-bg-color': string,
   '--focus-color': string,
   '--extra-color': string,
+  '--green-color': string,
+  '--not-green-color': string,
 }

@@ -6,6 +6,16 @@ export type ProjectsObject = {
   kebabedProjectName: string,
 };
 
+// A polyfill for iOS 12
+if (!String.prototype.replaceAll) {
+  // @ts-ignore
+  // eslint-disable-next-line no-extend-native
+  String.prototype.replaceAll = function (findValue: string | RegExp, replaceValue: string) {
+    const analyzedString = this;
+    return analyzedString.replace(new RegExp(findValue, 'g'), replaceValue);
+  };
+}
+
 function kebabaizer(projectName: string) {
   return projectName.replaceAll(' ', '-').toLowerCase();
 }
@@ -15,7 +25,7 @@ const projectsList = [
   'Dogs and facts',
   'Simple chat',
   'Chest of notes',
-  'Help desk',
+  'GitHub Deployment Cleaner',
   'Retro game',
 ];
 

@@ -1,48 +1,54 @@
 @use '../Base'
 @use './About/TagCloud.module'
 
-$base_font_size: 20px
+$base-font-size: calc(#{"var(--base-font-size-pixels)"} * 1px)
+$imac-font-size: #{"var(--imac-font-size)"}
 
-$bar_height_size: #{"var(--bar-height-size)"}
-$side_margin: #{"var(--side-margin-size)"}
+$bar-height-size: #{"var(--bar-height-size)"}
+$small-gap: #{"var(--small-gap)"}
+$gap: #{"var(--gap)"}
+$side-margin: #{"var(--side-margin-size)"}
+$avatar-size: #{"var(--avatar-size)"}
+$big-font-size: #{"var(--big-font-size)"}
+
+$green-color: #{"var(--green-color)"}
+$not-green-color: #{"var(--not-green-color)"}
 
 .main
   min-width: 280px
   max-width: 1100px
-  margin: 0 $side_margin
-  padding: $bar_height_size 0 0 0
+  margin: 0 $side-margin
+  padding: $bar-height-size 0 0 0
   color: white
   font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
   box-sizing: border-box
   background: #282c34
 
   .intro
-    $width: calc(19 * $base_font_size)
+    $width: calc(19 * $base-font-size)
     $height: calc(0.889 * $width)
-    $base_box_size: calc(2 * $base_font_size)
+    $base-box-size: calc(2 * $base-font-size)
     display: flex
     flex-direction: column
     align-items: center
     padding: 0
     text-align: center
-    overflow-x: hidden
-
-    h2
-      margin: 0 0 calc(0.5 * $base_box_size) 0
-      font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
-      font-size: calc(2 * $base_font_size)
 
     .intro__title
       flex-shrink: 0
-      margin: calc($base_font_size / 2) 0 calc(4 * $base_font_size) 0
+      margin: $small-gap 0 calc(4 * $base-font-size) 0
+
+      .big__title
+        margin-bottom: $small-gap
+        font-size: $big-font-size
 
       .name
-        font-size: calc(2.5 * $base_font_size)
         color: #78B856
 
     .intro__title_subtitle
       margin: 0
-      font-size: $base_font_size
+      font-size: $base-font-size
+      font-weight: 400
 
     @keyframes memoji
       from
@@ -53,36 +59,28 @@ $side_margin: #{"var(--side-margin-size)"}
     .intro__image
       order: -1
       flex-shrink: 0
-      width: calc(11 * $base_font_size)
-      height: calc(11 * $base_font_size)
-      margin-top: $base_font_size
-      border-radius: 50%
-      background-color: white
-      overflow: hidden
-      animation: memoji 1s cubic-bezier(.18,.89,.32,1.28) forwards
-
-      img
-        width: inherit
-        border-radius: 50%
-        object-fit: cover
-        object-position: center center
+      width: auto
+      height: $avatar-size
+      animation: memoji 1s cubic-bezier(.19,1,.22,1) forwards
 
     .intro__imac
       flex-shrink: 0
 
       .imac
+        $width: calc(21 * $imac-font-size)
+        $height: calc(0.889 * $width)
         position: sticky
         display: flex
         align-items: center
         justify-content: center
-        top: calc(100% - $height)
+        top: calc(100% - $height - $gap)
         width: $width
         height: $height
-        padding: calc(1.5 * $base_font_size) calc(1.5 * $base_font_size) calc(7 * $base_font_size) calc(1.5 * $base_font_size)
+        padding: calc(2 * $imac-font-size) calc(2 * $imac-font-size) calc(8.5 * $imac-font-size) calc(2 * $imac-font-size)
         margin: 0
-        font-size: calc($base_font_size / 1.2)
+        font-size: calc($imac-font-size / 1.2)
         box-sizing: border-box
-        background-image: url("../../img/imac.svg")
+        background-image: url("../../img/imac-dark.svg")
         background-repeat: no-repeat
         background-position: center
         background-size: cover
@@ -90,9 +88,15 @@ $side_margin: #{"var(--side-margin-size)"}
         p
           margin: 0
 
+      .imac_light
+        background-image: url("../../img/imac-light.svg")
+
+      .imac_dark
+        background-image: url("../../img/imac-dark.svg")
+
       .imac-space
         width: $width
-        height: calc($height + $base_font_size)
+        height: $width
         margin: 0
         box-sizing: border-box
 
@@ -101,30 +105,38 @@ $side_margin: #{"var(--side-margin-size)"}
       flex-shrink: 0
       width: 100%
       min-height: $height
-      padding: $base_box_size $base_box_size 0 $base_box_size
-      margin-bottom: $base_font_size
-      border-radius: $base_box_size $base_box_size 0 0
+      padding: calc(2 * $imac-font-size) calc(2 * $imac-font-size) 0 calc(2 * $imac-font-size)
+      margin-bottom: $imac-font-size
+      border-radius: $gap $gap 0 0
       box-sizing: border-box
       background: #78B856
 
       &:before, &:after
         position: absolute
-        bottom: calc(-1 * $base_font_size)
+        bottom: calc(-1 * $imac-font-size)
         content: ''
-        height: $base_font_size
+        height: $imac-font-size
         background: #FFCF48
+        background: $not-green-color
 
       &:before
         left: 0
         content: ''
-        min-width: $base_box_size
+        min-width: $imac-font-size
         width: 10%
+        border-left: 100vw solid #FFCF48
+        border-left: 100vw solid $not-green-color
+        margin-left: -100vw
 
       &:after
         right: 0
         content: ''
-        max-width: calc(100% - 5.5 * $base_box_size)
-        width: calc(90% - 4.5 * $base_box_size)
+        width: calc(90% - calc($gap / 2) - calc($gap * 4))
+        //max-width: calc(100% - 5.5 * $base-font-size)
+        //width: calc(90% - 4.5 * $base-font-size)
+        border-right: 100vw solid #FFCF48
+        border-right: 100vw solid $not-green-color
+        margin-right: -100vw
 
       .imac-extras
         position: absolute
@@ -137,20 +149,27 @@ $side_margin: #{"var(--side-margin-size)"}
       .table
         width: 100%
         height: 100%
-        padding: calc(1.5 * $base_box_size) 0 calc(2.5 * $base_box_size) 0
-        border-radius: $base_font_size $base_font_size 0 0
+        padding: 0 $imac-font-size
+        border-radius: calc($gap / 2) calc($gap / 2) 0 0
         box-sizing: border-box
         background: #282C34
 
-        h2
-          padding: 0 $base_font_size
+        .table__title
+          padding: calc($gap * 2) 0 0 0
+
+        .table__cloud
+          padding-bottom: calc($gap * 2)
 
         .table__cat
-          $cat_width: calc(2 * $base_box_size)
-          position: absolute
-          left: calc(80% - $cat_width)
-          bottom: 0
-          width: $cat_width
+          $cat_height: calc(5 * $imac-font-size)
+          display: block
+          width: auto
+          height: $cat_height
+          margin: 0 auto
+
+          @media (max-width: 699px)
+            &
+              margin: 0 0 0 auto
 
         @keyframes hole
           from
@@ -160,121 +179,144 @@ $side_margin: #{"var(--side-margin-size)"}
 
         .table__hole
           position: absolute
-          bottom: calc(-1 * $base_font_size)
+          bottom: calc(-1 * $imac-font-size)
           left: 10%
           background: #FFCF48
-          width: calc(4.5 * $base_box_size)
-          height: $base_font_size
+          background: $not-green-color
+          width: calc($gap * 4)
+          height: calc($gap / 2)
           animation: hole 2s alternate-reverse infinite ease-in-out
           transform-origin: bottom left
 
     .intro__projects
-      position: relative
       flex-shrink: 0
       width: 100%
-      padding: calc(1.5 * $base_box_size) 0 0 0
       box-sizing: border-box
 
-      .projects__title
-        width: calc(90% - 4.5 * $base_box_size)
-        margin-left: auto
-        text-align: left
+      .projects_title
+        padding: 0
 
-      .projects__text
-        width: calc(90% - 4.5 * $base_box_size)
-        margin: 0 0 calc(1.5 * $base_box_size) auto
-        text-align: left
-        font-size: $base_font_size
+      .projects_list
+        display: flex
+        flex-wrap: wrap
+        justify-content: space-between
+        gap: $gap
+        list-style: none
+        padding: 0
+        margin: 0
 
-      .projects__chest
-        display: block
-        width: calc(4 * $base_box_size)
-        margin-left: calc(10% + $base_box_size / 4)
-        cursor: pointer
+        @keyframes frame-swing
+          0%
+            transform: rotate(0deg)
 
-        &:hover
-          .chest, .cap
-            border-color: #78B856
-            transition: border 0.25s ease-out
+          15%
+            transform: rotate(5deg)
 
-            p:before
-              width: 100%
-              transition: width 0.25s ease-out
+          30%
+            transform: rotate(-5deg)
 
-        .chest
-          position: relative
-          width: calc(4 * $base_box_size)
-          height: calc(2 * $base_box_size)
-          background: #FFCF48
-          outline: 5px dotted #78B856
-          outline-offset: -10px
-          border: calc($base_box_size / 14) solid #282C34
-          border-radius: 0 0 calc($base_box_size / 4) calc($base_box_size / 4)
-          box-sizing: border-box
-          transition: border 0.5s ease-out
+          45%
+            transform: rotate(3deg)
+
+          60%
+            transform: rotate(-3deg)
+
+          75%
+            transform: rotate(1deg)
+
+          90%
+            transform: rotate(-1deg)
+
+          100%
+            transform: rotate(0deg)
+
+        .projects_list__item:has(a:focus)
+          transform-origin: 50%  0
+          animation: frame-swing 1.5s ease-in-out
+
+        .projects_list__item
+          flex-shrink: 0
+          width: 30%
+          height: auto
+
+
+          @media (max-width: 799px)
+            &
+              width: 45%
 
           p
-            position: relative
-            display: inline-block
-            padding: 0 4px
+            display: grid
+            padding: 0
             margin: 0
-            border: 1px double
-            transform: translateY(calc($base_box_size / 1.5)) rotateZ(-15deg)
-            transform-origin: center
-            font-size: $base_font_size
-            color: #282C34
-            font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
-            text-transform: uppercase
 
-            &:before
-              content: ''
-              position: absolute
-              top: 0
-              left: 0
+            @keyframes appear
+              0%
+                opacity: 0
+                z-index: 1
+
+              1%
+                opacity: 0
+                z-index: 1
+
+              100%
+                opacity: 1
+                z-index: 1
+
+            .projects_list__item__link
+              grid-area: 1 / 1
+              display: flex
+              align-items: center
+              justify-content: center
+              width: 100%
               height: 100%
-              width: 0
-              opacity: 0.2
-              background: #282C34
-              transition: width 0.25s ease-out
+              padding: calc($gap / 2)
+              margin: 0
+              border: calc($gap / 5) solid currentColor
+              border-radius: calc($gap / 2)
+              box-sizing: border-box
+              font-weight: 700
+              font-size: $imac-font-size
+              color: #78B856
+              background-color: #282c34
+              opacity: 0
 
-          &:after
-            position: absolute
-            content: ''
-            top: 0
-            left: calc(50% - $base_box_size / 4)
-            width: calc($base_box_size / 2)
-            height: calc($base_box_size / 2)
-            background: #282C34
-            border-radius: 0 0 calc($base_box_size / 2) calc($base_box_size / 2)
+              &:focus
+                transition: all 1.5s ease-in-out
+                opacity: 1
+                z-index: 1
+                text-decoration: none
 
-        .cap
-          width: calc(4 * $base_box_size)
-          height: $base_box_size
-          border: calc($base_box_size / 14) solid #282C34
-          border-bottom: none
-          border-radius: calc($base_box_size / 2) calc($base_box_size / 2) 0 0
-          background: #78B856
-          box-sizing: border-box
-          transition: border 0.5s ease-out
+            picture
+              grid-area: 1 / 1
 
-      .projects__tambourines
-        position: absolute
-        bottom: 0
-        right: $base_box_size
-        display: block
-        width: calc(3.5 * $base_box_size)
+              .projects_list__item__image
+                display: flex
+                justify-content: center
+                align-items: center
+                width: 100%
+                border: calc($gap / 5) solid currentColor
+                border-radius: calc($gap / 2)
+                box-sizing: border-box
+                aspect-ratio: 6/5
+                object-fit: cover
+                background-color: #282c34
+                opacity: 0.999
+                color: #78B856
+                font-weight: 500
+                cursor: pointer
 
-    .intro__final
-      flex-shrink: 0
-      width: 100%
-      padding: $base_box_size 0
-      font-size: $base_font_size
-      border-radius: $base_font_size $base_font_size 0 0
-      color: #282C34
-      background: #FFCF48
+                &:before
+                  display: none
 
-      p
-        margin: 0 0 $base_font_size 0
-        font-family: GilroyWebExtraBold, "Helvetica Neue", sans-serif
+          .projects_list__item__rope
+            display: block
+            width: 40%
+            margin: 0 auto -2px auto
 
 
+
+    .tambourines
+      display: block
+      align-self: flex-start
+      padding-left: 10%
+      width: calc($gap * 4)

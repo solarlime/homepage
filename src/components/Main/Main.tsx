@@ -1,14 +1,25 @@
+/*
+  eslint-disable
+  jsx-a11y/click-events-have-key-events,
+  jsx-a11y/no-noninteractive-element-interactions
+*/
+
 import { useContext, useState, useEffect } from 'react';
-import { useParams, Outlet, Link } from 'react-router-dom';
+import { useParams, Outlet } from 'react-router-dom';
 import styles from './Main.module.sass';
 // import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import { ThemeContext } from '../../context/Theme';
 import { LanguageContext } from '../../context/Language';
-import ImacExtras from '../../img/imac-extras.svg?react';
-import Cat from '../../img/cat.svg?react';
+import Avatar from './Avatar';
+import ImacExtras from './ImacExtras';
+import Cat from './Cat';
+import HookAndRope from './HookAndRope';
 import Tambourines from '../../img/tambourines.svg?react';
 import TagCloud from './About/TagCloud';
+import { ExtendedCSS } from '../types';
+import Bottom from './Bottom';
+import projectsObjectList from './Projects/projectsList';
 import { getContent, PageComponent } from '../Content/getContent';
 import Maintenance from './Maintenance';
 
@@ -17,15 +28,15 @@ import Maintenance from './Maintenance';
  * Takes initName and turns it into finalName
  * @constructor
  */
-function Name(props: { content: PageComponent }) {
-  const { content } = props;
+function Name(props: { content: PageComponent, textColor: string }) {
+  const { content, textColor } = props;
   const initName = 'solarlime';
   const finalName = content.title_name;
   const [name, setName] = useState(initName);
   const [mode, setMode] = useState('decrease');
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: NodeJS.Timeout | number | undefined;
     if (mode === 'decrease') {
       timeout = setTimeout(() => {
         setName((oldString) => {
@@ -47,7 +58,7 @@ function Name(props: { content: PageComponent }) {
   }, [name]);
 
   return (
-    <span className={styles.name}>
+    <span className={styles.name} style={{ color: textColor }}>
       {`${(mode === 'finished') ? finalName : name}${(name === initName || mode === 'finished') ? '' : '_'}`}
     </span>
   );
@@ -61,6 +72,7 @@ export function Intro() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
+  let focused: HTMLAnchorElement | null = null;
 
   useEffect(() => {
     getContent(language, 'intro')
@@ -70,32 +82,31 @@ export function Intro() {
   return (
     <article
       className={styles.base}
-      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      style={{
+        color: theme.color,
+        backgroundColor: theme.backgroundColor,
+        '--green-color': theme.accentColor,
+        '--not-green-color': theme.extraColor,
+      } as ExtendedCSS}
     >
-      <section id="me" className={`${styles.intro} ${styles.base__item}`}>
+      <section id="me" className={`${styles.intro}`}>
         <h1 className={styles.intro__title}>
-          <p className={styles.base__item__title}>
+          <p className={`${styles.base__item__title} ${styles.big__title}`}>
             {content.title}
             {' '}
-            <Name content={content} />
-            .
+            <Name content={content} textColor={theme.accentColor} />
           </p>
           <p className={styles.intro__title_subtitle}>{content.subtitle}</p>
         </h1>
-        <picture className={styles.intro__image}>
-          <img
-            sizes="100w"
-            srcSet={`${import.meta.env.VITE_APP_FILES}/memoji320.jpg 320w, 
-            ${import.meta.env.VITE_APP_FILES}/memoji640.jpg 640w, 
-            ${import.meta.env.VITE_APP_FILES}/memoji1280.jpg 1280w`}
-            src={`${import.meta.env.VITE_APP_FILES}/memoji.jpg`}
-            alt="Me"
-          />
-        </picture>
+        <Avatar
+          className={styles.intro__image}
+          green={theme.accentColor}
+          notGreen={theme.extraColor}
+        />
         <div className={styles.intro__imac}>
           <div
-            className={styles.imac}
-            style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+            className={`${styles.imac} ${(theme.name === 'light') ? styles.imac_light : styles.imac_dark}`}
+            style={{ color: theme.color }}
           >
             <p>
               {content.imac}
@@ -103,44 +114,100 @@ export function Intro() {
           </div>
           <div className={styles['imac-space']} />
         </div>
+      </section>
+      <section id="table" className={`${styles.intro} ${styles.base__item}`}>
         <div className={styles.intro__table}>
-          <ImacExtras className={styles['imac-extras']} />
+          <ImacExtras className={styles['imac-extras']} notGreen={theme.extraColor} />
           <div
             className={styles.table}
             style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
           >
-            <h2 className={styles.table__title}>
+            <h2 className={`${styles.table__title} ${styles.base__item__title}`}>
               {content.table_title}
             </h2>
-            <TagCloud theme={theme} />
-            <Cat className={styles.table__cat} />
+            <div className={styles.table__cloud}>
+              <TagCloud theme={theme} />
+            </div>
+            <Cat className={styles.table__cat} eyesColor={(theme.name === 'dark') ? theme.extraColor : theme.color} />
             <div className={styles.table__hole} />
           </div>
         </div>
+      </section>
+      <section id="projects" className={`${styles.intro} ${styles.base__item}`}>
         <div className={styles.intro__projects}>
-          <h2 className={styles.projects__title}>
+          <h2 className={`${styles.base__item__title} ${styles.projects_title}`}>
             {content.projects_title}
           </h2>
-          <p className={styles.projects__text}>
-            {content.projects_text_1}
-            <br />
-            {content.projects_text_2}
-          </p>
-          <Link className={styles.projects__chest} to="/projects">
-            <div className={styles.cap} />
-            <div className={styles.chest}>
-              <p>{content.chest}</p>
-            </div>
-          </Link>
-          <Tambourines className={styles.projects__tambourines} />
-        </div>
-        <div className={styles.intro__final}>
-          <p>
-            {content.final_1}
-            <br />
-            {content.final_2}
-          </p>
-          <a className={`${styles.button} ${styles['button-link']}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer">Telegram</a>
+          <ul className={styles.projects_list}>
+            {
+              projectsObjectList.map((project, index) => {
+                const orderColor = (index % 2 === 0) ? theme.accentColor : theme.extraColor;
+                return (
+                  <li key={project.id} className={styles.projects_list__item}>
+                    <HookAndRope
+                      className={styles.projects_list__item__rope}
+                      ropeColor={theme.color}
+                      hookColor={orderColor}
+                    />
+                    <p
+                      onClickCapture={
+                        // Safari does not catch clicks on <a> and catches them on <p>. Workaround
+                        (event) => {
+                          if (focused && (event.target as HTMLParagraphElement).querySelector('a') === focused) {
+                            window.open(`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`, '_blank', 'noreferrer');
+                            focused.blur();
+                            focused = null;
+                          }
+                        }
+                      }
+                    >
+                      <a
+                        className={styles.projects_list__item__link}
+                        href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ color: orderColor, backgroundColor: theme.backgroundColor }}
+                        onClick={() => { if (focused) focused.blur(); }}
+                      >
+                        {project.projectName}
+                      </a>
+                      <picture>
+                        <source
+                          srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.avif 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.avif 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.avif 1280w`}
+                          sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
+                        />
+                        <source
+                          srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.jpg 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.jpg 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.jpg 1280w`}
+                          sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
+                        />
+                        <source srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}.avif`} type="image/avif" />
+                        <img
+                          className={styles.projects_list__item__image}
+                          style={{ color: orderColor, backgroundColor: theme.backgroundColor }}
+                          src={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}.jpg`}
+                          alt={project.projectName}
+                          onClick={
+                            (event) => {
+                              const image = event.target as HTMLAnchorElement;
+                              try {
+                                const picture = image.parentElement!;
+                                const link = picture.previousElementSibling as HTMLAnchorElement;
+                                link.focus();
+                                focused = link;
+                              } catch (e) {
+                                console.error(`An error with '${project.projectName}' occurred! Fallback mode is on`);
+                                window.open(`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`, '_blank', 'noreferrer');
+                              }
+                            }
+                          }
+                        />
+                      </picture>
+                    </p>
+                  </li>
+                );
+              })
+            }
+          </ul>
         </div>
       </section>
       <section id="bottom" className={`${styles.intro} ${styles.base__item}`}>
