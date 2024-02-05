@@ -1,103 +1,70 @@
 @use '../../Base'
 
-$base_font_size: 20px
+$big_font_size: #{"var(--big-font-size)"}
+$base-font-size-pixels: #{"var(--base-font-size-pixels)"}
+$bar-height-size: #{"var(--bar-height-size)"}
+$gap: #{"var(--gap)"}
 
-.not-found
-  display: grid
-  grid-template: 1fr / 1fr 1fr
+$base-font-size: calc($base-font-size-pixels * 1px)
 
-  grid-template-areas: 'image content'
-  gap: 50px
-  width: 100%
-  height: inherit
-  text-align: left
+.container
+  padding-top: 0
 
-  .not-found__item
-    margin: 0
+  .not-found-wrapper
+    display: grid
+    grid-template-columns: 100%
+    min-height: 400px
+    height: calc(100vh - 2 * $bar-height-size)
+    height: calc(100dvh - 2 * $bar-height-size)
 
-  .not-found__item_image
-    grid-area: image
-    height: inherit
-    min-height: 0
-
-    .loading
+    .not-found
+      display: flex
+      grid-area: 1 / 1
+      flex-direction: column
+      align-items: center
       justify-content: center
-      font-size: $base_font_size
-      padding-left: 0
-      text-align: center
+      gap: $base-font-size
+      opacity: 0.999
 
-    img
+      h1
+        font-size: $big-font_size
+
+      .not-found__item
+        padding: 0
+        margin: 0 $base-font-size
+        max-width: 800px
+        font-size: $base-font-size
+
+        a
+          color: #78B856
+          font-weight: 500
+
+      .not-found__item_links
+        margin-top: $gap
+        font-size: calc($base-font-size - 6px)
+
+    .picture
+      display: flex
+      justify-content: center
+      grid-area: 1 / 1
+      height: 100%
+      overflow: hidden
+
+      img
+        width: 1100px
+        height: 100%
+        object-fit: cover
+        object-position: center center
+        background-position: center
+        background-repeat: no-repeat
+        background-size: cover
+        backdrop-filter: blur(10px)
+        color: transparent
+
+    .filter
+      display: grid
+      grid-area: 1 / 1
       width: 100%
       height: 100%
-      object-fit: cover
-      object-position: center center
-      background-color: #ccc
-      background-position: center
-      background-repeat: no-repeat
-      background-size: cover
-
-  .content
-    grid-area: content
-    display: grid
-    grid-template: calc(3.5 * $base_font_size) auto auto / 1fr
-    grid-template-areas: 'header' 'text' 'figcaption'
-    gap: 50px
-
-    a
-      color: #78B856
-
-      &:visited
-        color: #599432
-
-      &:hover
-        color: #FFCF48
-
-    .content__item
-      margin: 0
-
-    .content__item_header
-      grid-area: header
-      line-height: 1
-
-    .content__item_text
-      grid-area: text
-      font-size: $base_font_size
-
-      span:not(.loading)
-        display: block
-        margin-top: 20px
-
-    .content__item_figcaption
-      grid-area: figcaption
-      font-size: calc($base_font_size - 1vmin)
-
-  @media(max-width: 600px)
-    display: block
-    position: relative
-    text-align: center
-
-    .content
-      display: flex
-      flex-direction: column
-      justify-content: space-evenly
-      position: absolute
-      top: $base_font_size
-      left: 0
-      right: 0
-      bottom: $base_font_size
-      padding: $base_font_size
-      background-color: rgba(40, 44, 52, 0.7)
-      color: white
-
-      .loading
-        display: none
-
-  .loading
-    display: flex
-    align-items: center
-    justify-content: left
-    width: 100%
-    height: 100%
-    padding-left: $base_font_size
-    box-sizing: border-box
-    border: 1px solid
+      background-color: #282c34
+      opacity: 0.8
