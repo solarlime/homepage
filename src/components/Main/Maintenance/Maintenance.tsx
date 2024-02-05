@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LanguageContext } from '../../context/Language';
+import { LanguageContext } from '../../../context/Language';
 import styles from './Maintenance.module.sass';
 
 function Maintenance() {

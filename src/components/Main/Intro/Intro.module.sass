@@ -1,0 +1,308 @@
+@use '../../Base'
+@use '../About/TagCloud.module'
+
+$base-font-size: calc(#{"var(--base-font-size-pixels)"} * 1px)
+$imac-font-size: #{"var(--imac-font-size)"}
+
+$small-gap: #{"var(--small-gap)"}
+$gap: #{"var(--gap)"}
+$avatar-size: #{"var(--avatar-size)"}
+$big-font-size: #{"var(--big-font-size)"}
+
+$green-color: #{"var(--green-color)"}
+$not-green-color: #{"var(--not-green-color)"}
+
+.intro
+  $width: calc(19 * $base-font-size)
+  $height: calc(0.889 * $width)
+  $base-box-size: calc(2 * $base-font-size)
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 0
+  text-align: center
+
+  .intro__title
+    flex-shrink: 0
+    margin: $small-gap 0 calc(4 * $base-font-size) 0
+
+    .big__title
+      margin-bottom: $small-gap
+      font-size: $big-font-size
+
+    .name
+      color: #78B856
+
+  .intro__title_subtitle
+    margin: 0
+    font-size: $base-font-size
+    font-weight: 400
+
+  @keyframes memoji
+    from
+      transform: scale(0)
+    to
+      transform: scale(1)
+
+  .intro__image
+    order: -1
+    flex-shrink: 0
+    width: auto
+    height: $avatar-size
+    animation: memoji 1s cubic-bezier(.19,1,.22,1) forwards
+
+  .intro__imac
+    flex-shrink: 0
+
+    .imac
+      $width: calc(21 * $imac-font-size)
+      $height: calc(0.889 * $width)
+      position: sticky
+      display: flex
+      align-items: center
+      justify-content: center
+      top: calc(100% - $height - $gap)
+      width: $width
+      height: $height
+      padding: calc(2 * $imac-font-size) calc(2 * $imac-font-size) calc(8.5 * $imac-font-size) calc(2 * $imac-font-size)
+      margin: 0
+      font-size: calc($imac-font-size / 1.2)
+      box-sizing: border-box
+      background-image: url("../../../img/imac-dark.svg")
+      background-repeat: no-repeat
+      background-position: center
+      background-size: cover
+
+      p
+        margin: 0
+
+    .imac_light
+      background-image: url("../../../img/imac-light.svg")
+
+    .imac_dark
+      background-image: url("../../../img/imac-dark.svg")
+
+    .imac-space
+      width: $width
+      height: $width
+      margin: 0
+      box-sizing: border-box
+
+  .intro__table
+    position: relative
+    flex-shrink: 0
+    width: 100%
+    min-height: $height
+    padding: calc(2 * $imac-font-size) calc(2 * $imac-font-size) 0 calc(2 * $imac-font-size)
+    margin-bottom: $imac-font-size
+    border-radius: $gap $gap 0 0
+    box-sizing: border-box
+    background: #78B856
+
+    &:before, &:after
+      position: absolute
+      bottom: calc(-1 * $imac-font-size)
+      content: ''
+      height: $imac-font-size
+      background: #FFCF48
+      background: $not-green-color
+
+    &:before
+      left: 0
+      content: ''
+      min-width: $imac-font-size
+      width: 10%
+      border-left: 100vw solid #FFCF48
+      border-left: 100vw solid $not-green-color
+      margin-left: -100vw
+
+    &:after
+      right: 0
+      content: ''
+      width: calc(90% - calc($gap / 2) - calc($gap * 4))
+      //max-width: calc(100% - 5.5 * $base-font-size)
+      //width: calc(90% - 4.5 * $base-font-size)
+      border-right: 100vw solid #FFCF48
+      border-right: 100vw solid $not-green-color
+      margin-right: -100vw
+
+    .imac-extras
+      position: absolute
+      top: calc(-1 * $height)
+      left: calc(50% - $width / 2)
+      width: $width
+      height: $height
+      margin: 0 auto
+
+    .table
+      width: 100%
+      height: 100%
+      padding: 0 $imac-font-size
+      border-radius: calc($gap / 2) calc($gap / 2) 0 0
+      box-sizing: border-box
+      background: #282C34
+
+      .table__title
+        padding: calc($gap * 2) 0 0 0
+
+      .table__cloud
+        padding-bottom: calc($gap * 2)
+
+      .table__cat
+        $cat_height: calc(5 * $imac-font-size)
+        display: block
+        width: auto
+        height: $cat_height
+        margin: 0 auto
+
+        @media (max-width: 699px)
+          &
+            margin: 0 0 0 auto
+
+      @keyframes hole
+        from
+          transform: rotate(87deg)
+        to
+          transform: rotate(93deg)
+
+      .table__hole
+        position: absolute
+        bottom: calc(-1 * $imac-font-size)
+        left: 10%
+        background: #FFCF48
+        background: $not-green-color
+        width: calc($gap * 4)
+        height: calc($gap / 2)
+        animation: hole 2s alternate-reverse infinite ease-in-out
+        transform-origin: bottom left
+
+  .intro__projects
+    flex-shrink: 0
+    width: 100%
+    box-sizing: border-box
+
+    .projects_title
+      padding: 0
+
+    .projects_list
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
+      gap: $gap
+      list-style: none
+      padding: 0
+      margin: 0
+
+      @keyframes frame-swing
+        0%
+          transform: rotate(0deg)
+
+        15%
+          transform: rotate(5deg)
+
+        30%
+          transform: rotate(-5deg)
+
+        45%
+          transform: rotate(3deg)
+
+        60%
+          transform: rotate(-3deg)
+
+        75%
+          transform: rotate(1deg)
+
+        90%
+          transform: rotate(-1deg)
+
+        100%
+          transform: rotate(0deg)
+
+      .projects_list__item:has(a:focus)
+        transform-origin: 50%  0
+        animation: frame-swing 1.5s ease-in-out
+
+      .projects_list__item
+        flex-shrink: 0
+        width: 30%
+        height: auto
+
+
+        @media (max-width: 799px)
+          &
+            width: 45%
+
+        p
+          display: grid
+          padding: 0
+          margin: 0
+
+          @keyframes appear
+            0%
+              opacity: 0
+              z-index: 1
+
+            1%
+              opacity: 0
+              z-index: 1
+
+            100%
+              opacity: 1
+              z-index: 1
+
+          .projects_list__item__link
+            grid-area: 1 / 1
+            display: flex
+            align-items: center
+            justify-content: center
+            width: 100%
+            height: 100%
+            padding: calc($gap / 2)
+            margin: 0
+            border: calc($gap / 5) solid currentColor
+            border-radius: calc($gap / 2)
+            box-sizing: border-box
+            font-weight: 700
+            font-size: $imac-font-size
+            color: #78B856
+            background-color: #282c34
+            opacity: 0
+
+            &:focus
+              transition: all 1.5s ease-in-out
+              opacity: 1
+              z-index: 1
+              text-decoration: none
+
+          picture
+            grid-area: 1 / 1
+
+            .projects_list__item__image
+              display: flex
+              justify-content: center
+              align-items: center
+              width: 100%
+              border: calc($gap / 5) solid currentColor
+              border-radius: calc($gap / 2)
+              box-sizing: border-box
+              aspect-ratio: 6/5
+              object-fit: cover
+              background-color: #282c34
+              opacity: 0.999
+              color: #78B856
+              font-weight: 500
+              cursor: pointer
+
+              &:before
+                display: none
+
+        .projects_list__item__rope
+          display: block
+          width: 40%
+          margin: 0 auto -2px auto
+
+  .tambourines
+    display: block
+    align-self: flex-start
+    padding-left: 10%
+    width: calc($gap * 4)

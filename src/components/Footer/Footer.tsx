@@ -67,8 +67,8 @@ function Footer() {
       <div className={styles['footer-items']}>
         <p className={styles['footer-items__item_copyright']}>
           &copy;
+          solarlime.dev,
           {` ${getYear()} `}
-          solarlime.dev
         </p>
         <LanguageChanger
           languageName={language.name}

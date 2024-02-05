@@ -7,7 +7,7 @@ import Telegram from '../../../img/telegram.svg?react';
 import { ThemeContext } from '../../../context/Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
-import Bottom from '../Bottom';
+import Bottom from '../Bottom/Bottom';
 import { ExtendedCSS } from '../../types';
 import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';

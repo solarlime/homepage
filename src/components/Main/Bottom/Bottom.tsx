@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { useMatch } from 'react-router-dom';
 import styles from './Bottom.module.sass';
-import { ThemeContext } from '../../context/Theme';
-import { ExtendedCSS } from '../types';
+import { ThemeContext } from '../../../context/Theme';
+import { ExtendedCSS } from '../../types';
 
 function Bottom(props: { content: {
   text1: string, text2: string, text3: string, button: string,
