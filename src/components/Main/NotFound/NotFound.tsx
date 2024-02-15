@@ -4,8 +4,8 @@ import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
 import lime from '../../../img/lime.jpg';
 import styles from './NotFound.module.sass';
-import { ThemeContext } from '../../../context/Theme';
-import { LanguageContext } from '../../../context/Language';
+import { ThemeContext } from '../../../redux/Theme';
+import { LanguageContext } from '../../../redux/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 interface Photo {

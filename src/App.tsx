@@ -7,7 +7,7 @@ import Main, { AboutOrNot } from './components/Main/Main';
 import Maintenance from './components/Main/Maintenance/Maintenance';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/Main/NotFound/NotFound';
-import { ThemeContext } from './context/Theme';
+import { ThemeContext } from './redux/Theme';
 
 function AppContent() {
   return (

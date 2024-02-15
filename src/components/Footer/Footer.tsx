@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import styles from './Footer.module.sass';
-import { LanguageContext } from '../../context/Language';
-import { ThemeContext } from '../../context/Theme';
+import { LanguageContext } from '../../redux/Language';
+import { ThemeContext } from '../../redux/Theme';
 import { getContent, PageComponent } from '../Content/getContent';
 import { ExtendedCSS } from '../types';
 import ru from '../../img/ru.png';

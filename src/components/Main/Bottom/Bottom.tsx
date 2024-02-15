@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useMatch } from 'react-router-dom';
 import styles from './Bottom.module.sass';
-import { ThemeContext } from '../../../context/Theme';
+import { ThemeContext } from '../../../redux/Theme';
 import { ExtendedCSS } from '../../types';
 
 function Bottom(props: { content: {

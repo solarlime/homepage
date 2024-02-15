@@ -6,8 +6,8 @@
 
 import { useContext, useState, useEffect } from 'react';
 import styles from './Intro.module.sass';
-import { ThemeContext } from '../../../context/Theme';
-import { LanguageContext } from '../../../context/Language';
+import { ThemeContext } from '../../../redux/Theme';
+import { LanguageContext } from '../../../redux/Language';
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
 import Cat from './SVGComponents/Cat';

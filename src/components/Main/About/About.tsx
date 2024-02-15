@@ -4,12 +4,12 @@ import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
 import Telegram from '../../../img/telegram.svg?react';
-import { ThemeContext } from '../../../context/Theme';
+import { ThemeContext } from '../../../redux/Theme';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
 import { ExtendedCSS } from '../../types';
-import { LanguageContext } from '../../../context/Language';
+import { LanguageContext } from '../../../redux/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 /**

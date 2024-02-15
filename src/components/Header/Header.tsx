@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 import styles from './Header.module.sass';
-import { ThemeContext } from '../../context/Theme';
+import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
 import { ExtendedCSS } from '../types';
 import Logo from './Logo';
 import Github from '../../img/github.svg?react';
@@ -10,9 +10,10 @@ import Print from '../../img/print.svg?react';
 import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
-import { LanguageContext } from '../../context/Language';
+import { LanguageContext } from '../../redux/Language';
 import { getContent, PageComponent } from '../Content/getContent';
-import { Language, Theme } from '../../context/contextTypes';
+import { Language, Theme } from '../../redux/contextTypes';
+import { selectTheme, selectThemeName, toggleTheme } from '../../redux/themeSlice';
 
 /**
  * A component for rendering a theme changer switcher
@@ -20,8 +21,11 @@ import { Language, Theme } from '../../context/contextTypes';
  *                themeName: a string with a chosen theme name
  * @constructor
  */
-function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark', languageName: 'ru' | 'en' }) {
-  const { toggleTheme, themeName, languageName } = props;
+function ThemeChanger(props: { languageName: 'ru' | 'en' }) {
+  const themeName = useAppSelector(selectThemeName);
+  const dispatch = useAppDispatch();
+
+  const { languageName } = props;
 
   return (
     <button
@@ -29,7 +33,7 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
       type="button"
       aria-label={(languageName === 'ru' ? 'Сменить тему' : 'Change theme')}
       aria-controls={(languageName === 'ru' ? `Текущая тема: ${(themeName === 'light') ? 'светлая' : 'тёмная'}` : `Theme changed to ${themeName}`)}
-      onClick={toggleTheme}
+      onClick={() => dispatch(toggleTheme())}
     >
       <img src={(themeName === 'dark') ? sun : moon} alt="" />
     </button>
@@ -114,7 +118,7 @@ function SavePDFButton(props: { language: Language, theme: Theme, content: PageC
  * @constructor
  */
 function Header() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
   const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
@@ -174,8 +178,6 @@ function Header() {
             </>
           )}
           <ThemeChanger
-            toggleTheme={toggleTheme}
-            themeName={theme.name}
             languageName={language.name}
           />
         </li>

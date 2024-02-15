@@ -1,6 +1,6 @@
 // @ts-ignore
 import Typograf from 'typograf';
-import { Language } from '../../context/contextTypes';
+import { Language } from '../../redux/contextTypes';
 
 export interface PageComponent {
   [key: string]: string,

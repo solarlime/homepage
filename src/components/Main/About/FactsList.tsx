@@ -7,8 +7,8 @@ import {
 import Masonry from 'react-masonry-component';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
-import { LanguageContext } from '../../../context/Language';
-import { ThemeContext } from '../../../context/Theme';
+import { LanguageContext } from '../../../redux/Language';
+import { ThemeContext } from '../../../redux/Theme';
 import { ExtendedCSS } from '../../types';
 
 /**

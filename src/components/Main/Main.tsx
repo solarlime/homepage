@@ -3,7 +3,7 @@ import { useParams, Outlet } from 'react-router-dom';
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
-import { ThemeContext } from '../../context/Theme';
+import { ThemeContext } from '../../redux/Theme';
 import Maintenance from './Maintenance/Maintenance';
 
 /**
