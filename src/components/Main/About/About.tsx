@@ -1,16 +1,20 @@
 import { useContext, useEffect, useState } from 'react';
+
+import type { ExtendedCSS } from '../../types';
+
 import styles from './About.module.sass';
+import TagCloud from './TagCloud';
+import FactsList from './FactsList';
+import Bottom from '../Bottom/Bottom';
+import { LanguageContext } from '../../../redux/Language';
+import { getContent, PageComponent } from '../../Content/getContent';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
+
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
 import Email from '../../../img/email.svg?react';
 import Telegram from '../../../img/telegram.svg?react';
-import { ThemeContext } from '../../../redux/Theme';
-import TagCloud from './TagCloud';
-import FactsList from './FactsList';
-import Bottom from '../Bottom/Bottom';
-import { ExtendedCSS } from '../../types';
-import { LanguageContext } from '../../../redux/Language';
-import { getContent, PageComponent } from '../../Content/getContent';
 
 /**
  * A function for counting the age
@@ -37,7 +41,7 @@ function getAge(language: 'ru' | 'en') {
  * @constructor
  */
 function About() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
   const age = getAge(language.name);
@@ -103,7 +107,7 @@ function About() {
       </section>
       <section className={`${styles.base__item} ${styles.about__skills}`}>
         <h1 className={styles.base__item__title}>{content.skills_title}</h1>
-        <TagCloud theme={theme} />
+        <TagCloud />
       </section>
       <section className={`${styles.base__item} ${styles['about-me']}`}>
         <h1 className={styles.base__item__title}>{content.about_title}</h1>

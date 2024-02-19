@@ -1,9 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
+
+import type { ExtendedCSS } from '../types';
+
 import styles from './Footer.module.sass';
 import { LanguageContext } from '../../redux/Language';
-import { ThemeContext } from '../../redux/Theme';
 import { getContent, PageComponent } from '../Content/getContent';
-import { ExtendedCSS } from '../types';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/themeSlice';
+
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
 
@@ -46,7 +50,7 @@ const getYear = () => {
  * @constructor
  */
 function Footer() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const { language, toggleLanguage } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
 

@@ -1,19 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
+
+import type { Language } from '../../redux/contextTypes';
+import type { ExtendedCSS } from '../types';
+
 import styles from './Header.module.sass';
 import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
-import { ExtendedCSS } from '../types';
+import { LanguageContext } from '../../redux/Language';
+import { getContent, PageComponent } from '../Content/getContent';
+import { selectTheme, selectThemeName, toggleTheme } from '../../redux/themeSlice';
 import Logo from './Logo';
+
 import Github from '../../img/github.svg?react';
 import Telegram from '../../img/telegram.svg?react';
 import Print from '../../img/print.svg?react';
 import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
-import { LanguageContext } from '../../redux/Language';
-import { getContent, PageComponent } from '../Content/getContent';
-import { Language, Theme } from '../../redux/contextTypes';
-import { selectTheme, selectThemeName, toggleTheme } from '../../redux/themeSlice';
 
 /**
  * A component for rendering a theme changer switcher
@@ -47,8 +50,9 @@ type State = true | 'pending' | false;
  * It triggers server to open the page, save as pdf and send it to client
  * @constructor
  */
-function SavePDFButton(props: { language: Language, theme: Theme, content: PageComponent }) {
-  const { language, theme, content } = props;
+function SavePDFButton(props: { language: Language, content: PageComponent }) {
+  const { language, content } = props;
+  const theme = useAppSelector(selectTheme);
   const [disabled, setDisabled] = useState(false as State);
 
   const handleDownload = () => {
@@ -146,7 +150,7 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
-              <SavePDFButton language={language} theme={theme} content={content} />
+              <SavePDFButton language={language} content={content} />
               <button
                 className={`${styles.link}`}
                 type="button"

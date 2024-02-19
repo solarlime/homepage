@@ -1,6 +1,6 @@
-import React from 'react';
+import type { CSSProperties } from 'react';
 
-export interface ExtendedCSS extends React.CSSProperties {
+export interface ExtendedCSS extends CSSProperties {
   '--button-color': string,
   '--hover-color': string,
   '--hover-bg-color': string,

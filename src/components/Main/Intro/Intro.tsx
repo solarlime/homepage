@@ -5,19 +5,23 @@
 */
 
 import { useContext, useState, useEffect } from 'react';
+
+import type { ExtendedCSS } from '../../types';
+
 import styles from './Intro.module.sass';
-import { ThemeContext } from '../../../redux/Theme';
 import { LanguageContext } from '../../../redux/Language';
+import TagCloud from '../About/TagCloud';
+import Bottom from '../Bottom/Bottom';
+import projectsObjectList from '../Projects/projectsList';
+import { getContent, PageComponent } from '../../Content/getContent';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
+
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
 import Cat from './SVGComponents/Cat';
 import HookAndRope from './SVGComponents/HookAndRope';
 import Tambourines from '../../../img/tambourines.svg?react';
-import TagCloud from '../About/TagCloud';
-import { ExtendedCSS } from '../../types';
-import Bottom from '../Bottom/Bottom';
-import projectsObjectList from '../Projects/projectsList';
-import { getContent, PageComponent } from '../../Content/getContent';
 
 /**
  * A component for rendering a name.
@@ -65,7 +69,7 @@ function Name(props: { content: PageComponent, textColor: string }) {
  * @constructor
  */
 export default function Intro() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
   let focused: HTMLAnchorElement | null = null;
@@ -122,7 +126,7 @@ export default function Intro() {
               {content.table_title}
             </h2>
             <div className={styles.table__cloud}>
-              <TagCloud theme={theme} />
+              <TagCloud />
             </div>
             <Cat className={styles.table__cat} eyesColor={(theme.name === 'dark') ? theme.extraColor : theme.color} />
             <div className={styles.table__hole} />

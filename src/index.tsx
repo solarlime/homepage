@@ -1,10 +1,10 @@
-import './wdyr';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './redux/Theme';
+import { Provider } from 'react-redux';
+
+import './wdyr';
+import './index.css';
 import { LanguageProvider } from './redux/Language';
 import App from './App';
 import { store } from './redux/app/store';
@@ -17,11 +17,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <ThemeProvider>
-          <LanguageProvider>
-            <App />
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
       </Provider>
     </BrowserRouter>
   </StrictMode>,

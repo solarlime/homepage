@@ -1,13 +1,15 @@
-import { useContext } from 'react';
 import { useMatch } from 'react-router-dom';
+
+import type { ExtendedCSS } from '../../types';
+
 import styles from './Bottom.module.sass';
-import { ThemeContext } from '../../../redux/Theme';
-import { ExtendedCSS } from '../../types';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
 
 function Bottom(props: { content: {
   text1: string, text2: string, text3: string, button: string,
 }, bgColor: string }) {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const isMain = useMatch('/');
   const {
     content: {

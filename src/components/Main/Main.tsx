@@ -1,10 +1,11 @@
-import { useContext } from 'react';
 import { useParams, Outlet } from 'react-router-dom';
+
 import styles from './Main.module.sass';
 import NotFound from './NotFound/NotFound';
 import About from './About/About';
-import { ThemeContext } from '../../redux/Theme';
 import Maintenance from './Maintenance/Maintenance';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/themeSlice';
 
 /**
  * An extra component, which controls access to the CV
@@ -26,7 +27,7 @@ export function AboutOrNot() {
  * @constructor
  */
 function Main() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
 
   return (
     <main

@@ -1,13 +1,14 @@
-import { useContext } from 'react';
-import './App.sass';
 import { Route, Routes } from 'react-router-dom';
+import './App.sass';
+
 import Header from './components/Header/Header';
 import Intro from './components/Main/Intro/Intro';
 import Main, { AboutOrNot } from './components/Main/Main';
 import Maintenance from './components/Main/Maintenance/Maintenance';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/Main/NotFound/NotFound';
-import { ThemeContext } from './redux/Theme';
+import { useAppSelector } from './redux/app/hooks';
+import { selectTheme } from './redux/themeSlice';
 
 function AppContent() {
   return (
@@ -22,7 +23,7 @@ function AppContent() {
 }
 
 function App() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
 
   return (
     <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>

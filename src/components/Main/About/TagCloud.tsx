@@ -1,8 +1,10 @@
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import uniqid from 'uniqid';
+
 import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
-import { Theme } from '../../../redux/contextTypes';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
 
 const id = uniqid;
 
@@ -26,11 +28,10 @@ const randomArray = (length: number) => [...Array(length)].map(() => Math.random
 
 /**
  * A component for rendering a tag cloud in random order.
- * @param props - themeName: a theme name (light or dark)
  * @constructor
  */
-const TagCloud = memo((props: { theme: Theme }): React.ReactElement => {
-  const { theme } = props;
+function TagCloud() {
+  const theme = useAppSelector(selectTheme);
 
   const shuffledTags = useMemo(() => shuffleArray(tags), []);
   const colorsRandom = useMemo(() => randomArray(tags.length), []);
@@ -50,6 +51,6 @@ const TagCloud = memo((props: { theme: Theme }): React.ReactElement => {
       </ul>
     </div>
   );
-});
+}
 
 export default TagCloud;

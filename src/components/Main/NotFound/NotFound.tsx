@@ -1,15 +1,20 @@
 import { useState, useEffect, useContext } from 'react';
 import { createApi } from 'unsplash-js';
+
+import type { ReactElement } from 'react';
+
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
-import lime from '../../../img/lime.jpg';
 import styles from './NotFound.module.sass';
-import { ThemeContext } from '../../../redux/Theme';
 import { LanguageContext } from '../../../redux/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
+
+import lime from '../../../img/lime.jpg';
 
 interface Photo {
-  image: React.ReactElement | undefined,
+  image: ReactElement | undefined,
   author: string,
   userLink: string,
   photoLink: string,
@@ -28,7 +33,7 @@ interface Page {
  * @constructor
  */
 function NotFound() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const { language } = useContext(LanguageContext);
 
   // @ts-ignore

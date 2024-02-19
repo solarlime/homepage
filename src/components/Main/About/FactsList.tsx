@@ -5,11 +5,14 @@ import {
   forwardRef, memo, useContext, useMemo, useRef,
 } from 'react';
 import Masonry from 'react-masonry-component';
+
+import type { ExtendedCSS } from '../../types';
+
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
 import { LanguageContext } from '../../../redux/Language';
-import { ThemeContext } from '../../../redux/Theme';
-import { ExtendedCSS } from '../../types';
+import { useAppSelector } from '../../../redux/app/hooks';
+import { selectTheme } from '../../../redux/themeSlice';
 
 /**
  * A function for importing data from a secret.
@@ -48,7 +51,7 @@ const shuffledAndCorrected = (facts: string[][], order: Array<number>) => {
  * @constructor
  */
 const FactsListItem = forwardRef((props: { id: string, item: Array<string>, language: 'ru' | 'en' }, ref) => {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
   const textRef = useRef<HTMLDivElement>(null);
   const { id, item, language } = props;
   const specials = (language === 'ru') ? ['образование', 'курсы'] : ['education', 'courses'];
