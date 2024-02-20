@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { ExtendedCSS } from '../../types';
 
@@ -6,10 +6,10 @@ import styles from './About.module.sass';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
-import { LanguageContext } from '../../../redux/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/themeSlice';
+import { selectLanguage } from '../../../redux/languageSlice';
 
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
@@ -42,7 +42,7 @@ function getAge(language: 'ru' | 'en') {
  */
 function About() {
   const theme = useAppSelector(selectTheme);
-  const { language } = useContext(LanguageContext);
+  const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
   const age = getAge(language.name);
 
@@ -127,5 +127,7 @@ function About() {
     </article>
   );
 }
+
+About.whyDidYouRender = true;
 
 export default About;

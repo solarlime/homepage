@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { createApi } from 'unsplash-js';
 
 import type { ReactElement } from 'react';
@@ -6,10 +6,10 @@ import type { ReactElement } from 'react';
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
 import styles from './NotFound.module.sass';
-import { LanguageContext } from '../../../redux/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/themeSlice';
+import { selectLanguage } from '../../../redux/languageSlice';
 
 import lime from '../../../img/lime.jpg';
 
@@ -34,7 +34,7 @@ interface Page {
  */
 function NotFound() {
   const theme = useAppSelector(selectTheme);
-  const { language } = useContext(LanguageContext);
+  const language = useAppSelector(selectLanguage);
 
   // @ts-ignore
   const unsplash = createApi({
@@ -163,6 +163,6 @@ function NotFound() {
   );
 }
 
-NotFound.whyDitYouRender = true;
+NotFound.whyDidYouRender = true;
 
 export default NotFound;

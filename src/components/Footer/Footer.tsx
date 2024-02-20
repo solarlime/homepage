@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { ExtendedCSS } from '../types';
 
 import styles from './Footer.module.sass';
-import { LanguageContext } from '../../redux/Language';
 import { getContent, PageComponent } from '../Content/getContent';
-import { useAppSelector } from '../../redux/app/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/themeSlice';
+import { selectLanguage, selectLanguageName, toggleLanguage } from '../../redux/languageSlice';
 
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
@@ -17,8 +17,11 @@ import en from '../../img/en.png';
  *                languageName: a string with a chosen language
  * @constructor
  */
-function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru' | 'en', languageButton: string }) {
-  const { toggleLanguage, languageName, languageButton } = props;
+function LanguageChanger(props: { languageButton: string }) {
+  const { languageButton } = props;
+
+  const languageName = useAppSelector(selectLanguageName);
+  const dispatch = useAppDispatch();
 
   return (
     <button
@@ -26,7 +29,7 @@ function LanguageChanger(props: { toggleLanguage: () => void, languageName: 'ru'
       type="button"
       aria-label={(languageName === 'ru' ? 'Сменить язык' : 'Change language')}
       aria-controls={(languageName === 'ru' ? `Текущий язык: ${(languageName === 'ru') ? 'русский' : 'английский'}` : `Theme changed to ${languageName}`)}
-      onClick={toggleLanguage}
+      onClick={() => dispatch(toggleLanguage())}
     >
       {
         (document.documentElement.clientWidth < 550)
@@ -51,7 +54,7 @@ const getYear = () => {
  */
 function Footer() {
   const theme = useAppSelector(selectTheme);
-  const { language, toggleLanguage } = useContext(LanguageContext);
+  const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
 
   useEffect(() => {
@@ -74,14 +77,12 @@ function Footer() {
           solarlime.dev,
           {` ${getYear()} `}
         </p>
-        <LanguageChanger
-          languageName={language.name}
-          toggleLanguage={toggleLanguage}
-          languageButton={content.language}
-        />
+        <LanguageChanger languageButton={content.language} />
       </div>
     </footer>
   );
 }
+
+Footer.whyDidYouRender = true;
 
 export default Footer;

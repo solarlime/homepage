@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 
 import './wdyr';
 import './index.css';
-import { LanguageProvider } from './redux/Language';
 import App from './App';
 import { store } from './redux/app/store';
 
@@ -17,9 +16,7 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <LanguageProvider>
-          <App />
-        </LanguageProvider>
+        <App />
       </Provider>
     </BrowserRouter>
   </StrictMode>,

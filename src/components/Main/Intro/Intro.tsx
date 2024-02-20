@@ -4,18 +4,18 @@
   jsx-a11y/no-noninteractive-element-interactions
 */
 
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import type { ExtendedCSS } from '../../types';
 
 import styles from './Intro.module.sass';
-import { LanguageContext } from '../../../redux/Language';
 import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
 import projectsObjectList from '../Projects/projectsList';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/themeSlice';
+import { selectLanguage } from '../../../redux/languageSlice';
 
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
@@ -70,7 +70,7 @@ function Name(props: { content: PageComponent, textColor: string }) {
  */
 export default function Intro() {
   const theme = useAppSelector(selectTheme);
-  const { language } = useContext(LanguageContext);
+  const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
   let focused: HTMLAnchorElement | null = null;
 
@@ -225,3 +225,5 @@ export default function Intro() {
     </article>
   );
 }
+
+Intro.whyDidYouRender = true;

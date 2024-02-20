@@ -1,18 +1,16 @@
 import uniqid from 'uniqid';
 // @ts-ignore
 import Typograf from 'typograf';
-import {
-  forwardRef, memo, useContext, useMemo, useRef,
-} from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import Masonry from 'react-masonry-component';
 
 import type { ExtendedCSS } from '../../types';
 
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
-import { LanguageContext } from '../../../redux/Language';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/themeSlice';
+import { selectLanguageName } from '../../../redux/languageSlice';
 
 /**
  * A function for importing data from a secret.
@@ -50,11 +48,12 @@ const shuffledAndCorrected = (facts: string[][], order: Array<number>) => {
  * @param props - id: a unique id, item: an array with a fact name ([0]) & a fact text ([1])
  * @constructor
  */
-const FactsListItem = forwardRef((props: { id: string, item: Array<string>, language: 'ru' | 'en' }, ref) => {
+const FactsListItem = forwardRef((props: { id: string, item: Array<string> }, ref) => {
   const theme = useAppSelector(selectTheme);
+  const languageName = useAppSelector(selectLanguageName);
   const textRef = useRef<HTMLDivElement>(null);
-  const { id, item, language } = props;
-  const specials = (language === 'ru') ? ['образование', 'курсы'] : ['education', 'courses'];
+  const { id, item } = props;
+  const specials = (languageName === 'ru') ? ['образование', 'курсы'] : ['education', 'courses'];
 
   return (
     <li
@@ -81,7 +80,6 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
           }
         }}
         onBlur={() => {
-          console.log('oh');
           // @ts-ignore
           if (textRef.current && ref.current) {
             textRef.current.classList.remove(styles.opened);
@@ -91,7 +89,7 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
         }}
       >
         <span>
-          {(language === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
+          {(languageName === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
         </span>
       </button>
       <div className={`${styles.fact_text}`} ref={textRef}>{item[1]}</div>
@@ -105,11 +103,11 @@ const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
  * A component for rendering a list with cards
  * @constructor
  */
-const FactsList = memo(() => {
-  const { language } = useContext(LanguageContext);
+function FactsList() {
+  const languageName = useAppSelector(selectLanguageName);
   const ref = useRef(null);
 
-  const facts = Object.entries(importFacts(language.name));
+  const facts = Object.entries(importFacts(languageName));
   // @ts-ignore
   const indexes = useMemo(() => Array(facts.length).fill(1).map((value, i) => i), []);
 
@@ -135,11 +133,12 @@ const FactsList = memo(() => {
           key={ids[i]}
           id={ids[i]}
           ref={ref}
-          language={language.name}
         />
       ))}
     </Masonry>
   );
-});
+}
+
+FactsList.whyDidYouRender = true;
 
 export default FactsList;

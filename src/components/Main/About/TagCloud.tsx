@@ -53,4 +53,6 @@ function TagCloud() {
   );
 }
 
+TagCloud.whyDidYouRender = true;
+
 export default TagCloud;

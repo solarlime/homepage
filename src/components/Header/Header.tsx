@@ -1,14 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 
-import type { Language } from '../../redux/contextTypes';
 import type { ExtendedCSS } from '../types';
 
 import styles from './Header.module.sass';
 import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
-import { LanguageContext } from '../../redux/Language';
 import { getContent, PageComponent } from '../Content/getContent';
 import { selectTheme, selectThemeName, toggleTheme } from '../../redux/themeSlice';
+import { selectLanguage, selectLanguageName } from '../../redux/languageSlice';
 import Logo from './Logo';
 
 import Github from '../../img/github.svg?react';
@@ -24,11 +23,10 @@ import sun from '../../img/sun.svg';
  *                themeName: a string with a chosen theme name
  * @constructor
  */
-function ThemeChanger(props: { languageName: 'ru' | 'en' }) {
+function ThemeChanger() {
   const themeName = useAppSelector(selectThemeName);
+  const languageName = useAppSelector(selectLanguageName);
   const dispatch = useAppDispatch();
-
-  const { languageName } = props;
 
   return (
     <button
@@ -50,9 +48,10 @@ type State = true | 'pending' | false;
  * It triggers server to open the page, save as pdf and send it to client
  * @constructor
  */
-function SavePDFButton(props: { language: Language, content: PageComponent }) {
-  const { language, content } = props;
+function SavePDFButton(props: { content: PageComponent }) {
+  const { content } = props;
   const theme = useAppSelector(selectTheme);
+  const languageName = useAppSelector(selectLanguageName);
   const [disabled, setDisabled] = useState(false as State);
 
   const handleDownload = () => {
@@ -63,7 +62,7 @@ function SavePDFButton(props: { language: Language, content: PageComponent }) {
         'Content-Type': 'application/pdf',
         'Cache-Control': 'no-cache',
       },
-      body: JSON.stringify({ language: language.name }),
+      body: JSON.stringify({ language: languageName }),
     })
       .then(
         (result) => {
@@ -81,7 +80,7 @@ function SavePDFButton(props: { language: Language, content: PageComponent }) {
 
                 const linkElement = document.createElement('a');
                 linkElement.href = url;
-                linkElement.download = `CV_Front-end_${import.meta.env[(language.name === 'ru') ? 'VITE_APP_ME_ru' : 'VITE_APP_ME_en']}.pdf`;
+                linkElement.download = `CV_Front-end_${import.meta.env[(languageName === 'ru') ? 'VITE_APP_ME_ru' : 'VITE_APP_ME_en']}.pdf`;
 
                 document.body.appendChild(linkElement);
                 linkElement.click();
@@ -123,7 +122,7 @@ function SavePDFButton(props: { language: Language, content: PageComponent }) {
  */
 function Header() {
   const theme = useAppSelector(selectTheme);
-  const { language } = useContext(LanguageContext);
+  const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
   const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
 
@@ -150,7 +149,7 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
-              <SavePDFButton language={language} content={content} />
+              <SavePDFButton content={content} />
               <button
                 className={`${styles.link}`}
                 type="button"
@@ -181,13 +180,13 @@ function Header() {
               </a>
             </>
           )}
-          <ThemeChanger
-            languageName={language.name}
-          />
+          <ThemeChanger />
         </li>
       </ul>
     </header>
   );
 }
+
+Header.whyDidYouRender = true;
 
 export default Header;

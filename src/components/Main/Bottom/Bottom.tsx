@@ -60,4 +60,6 @@ function Bottom(props: { content: {
   );
 }
 
+Bottom.whyDidYouRender = true;
+
 export default Bottom;
