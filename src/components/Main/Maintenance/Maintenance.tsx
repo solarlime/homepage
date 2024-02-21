@@ -1,8 +1,10 @@
+import { memo } from 'react';
+
 import styles from './Maintenance.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectLanguageName } from '../../../redux/languageSlice';
 
-function Maintenance() {
+const Maintenance = memo(() => {
   const languageName = useAppSelector(selectLanguageName);
 
   return (
@@ -14,7 +16,7 @@ function Maintenance() {
       </section>
     </article>
   );
-}
+});
 
 Maintenance.whyDidYouRender = true;
 

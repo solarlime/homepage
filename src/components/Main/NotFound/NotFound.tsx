@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { createApi } from 'unsplash-js';
 
 import type { ReactElement } from 'react';
@@ -32,7 +32,7 @@ interface Page {
  * Each image is cropped
  * @constructor
  */
-function NotFound() {
+const NotFound = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
 
@@ -161,7 +161,7 @@ function NotFound() {
       </section>
     </article>
   );
-}
+});
 
 NotFound.whyDidYouRender = true;
 

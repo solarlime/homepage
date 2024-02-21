@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.sass';
 
@@ -10,17 +11,15 @@ import NotFound from './components/Main/NotFound/NotFound';
 import { useAppSelector } from './redux/app/hooks';
 import { selectTheme } from './redux/themeSlice';
 
-function AppContent() {
-  return (
-    <>
-      <Header />
-      <div className="app-content">
-        <Main />
-      </div>
-      <Footer />
-    </>
-  );
-}
+const AppContent = memo(() => (
+  <>
+    <Header />
+    <div className="app-content">
+      <Main />
+    </div>
+    <Footer />
+  </>
+));
 
 function App() {
   const theme = useAppSelector(selectTheme);

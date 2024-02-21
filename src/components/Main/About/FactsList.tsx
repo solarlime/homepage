@@ -1,7 +1,9 @@
 import uniqid from 'uniqid';
 // @ts-ignore
 import Typograf from 'typograf';
-import { forwardRef, useMemo, useRef } from 'react';
+import {
+  forwardRef, memo, useMemo, useRef,
+} from 'react';
 import Masonry from 'react-masonry-component';
 
 import type { ExtendedCSS } from '../../types';
@@ -103,7 +105,7 @@ const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
  * A component for rendering a list with cards
  * @constructor
  */
-function FactsList() {
+const FactsList = memo(() => {
   const languageName = useAppSelector(selectLanguageName);
   const ref = useRef(null);
 
@@ -137,7 +139,7 @@ function FactsList() {
       ))}
     </Masonry>
   );
-}
+});
 
 FactsList.whyDidYouRender = true;
 

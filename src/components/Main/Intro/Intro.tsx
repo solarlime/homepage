@@ -4,7 +4,7 @@
   jsx-a11y/no-noninteractive-element-interactions
 */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 import type { ExtendedCSS } from '../../types';
 
@@ -68,7 +68,7 @@ function Name(props: { content: PageComponent, textColor: string }) {
  * A component for a main page
  * @constructor
  */
-export default function Intro() {
+const Intro = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
@@ -224,6 +224,8 @@ export default function Intro() {
       </section>
     </article>
   );
-}
+});
 
 Intro.whyDidYouRender = true;
+
+export default Intro;

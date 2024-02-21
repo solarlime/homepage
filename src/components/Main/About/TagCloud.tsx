@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import uniqid from 'uniqid';
 
 import tags from '../../Content/tagCloud.json';
@@ -30,7 +30,7 @@ const randomArray = (length: number) => [...Array(length)].map(() => Math.random
  * A component for rendering a tag cloud in random order.
  * @constructor
  */
-function TagCloud() {
+const TagCloud = memo(() => {
   const theme = useAppSelector(selectTheme);
 
   const shuffledTags = useMemo(() => shuffleArray(tags), []);
@@ -51,7 +51,7 @@ function TagCloud() {
       </ul>
     </div>
   );
-}
+});
 
 TagCloud.whyDidYouRender = true;
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 
 import type { ExtendedCSS } from '../../types';
 
@@ -40,7 +40,7 @@ function getAge(language: 'ru' | 'en') {
  * A component for rendering an about page
  * @constructor
  */
-function About() {
+const About = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
   const [content, setContent] = useState({} as PageComponent);
@@ -126,7 +126,7 @@ function About() {
       </section>
     </article>
   );
-}
+});
 
 About.whyDidYouRender = true;
 

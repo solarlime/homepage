@@ -1,9 +1,10 @@
-import { StrictMode } from 'react';
+import './wdyr';
+
 import ReactDOM from 'react-dom/client';
+import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
-import './wdyr';
 import './index.css';
 import App from './App';
 import { store } from './redux/app/store';

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { useMatch } from 'react-router-dom';
 
 import type { ExtendedCSS } from '../../types';
@@ -5,10 +6,11 @@ import type { ExtendedCSS } from '../../types';
 import styles from './Bottom.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/themeSlice';
+import isEqual from './isEqual';
 
-function Bottom(props: { content: {
+const Bottom = memo((props: { content: {
   text1: string, text2: string, text3: string, button: string,
-}, bgColor: string }) {
+}, bgColor: string }) => {
   const root = document.querySelector('#root')!;
   const theme = useAppSelector(selectTheme);
   const isMain = useMatch('/');
@@ -59,7 +61,7 @@ function Bottom(props: { content: {
 }
     </div>
   );
-}
+}, (previousProps, nextProps) => isEqual(previousProps, nextProps));
 
 Bottom.whyDidYouRender = true;
 
