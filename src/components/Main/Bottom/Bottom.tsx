@@ -7,6 +7,7 @@ import { ExtendedCSS } from '../../types';
 function Bottom(props: { content: {
   text1: string, text2: string, text3: string, button: string,
 }, bgColor: string }) {
+  const root = document.querySelector('#root')!;
   const { theme } = useContext(ThemeContext);
   const isMain = useMatch('/');
   const {
@@ -48,7 +49,7 @@ function Bottom(props: { content: {
           <button
             className={`${styles.button} ${styles.bottom__button}`}
             type="button"
-            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+            onClick={() => root.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
           >
             {button}
           </button>
