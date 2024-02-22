@@ -9,7 +9,7 @@ import Maintenance from './components/Main/Maintenance/Maintenance';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/Main/NotFound/NotFound';
 import { useAppSelector } from './redux/app/hooks';
-import { selectTheme } from './redux/themeSlice';
+import { selectTheme } from './redux/theme/themeSlice';
 
 const AppContent = memo(() => (
   <>

@@ -6,8 +6,8 @@ import type { ExtendedCSS } from '../types';
 import styles from './Header.module.sass';
 import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
 import { getContent, PageComponent } from '../Content/getContent';
-import { selectTheme, selectThemeName, toggleTheme } from '../../redux/themeSlice';
-import { selectLanguage, selectLanguageName } from '../../redux/languageSlice';
+import { selectTheme, selectThemeName, toggleTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage, selectLanguageName } from '../../redux/language/languageSlice';
 import Logo from './Logo';
 
 import Github from '../../img/github.svg?react';

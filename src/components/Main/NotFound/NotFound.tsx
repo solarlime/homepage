@@ -8,8 +8,8 @@ import type { Random } from 'unsplash-js/dist/methods/photos/types';
 import styles from './NotFound.module.sass';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
-import { selectLanguage } from '../../../redux/languageSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
+import { selectLanguage } from '../../../redux/language/languageSlice';
 
 import lime from '../../../img/lime.jpg';
 

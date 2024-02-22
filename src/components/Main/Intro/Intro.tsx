@@ -14,8 +14,8 @@ import Bottom from '../Bottom/Bottom';
 import projectsObjectList from '../Projects/projectsList';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
-import { selectLanguage } from '../../../redux/languageSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
+import { selectLanguage } from '../../../redux/language/languageSlice';
 
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';

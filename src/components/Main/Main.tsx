@@ -5,7 +5,7 @@ import NotFound from './NotFound/NotFound';
 import About from './About/About';
 import Maintenance from './Maintenance/Maintenance';
 import { useAppSelector } from '../../redux/app/hooks';
-import { selectTheme } from '../../redux/themeSlice';
+import { selectTheme } from '../../redux/theme/themeSlice';
 
 /**
  * An extra component, which controls access to the CV

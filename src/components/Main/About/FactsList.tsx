@@ -11,8 +11,8 @@ import type { ExtendedCSS } from '../../types';
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
-import { selectLanguageName } from '../../../redux/languageSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
+import { selectLanguageName } from '../../../redux/language/languageSlice';
 
 /**
  * A function for importing data from a secret.

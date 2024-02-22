@@ -4,7 +4,7 @@ import uniqid from 'uniqid';
 import tags from '../../Content/tagCloud.json';
 import styles from './About.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
 
 const id = uniqid;
 

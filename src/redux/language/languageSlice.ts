@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Languages, Language } from './contextTypes';
-import { resolveContext, setContext } from './resolveContext';
-import type { RootState } from './app/store';
+import { Languages, Language } from '../contextTypes';
+import { resolveContext, setContext } from '../resolveContext';
+import type { RootState } from '../app/store';
 
-const languages: Languages = {
-  ru: { name: 'ru' },
-  en: { name: 'en' },
-};
+export const ru: Language = { name: 'ru' };
+export const en: Language = { name: 'en' };
+
+const languages: Languages = { ru, en };
 
 const systemState = (navigator.language.includes('ru')) ? languages.ru : languages.en;
 const initialState: Language = resolveContext(systemState);

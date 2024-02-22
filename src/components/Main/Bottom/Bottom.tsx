@@ -5,7 +5,7 @@ import type { ExtendedCSS } from '../../types';
 
 import styles from './Bottom.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
 import isEqual from './isEqual';
 
 const Bottom = memo((props: { content: {

@@ -8,8 +8,8 @@ import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
 import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/themeSlice';
-import { selectLanguage } from '../../../redux/languageSlice';
+import { selectTheme } from '../../../redux/theme/themeSlice';
+import { selectLanguage } from '../../../redux/language/languageSlice';
 
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';

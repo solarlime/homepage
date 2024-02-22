@@ -5,8 +5,8 @@ import type { ExtendedCSS } from '../types';
 import styles from './Footer.module.sass';
 import { getContent, PageComponent } from '../Content/getContent';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
-import { selectTheme } from '../../redux/themeSlice';
-import { selectLanguage, selectLanguageName, toggleLanguage } from '../../redux/languageSlice';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage, selectLanguageName, toggleLanguage } from '../../redux/language/languageSlice';
 
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
