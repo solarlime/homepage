@@ -1,5 +1,7 @@
 import uniqid from 'uniqid';
 
+import projectsList from '../../content/projects.json';
+
 export type ProjectsObject = {
   id: string,
   projectName: string,
@@ -19,15 +21,6 @@ if (!String.prototype.replaceAll) {
 function kebabaizer(projectName: string) {
   return projectName.replaceAll(' ', '-').toLowerCase();
 }
-
-const projectsList = [
-  'Like a Trello',
-  'Dogs and facts',
-  'Simple chat',
-  'Chest of notes',
-  'GitHub Deployment Cleaner',
-  'Retro game',
-];
 
 export const kebabedList: Array<string> = [];
 

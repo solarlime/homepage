@@ -1,27 +1,30 @@
 /*
   eslint-disable
   jsx-a11y/click-events-have-key-events,
-  jsx-a11y/no-noninteractive-element-interactions
+  jsx-a11y/no-noninteractive-element-interactions,
 */
 
 import { useState, useEffect, memo } from 'react';
+import uniqid from 'uniqid';
 
 import type { ExtendedCSS } from '../../types';
 
 import styles from './Intro.module.sass';
 import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
-import projectsObjectList from '../Projects/projectsList';
-import { getContent, PageComponent } from '../../Content/getContent';
+import projectsObjectList from '../projectsList';
+import { PageComponent } from '../../../content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';
 import { selectLanguage } from '../../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../../redux/content/contentSlice';
 
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
 import Cat from './SVGComponents/Cat';
 import HookAndRope from './SVGComponents/HookAndRope';
 import Tambourines from '../../../img/tambourines.svg?react';
+import SkeletonComponent from '../../SkeletonComponent';
 
 /**
  * A component for rendering a name.
@@ -71,13 +74,9 @@ function Name(props: { content: PageComponent, textColor: string }) {
 const Intro = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const [content, setContent] = useState({} as PageComponent);
-  let focused: HTMLAnchorElement | null = null;
+  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'intro' });
 
-  useEffect(() => {
-    getContent(language, 'intro')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  let focused: HTMLAnchorElement | null = null;
 
   return (
     <article
@@ -92,11 +91,13 @@ const Intro = memo(() => {
       <section id="me" className={`${styles.intro}`}>
         <h1 className={styles.intro__title}>
           <p className={`${styles.base__item__title} ${styles.big__title}`}>
-            {content.title}
+            <SkeletonComponent error={error} isLoading={isLoading} content={content?.title} />
             {' '}
-            <Name content={content} textColor={theme.accentColor} />
+            {(error || isLoading) ? '' : <Name content={content} textColor={theme.accentColor} />}
           </p>
-          <p className={styles.intro__title_subtitle}>{content.subtitle}</p>
+          <p className={styles.intro__title_subtitle}>
+            <SkeletonComponent error={error} isLoading={isLoading} content={content?.subtitle} />
+          </p>
         </h1>
         <Avatar
           className={styles.intro__image}
@@ -109,7 +110,7 @@ const Intro = memo(() => {
             style={{ color: theme.color }}
           >
             <p>
-              {content.imac}
+              <SkeletonComponent error={error} isLoading={isLoading} content={content?.imac} />
             </p>
           </div>
           <div className={styles['imac-space']} />
@@ -123,7 +124,11 @@ const Intro = memo(() => {
             style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
           >
             <h2 className={`${styles.table__title} ${styles.base__item__title}`}>
-              {content.table_title}
+              <SkeletonComponent
+                error={error}
+                isLoading={isLoading}
+                content={content?.table_title}
+              />
             </h2>
             <div className={styles.table__cloud}>
               <TagCloud />
@@ -136,7 +141,11 @@ const Intro = memo(() => {
       <section id="projects" className={`${styles.intro} ${styles.base__item}`}>
         <div className={styles.intro__projects}>
           <h2 className={`${styles.base__item__title} ${styles.projects_title}`}>
-            {content.projects_title}
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={content?.projects_title}
+            />
           </h2>
           <ul className={styles.projects_list}>
             {
@@ -212,15 +221,23 @@ const Intro = memo(() => {
       </section>
       <section id="bottom" className={`${styles.intro} ${styles.base__item}`}>
         <Tambourines className={styles.tambourines} />
-        <Bottom
-          content={{
-            text1: content.bottom_text_1,
-            text2: content.bottom_text_2,
-            text3: content.bottom_text_3,
-            button: content.bottom_button,
-          }}
-          bgColor={theme.extraColor}
-        />
+        <Bottom bgColor={theme.extraColor}>
+          {
+            [
+              content?.bottom_text_1,
+              content?.bottom_text_2,
+              content?.bottom_text_3,
+              content?.bottom_button,
+            ].map((text) => (
+              <SkeletonComponent
+                key={uniqid()}
+                error={error}
+                isLoading={isLoading}
+                content={text}
+              />
+            ))
+          }
+        </Bottom>
       </section>
     </article>
   );
