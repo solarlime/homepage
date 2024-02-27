@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import uniqid from 'uniqid';
 
-import tags from '../../Content/tagCloud.json';
+import tags from '../../../content/tagCloud.json';
 import styles from './About.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';

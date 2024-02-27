@@ -1,25 +1,18 @@
 import { memo } from 'react';
 import { useMatch } from 'react-router-dom';
 
+import type { ReactElement } from 'react';
 import type { ExtendedCSS } from '../../types';
 
 import styles from './Bottom.module.sass';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';
-import isEqual from './isEqual';
 
-const Bottom = memo((props: { content: {
-  text1: string, text2: string, text3: string, button: string,
-}, bgColor: string }) => {
+const Bottom = memo((props: { bgColor: string, children: Array<ReactElement> }) => {
   const root = document.querySelector('#root')!;
   const theme = useAppSelector(selectTheme);
   const isMain = useMatch('/');
-  const {
-    content: {
-      text1, text2, text3, button,
-    },
-    bgColor,
-  } = props;
+  const { bgColor, children } = props;
 
   return (
     <div
@@ -33,11 +26,11 @@ const Bottom = memo((props: { content: {
       } as ExtendedCSS}
     >
       <p className={styles.bottom__text}>
-        <span>{text1}</span>
+        <span>{children[0]}</span>
         {' '}
-        <span>{text2}</span>
+        <span>{children[1]}</span>
         {' '}
-        <span>{text3}</span>
+        <span>{children[2]}</span>
       </p>
       {
         (isMain) ? (
@@ -55,13 +48,13 @@ const Bottom = memo((props: { content: {
             type="button"
             onClick={() => root.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
           >
-            {button}
+            {children[3]}
           </button>
         )
 }
     </div>
   );
-}, (previousProps, nextProps) => isEqual(previousProps, nextProps));
+});
 
 Bottom.whyDidYouRender = true;
 

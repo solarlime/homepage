@@ -1,4 +1,5 @@
-import { useEffect, useState, memo } from 'react';
+import { memo, useMemo } from 'react';
+import uniqid from 'uniqid';
 
 import type { ExtendedCSS } from '../../types';
 
@@ -6,10 +7,11 @@ import styles from './About.module.sass';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
-import { getContent, PageComponent } from '../../Content/getContent';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';
 import { selectLanguage } from '../../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../../redux/content/contentSlice';
+import SkeletonComponent from '../../SkeletonComponent';
 
 import GitHub from '../../../img/github.svg?react';
 import LinkedIn from '../../../img/linkedin.svg?react';
@@ -43,13 +45,9 @@ function getAge(language: 'ru' | 'en') {
 const About = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const [content, setContent] = useState({} as PageComponent);
-  const age = getAge(language.name);
+  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'about' });
 
-  useEffect(() => {
-    getContent(language, 'about')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  const age = useMemo(() => getAge(language.name), [language.name]);
 
   return (
     <article
@@ -69,10 +67,19 @@ const About = memo(() => {
             {import.meta.env[`VITE_APP_ME_${language.name}`]}
           </p>
           <p className={styles.contacts__title_subtitle}>
-            {content.subtitle_job}
-            ,
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={`${content?.subtitle_job},`}
+            />
           </p>
-          <p className={styles.contacts__title_subtitle}>{age}</p>
+          <p className={styles.contacts__title_subtitle}>
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={age}
+            />
+          </p>
         </h1>
         <div className={styles.contacts__buttons}>
           <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
@@ -106,23 +113,43 @@ const About = memo(() => {
         </picture>
       </section>
       <section className={`${styles.base__item} ${styles.about__skills}`}>
-        <h1 className={styles.base__item__title}>{content.skills_title}</h1>
+        <h1 className={styles.base__item__title}>
+          <SkeletonComponent
+            error={error}
+            isLoading={isLoading}
+            content={content?.skills_title}
+          />
+        </h1>
         <TagCloud />
       </section>
       <section className={`${styles.base__item} ${styles['about-me']}`}>
-        <h1 className={styles.base__item__title}>{content.about_title}</h1>
+        <h1 className={styles.base__item__title}>
+          <SkeletonComponent
+            error={error}
+            isLoading={isLoading}
+            content={content?.about_title}
+          />
+        </h1>
         <FactsList />
       </section>
       <section className={`${styles.base__item}`}>
-        <Bottom
-          content={{
-            text1: content.bottom_text_1,
-            text2: content.bottom_text_2,
-            text3: content.bottom_text_3,
-            button: content.bottom_button,
-          }}
-          bgColor={(theme.name === 'dark') ? theme.extraColor : theme.accentColor}
-        />
+        <Bottom bgColor={(theme.name === 'dark') ? theme.extraColor : theme.accentColor}>
+          {
+            [
+              content?.bottom_text_1,
+              content?.bottom_text_2,
+              content?.bottom_text_3,
+              content?.bottom_button,
+            ].map((text) => (
+              <SkeletonComponent
+                key={uniqid()}
+                error={error}
+                isLoading={isLoading}
+                content={text}
+              />
+            ))
+          }
+        </Bottom>
       </section>
     </article>
   );

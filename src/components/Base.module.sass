@@ -138,3 +138,23 @@ button:disabled, button:disabled:hover
 
 button.pending:disabled, button.pending:disabled:hover
   text-decoration: none
+
+@keyframes sparkle
+  0%
+    opacity: 1
+
+  50%
+    opacity: 0.5
+
+  100%
+    opacity: 1
+
+.skeleton
+  display: inline-block
+  // ↓ clamp(100px, max(6em, 20vw), 250px)
+  width: max(100px, min(max(6em, 20vw), 250px))
+  height: 1em
+  vertical-align: sub
+  border-radius: 0.5em
+  background-color: #dddddd
+  animation: sparkle 2s linear infinite

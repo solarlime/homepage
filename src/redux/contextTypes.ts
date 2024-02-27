@@ -7,11 +7,6 @@ export interface Themes {
   dark: Theme
 }
 
-export interface ThemesContext {
-  theme: Theme
-  toggleTheme: () => void
-}
-
 export interface Language {
   name: 'ru' | 'en'
 }
@@ -19,9 +14,4 @@ export interface Language {
 export interface Languages {
   ru: Language
   en: Language
-}
-
-export interface LanguagesContext {
-  language: Language,
-  toggleLanguage: () => void
 }
