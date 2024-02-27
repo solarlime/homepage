@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { memo, useMemo } from 'react';
 
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
 import type { ExtendedCSS } from '../types';
 
 import styles from './Footer.module.sass';
-import { getContent, PageComponent } from '../Content/getContent';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
 import { selectLanguage, selectLanguageName, toggleLanguage } from '../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 
 import ru from '../../img/ru.png';
 import en from '../../img/en.png';
+import SkeletonComponent from '../SkeletonComponent';
 
 /**
  * A component for rendering a language changer switcher
@@ -17,8 +20,12 @@ import en from '../../img/en.png';
  *                languageName: a string with a chosen language
  * @constructor
  */
-function LanguageChanger(props: { languageButton: string }) {
-  const { languageButton } = props;
+const LanguageChanger = memo((props: {
+  error: FetchBaseQueryError | SerializedError | undefined,
+  content: string | undefined,
+  isLoading: boolean,
+}) => {
+  const { error, content, isLoading } = props;
 
   const languageName = useAppSelector(selectLanguageName);
   const dispatch = useAppDispatch();
@@ -34,11 +41,19 @@ function LanguageChanger(props: { languageButton: string }) {
       {
         (document.documentElement.clientWidth < 550)
           ? <img src={(languageName === 'ru') ? en : ru} alt="" />
-          : <span>{languageButton}</span>
+          : (
+            <span>
+              <SkeletonComponent
+                error={error}
+                isLoading={isLoading}
+                content={content}
+              />
+            </span>
+          )
       }
     </button>
   );
-}
+});
 
 /**
  * A simple function for fetching a current year
@@ -55,12 +70,9 @@ const getYear = () => {
 function Footer() {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const [content, setContent] = useState({} as PageComponent);
+  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'footer' });
 
-  useEffect(() => {
-    getContent(language, 'footer')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  const year = useMemo(() => getYear(), []);
 
   return (
     <footer
@@ -75,9 +87,10 @@ function Footer() {
         <p className={styles['footer-items__item_copyright']}>
           &copy;
           solarlime.dev,
-          {` ${getYear()} `}
+          {` ${year} `}
         </p>
-        <LanguageChanger languageButton={content.language} />
+        {/* eslint-disable-next-line no-nested-ternary */}
+        <LanguageChanger content={content?.language} isLoading={isLoading} error={error} />
       </div>
     </footer>
   );

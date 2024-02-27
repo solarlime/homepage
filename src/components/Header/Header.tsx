@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState, memo } from 'react';
 import { Link, useMatch } from 'react-router-dom';
 
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
 import type { ExtendedCSS } from '../types';
 
 import styles from './Header.module.sass';
 import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
-import { getContent, PageComponent } from '../Content/getContent';
 import { selectTheme, selectThemeName, toggleTheme } from '../../redux/theme/themeSlice';
 import { selectLanguage, selectLanguageName } from '../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 import Logo from './Logo';
 
 import Github from '../../img/github.svg?react';
@@ -16,6 +18,7 @@ import Print from '../../img/print.svg?react';
 import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
+import SkeletonComponent from '../SkeletonComponent';
 
 /**
  * A component for rendering a theme changer switcher
@@ -48,8 +51,12 @@ type State = true | 'pending' | false;
  * It triggers server to open the page, save as pdf and send it to client
  * @constructor
  */
-function SavePDFButton(props: { content: PageComponent }) {
-  const { content } = props;
+const SavePDFButton = memo((props: {
+  error: FetchBaseQueryError | SerializedError | undefined,
+  content: string | undefined,
+  isLoading: boolean,
+}) => {
+  const { content, error, isLoading } = props;
   const theme = useAppSelector(selectTheme);
   const languageName = useAppSelector(selectLanguageName);
   const [disabled, setDisabled] = useState(false as State);
@@ -100,7 +107,7 @@ function SavePDFButton(props: { content: PageComponent }) {
     <button
       className={`${styles.link} ${(disabled === 'pending') ? styles.pending : ''}`}
       type="button"
-      aria-label={content.download}
+      aria-label={content}
       onClick={handleDownload}
       disabled={(typeof disabled === 'boolean') ? disabled : true}
     >
@@ -109,12 +116,18 @@ function SavePDFButton(props: { content: PageComponent }) {
         // eslint-disable-next-line no-nested-ternary
         (typeof disabled === 'boolean')
           ? ((document.documentElement.clientWidth < 650)
-            ? <Download fill={(!disabled) ? theme.color : ''} /> : content.download)
+            ? <Download fill={(!disabled) ? theme.color : ''} /> : (
+              <SkeletonComponent
+                error={error}
+                isLoading={isLoading}
+                content={content}
+              />
+            ))
           : '...'
       }
     </button>
   );
-}
+});
 
 /**
  * A component for rendering a site footer
@@ -123,13 +136,8 @@ function SavePDFButton(props: { content: PageComponent }) {
 function Header() {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const [content, setContent] = useState({} as PageComponent);
   const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
-
-  useEffect(() => {
-    getContent(language, 'header')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'header' });
 
   return (
     <header
@@ -149,11 +157,15 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
-              <SavePDFButton content={content} />
+              <SavePDFButton
+                error={error}
+                isLoading={isLoading}
+                content={content?.download}
+              />
               <button
                 className={`${styles.link}`}
                 type="button"
-                aria-label={content.print}
+                aria-label={content?.print}
                 onClick={
                   () => {
                     const printTimeout = window.setTimeout(() => {
@@ -166,7 +178,13 @@ function Header() {
                 {
                   (document.documentElement.clientWidth < 650)
                     ? <Print fill={theme.color} />
-                    : content.print
+                    : (
+                      <SkeletonComponent
+                        error={error}
+                        isLoading={isLoading}
+                        content={content?.print}
+                      />
+                    )
                 }
               </button>
             </>
