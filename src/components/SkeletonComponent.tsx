@@ -14,7 +14,6 @@ const SkeletonComponent = memo((props: {
 
   if (error) return 'Loading data failed';
   if (isLoading) return (<span className={styles.skeleton} />);
-  // if (content) return (<span className={styles.skeleton} />);
   if (content) return content;
   return 'No data to load!';
 });
