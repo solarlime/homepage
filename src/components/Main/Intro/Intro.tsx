@@ -13,7 +13,7 @@ import styles from './Intro.module.sass';
 import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
 import projectsObjectList from '../projectsList';
-import { PageComponent } from '../../../content/getContent';
+import { PageComponent } from '../../types';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';
 import { selectLanguage } from '../../../redux/language/languageSlice';

@@ -9,3 +9,10 @@ export interface ExtendedCSS extends CSSProperties {
   '--green-color': string,
   '--not-green-color': string,
 }
+
+export interface PageComponent {
+  [key: string]: string,
+}
+
+const pages = ['intro', 'tagCloud', 'about', 'notFound', 'footer', 'header'] as const;
+export type Pages = typeof pages[number];
