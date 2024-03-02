@@ -6,6 +6,8 @@ import {
 } from 'react';
 import Masonry from 'react-masonry-component';
 
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { SerializedError } from '@reduxjs/toolkit';
 import type { ExtendedCSS } from '../../types';
 
 import styles from './About.module.sass';
@@ -13,6 +15,7 @@ import { shuffleArray } from './TagCloud';
 import { useAppSelector } from '../../../redux/app/hooks';
 import { selectTheme } from '../../../redux/theme/themeSlice';
 import { selectLanguageName } from '../../../redux/language/languageSlice';
+import SkeletonComponent from '../../SkeletonComponent';
 
 /**
  * A function for importing data from a secret.
@@ -105,7 +108,10 @@ const idsArray = (length: number) => [...Array(length)].map(() => uniqid());
  * A component for rendering a list with cards
  * @constructor
  */
-const FactsList = memo(() => {
+const FactsList = memo((props: {
+  isLoading: boolean, error: FetchBaseQueryError | SerializedError | undefined,
+}) => {
+  const { isLoading, error } = props;
   const languageName = useAppSelector(selectLanguageName);
   const ref = useRef(null);
 
@@ -129,13 +135,24 @@ const FactsList = memo(() => {
       ref={ref}
     >
 
-      {shuffledFacts.map((item, i) => ( // @ts-ignore
-        <FactsListItem
-          item={item as string[]}
-          key={ids[i]}
-          id={ids[i]}
-          ref={ref}
-        />
+      {shuffledFacts.map((item, i) => (
+        (isLoading || error)
+          ? (
+            <SkeletonComponent
+              key={ids[i]}
+              error={error}
+              isLoading={isLoading}
+              content={undefined}
+            />
+          )
+          : (
+            <FactsListItem
+              item={item as string[]}
+              key={ids[i]}
+              id={ids[i]}
+              ref={ref}
+            />
+          )
       ))}
     </Masonry>
   );

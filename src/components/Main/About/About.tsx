@@ -64,7 +64,11 @@ const About = memo(() => {
       <section className={` ${styles.base__item} ${styles.about__contacts}`}>
         <h1 className={styles.contacts__title}>
           <p className={styles.contacts__title_title}>
-            {import.meta.env[`VITE_APP_ME_${language.name}`]}
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={import.meta.env[`VITE_APP_ME_${language.name}`]}
+            />
           </p>
           <p className={styles.contacts__title_subtitle}>
             <SkeletonComponent
@@ -82,27 +86,40 @@ const About = memo(() => {
           </p>
         </h1>
         <div className={styles.contacts__buttons}>
-          <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
-          <div>
-            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
-              <GitHub fill={theme.color} />
-              <span>github</span>
-            </a>
-            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
-              <Email fill={theme.color} />
-              <span>e-mail</span>
-            </a>
-          </div>
-          <div>
-            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
-              <LinkedIn fill={theme.color} />
-              <span>linkedin</span>
-            </a>
-            <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
-              <Telegram fill={theme.color} />
-              <span>telegram</span>
-            </a>
-          </div>
+          {
+            (isLoading || error)
+              ? (
+                <SkeletonComponent
+                  error={error}
+                  isLoading={isLoading}
+                  content={content?.skills_title}
+                />
+              ) : (
+                <>
+                  <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
+                  <div>
+                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
+                      <GitHub fill={theme.color} />
+                      <span>github</span>
+                    </a>
+                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
+                      <Email fill={theme.color} />
+                      <span>e-mail</span>
+                    </a>
+                  </div>
+                  <div>
+                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
+                      <LinkedIn fill={theme.color} />
+                      <span>linkedin</span>
+                    </a>
+                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
+                      <Telegram fill={theme.color} />
+                      <span>telegram</span>
+                    </a>
+                  </div>
+                </>
+              )
+          }
         </div>
         <picture className={styles.contacts__image}>
           <source
@@ -120,7 +137,7 @@ const About = memo(() => {
             content={content?.skills_title}
           />
         </h1>
-        <TagCloud />
+        <TagCloud error={error} isLoading={isLoading} />
       </section>
       <section className={`${styles.base__item} ${styles['about-me']}`}>
         <h1 className={styles.base__item__title}>
@@ -130,7 +147,7 @@ const About = memo(() => {
             content={content?.about_title}
           />
         </h1>
-        <FactsList />
+        <FactsList error={error} isLoading={isLoading} />
       </section>
       <section className={`${styles.base__item}`}>
         <Bottom bgColor={(theme.name === 'dark') ? theme.extraColor : theme.accentColor}>

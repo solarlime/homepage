@@ -92,6 +92,7 @@
 
         /* CV page */
         --photo-size: 200px;
+        --small-gap: 15px;
     }
 }
 
@@ -103,6 +104,7 @@
 
         /* CV page */
         --photo-size: 250px;
+        --small-gap: 20px;
     }
 }
 

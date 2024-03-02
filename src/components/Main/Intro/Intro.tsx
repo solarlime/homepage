@@ -131,7 +131,7 @@ const Intro = memo(() => {
               />
             </h2>
             <div className={styles.table__cloud}>
-              <TagCloud />
+              <TagCloud error={error} isLoading={isLoading} />
             </div>
             <Cat className={styles.table__cat} eyesColor={(theme.name === 'dark') ? theme.extraColor : theme.color} />
             <div className={styles.table__hole} />
