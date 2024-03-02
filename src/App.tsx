@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 import './App.sass';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header/Header';
@@ -9,17 +9,15 @@ import Footer from './components/Footer/Footer';
 import NotFound from './components/Main/NotFound/NotFound';
 import { ThemeContext } from './context/Theme';
 
-function AppContent() {
-  return (
-    <>
-      <Header />
-      <div className="app-content">
-        <Main />
-      </div>
-      <Footer />
-    </>
-  );
-}
+const AppContent = memo(() => (
+  <>
+    <Header />
+    <div className="app-content">
+      <Main />
+    </div>
+    <Footer />
+  </>
+));
 
 function App() {
   const { theme } = useContext(ThemeContext);

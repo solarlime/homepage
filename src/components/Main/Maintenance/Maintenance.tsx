@@ -1,8 +1,8 @@
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 import { LanguageContext } from '../../../context/Language';
 import styles from './Maintenance.module.sass';
 
-function Maintenance() {
+const Maintenance = memo(() => {
   const { language } = useContext(LanguageContext);
 
   return (
@@ -14,6 +14,8 @@ function Maintenance() {
       </section>
     </article>
   );
-}
+});
+
+Maintenance.whyDidYouRender = true;
 
 export default Maintenance;

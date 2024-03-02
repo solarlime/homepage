@@ -78,7 +78,6 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string>, lang
           }
         }}
         onBlur={() => {
-          console.log('oh');
           // @ts-ignore
           if (textRef.current && ref.current) {
             textRef.current.classList.remove(styles.opened);
@@ -138,5 +137,7 @@ const FactsList = memo(() => {
     </Masonry>
   );
 });
+
+FactsList.whyDidYouRender = true;
 
 export default FactsList;

@@ -1,4 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import {
+  useState, useEffect, useContext, memo, ReactElement,
+} from 'react';
 import { createApi } from 'unsplash-js';
 import type { ApiResponse } from 'unsplash-js/dist/helpers/response';
 import type { Random } from 'unsplash-js/dist/methods/photos/types';
@@ -9,7 +11,7 @@ import { LanguageContext } from '../../../context/Language';
 import { getContent, PageComponent } from '../../Content/getContent';
 
 interface Photo {
-  image: React.ReactElement | undefined,
+  image: ReactElement | undefined,
   author: string,
   userLink: string,
   photoLink: string,
@@ -27,7 +29,7 @@ interface Page {
  * Each image is cropped
  * @constructor
  */
-function NotFound() {
+const NotFound = memo(() => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
 
@@ -156,8 +158,8 @@ function NotFound() {
       </section>
     </article>
   );
-}
+});
 
-NotFound.whyDitYouRender = true;
+NotFound.whyDidYouRender = true;
 
 export default NotFound;

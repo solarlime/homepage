@@ -1,12 +1,13 @@
-import { useContext } from 'react';
+import { useContext, memo } from 'react';
 import { useMatch } from 'react-router-dom';
 import styles from './Bottom.module.sass';
 import { ThemeContext } from '../../../context/Theme';
 import { ExtendedCSS } from '../../types';
+import isEqual from './isEqual';
 
-function Bottom(props: { content: {
+const Bottom = memo((props: { content: {
   text1: string, text2: string, text3: string, button: string,
-}, bgColor: string }) {
+}, bgColor: string }) => {
   const root = document.querySelector('#root')!;
   const { theme } = useContext(ThemeContext);
   const isMain = useMatch('/');
@@ -57,6 +58,8 @@ function Bottom(props: { content: {
 }
     </div>
   );
-}
+}, (previousProps, nextProps) => isEqual(previousProps, nextProps));
+
+Bottom.whyDidYouRender = true;
 
 export default Bottom;

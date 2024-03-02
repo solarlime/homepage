@@ -4,7 +4,9 @@
   jsx-a11y/no-noninteractive-element-interactions
 */
 
-import { useContext, useState, useEffect } from 'react';
+import {
+  useContext, useState, useEffect, memo,
+} from 'react';
 import styles from './Intro.module.sass';
 import { ThemeContext } from '../../../context/Theme';
 import { LanguageContext } from '../../../context/Language';
@@ -64,7 +66,7 @@ function Name(props: { content: PageComponent, textColor: string }) {
  * A component for a main page
  * @constructor
  */
-export default function Intro() {
+const Intro = memo(() => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [content, setContent] = useState({} as PageComponent);
@@ -220,4 +222,8 @@ export default function Intro() {
       </section>
     </article>
   );
-}
+});
+
+Intro.whyDidYouRender = true;
+
+export default Intro;
