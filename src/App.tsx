@@ -3,11 +3,11 @@ import { Route, Routes } from 'react-router-dom';
 import './App.sass';
 
 import Header from './components/Header/Header';
-import Intro from './components/Main/Intro/Intro';
+import Intro from './components/Intro/Intro';
 import Main, { AboutOrNot } from './components/Main/Main';
-import Maintenance from './components/Main/Maintenance/Maintenance';
+import Maintenance from './components/Maintenance/Maintenance';
 import Footer from './components/Footer/Footer';
-import NotFound from './components/Main/NotFound/NotFound';
+import NotFound from './components/NotFound/NotFound';
 import { useAppSelector } from './redux/app/hooks';
 import { selectTheme } from './redux/theme/themeSlice';
 

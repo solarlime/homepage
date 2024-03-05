@@ -7,24 +7,24 @@
 import { useState, useEffect, memo } from 'react';
 import uniqid from 'uniqid';
 
-import type { ExtendedCSS } from '../../types';
+import type { ExtendedCSS } from '../types';
 
 import styles from './Intro.module.sass';
 import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
-import projectsObjectList from '../projectsList';
-import { PageComponent } from '../../types';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
-import { selectLanguage } from '../../../redux/language/languageSlice';
-import { useGetContentByComponentQuery } from '../../../redux/content/contentSlice';
+import projectsObjectList from './projectsList';
+import { PageComponent } from '../types';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage } from '../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
 import Cat from './SVGComponents/Cat';
 import HookAndRope from './SVGComponents/HookAndRope';
-import Tambourines from '../../../img/tambourines.svg?react';
-import SkeletonComponent from '../../SkeletonComponent';
+import Tambourines from '../../img/tambourines.svg?react';
+import SkeletonComponent from '../SkeletonComponent';
 
 /**
  * A component for rendering a name.

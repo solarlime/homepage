@@ -1,4 +1,4 @@
-@use '../../Base.module'
+@use '../Base.module'
 @use '../About/TagCloud.module'
 
 $base-font-size: calc(#{"var(--base-font-size-pixels)"} * 1px)
@@ -68,7 +68,7 @@ $not-green-color: #{"var(--not-green-color)"}
       margin: 0
       font-size: calc($imac-font-size / 1.2)
       box-sizing: border-box
-      background-image: url("../../../img/imac-dark.svg")
+      background-image: url("../../img/imac-dark.svg")
       background-repeat: no-repeat
       background-position: center
       background-size: cover
@@ -77,10 +77,10 @@ $not-green-color: #{"var(--not-green-color)"}
         margin: 0
 
     .imac_light
-      background-image: url("../../../img/imac-light.svg")
+      background-image: url("../../img/imac-light.svg")
 
     .imac_dark
-      background-image: url("../../../img/imac-dark.svg")
+      background-image: url("../../img/imac-dark.svg")
 
     .imac-space
       width: $width

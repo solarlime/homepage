@@ -2,11 +2,11 @@ import { memo } from 'react';
 import { useMatch } from 'react-router-dom';
 
 import type { ReactElement } from 'react';
-import type { ExtendedCSS } from '../../types';
+import type { ExtendedCSS } from '../types';
 
 import styles from './Bottom.module.sass';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
 
 const Bottom = memo((props: { bgColor: string, children: Array<ReactElement> }) => {
   const root = document.querySelector('#root')!;

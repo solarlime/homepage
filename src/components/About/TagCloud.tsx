@@ -4,11 +4,11 @@ import uniqid from 'uniqid';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { SerializedError } from '@reduxjs/toolkit';
 
-import tags from '../../../content/tagCloud.json';
+import tags from '../../content/tagCloud.json';
 import styles from './About.module.sass';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
-import SkeletonComponent from '../../SkeletonComponent';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import SkeletonComponent from '../SkeletonComponent';
 
 const id = uniqid;
 

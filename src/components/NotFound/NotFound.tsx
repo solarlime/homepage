@@ -1,13 +1,13 @@
 import { memo } from 'react';
 
 import styles from './NotFound.module.sass';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
-import { selectLanguage } from '../../../redux/language/languageSlice';
-import { ImageState, selectImage, tryToGetImage } from '../../../redux/content/imageSlice';
-import { useGetContentByComponentQuery } from '../../../redux/content/contentSlice';
-import SkeletonComponent from '../../SkeletonComponent';
-import { store } from '../../../redux/app/store';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage } from '../../redux/language/languageSlice';
+import { ImageState, selectImage, tryToGetImage } from '../../redux/content/imageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
+import SkeletonComponent from '../SkeletonComponent';
+import { store } from '../../redux/app/store';
 
 store.dispatch(tryToGetImage());
 

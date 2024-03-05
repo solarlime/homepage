@@ -1,22 +1,22 @@
 import { memo, useMemo } from 'react';
 import uniqid from 'uniqid';
 
-import type { ExtendedCSS } from '../../types';
+import type { ExtendedCSS } from '../types';
 
 import styles from './About.module.sass';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
-import { selectLanguage } from '../../../redux/language/languageSlice';
-import { useGetContentByComponentQuery } from '../../../redux/content/contentSlice';
-import SkeletonComponent from '../../SkeletonComponent';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage } from '../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
+import SkeletonComponent from '../SkeletonComponent';
 
-import GitHub from '../../../img/github.svg?react';
-import LinkedIn from '../../../img/linkedin.svg?react';
-import Email from '../../../img/email.svg?react';
-import Telegram from '../../../img/telegram.svg?react';
+import GitHub from '../../img/github.svg?react';
+import LinkedIn from '../../img/linkedin.svg?react';
+import Email from '../../img/email.svg?react';
+import Telegram from '../../img/telegram.svg?react';
 
 /**
  * A function for counting the age

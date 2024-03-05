@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest';
 
 import {
   themeReducer, toggleTheme, lightTheme, darkTheme,
-} from './themeSlice';
+} from '../../src/redux/theme/themeSlice';
 
 describe('Theme reducer', () => {
   const initialState = lightTheme;

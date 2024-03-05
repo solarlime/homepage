@@ -1,8 +1,8 @@
 import { memo } from 'react';
 
 import styles from './Maintenance.module.sass';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectLanguageName } from '../../../redux/language/languageSlice';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectLanguageName } from '../../redux/language/languageSlice';
 
 const Maintenance = memo(() => {
   const languageName = useAppSelector(selectLanguageName);

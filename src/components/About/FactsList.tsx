@@ -8,14 +8,14 @@ import Masonry from 'react-masonry-component';
 
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { SerializedError } from '@reduxjs/toolkit';
-import type { ExtendedCSS } from '../../types';
+import type { ExtendedCSS } from '../types';
 
 import styles from './About.module.sass';
 import { shuffleArray } from './TagCloud';
-import { useAppSelector } from '../../../redux/app/hooks';
-import { selectTheme } from '../../../redux/theme/themeSlice';
-import { selectLanguageName } from '../../../redux/language/languageSlice';
-import SkeletonComponent from '../../SkeletonComponent';
+import { useAppSelector } from '../../redux/app/hooks';
+import { selectTheme } from '../../redux/theme/themeSlice';
+import { selectLanguageName } from '../../redux/language/languageSlice';
+import SkeletonComponent from '../SkeletonComponent';
 
 /**
  * A function for importing data from a secret.
