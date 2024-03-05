@@ -35,6 +35,8 @@
     "unsplash-js": "^7.0.18"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
@@ -53,6 +55,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "happy-dom": "^13.4.1",
+    "msw": "^2.2.2",
     "postcss": "^8.4.32",
     "sass": "^1.69.5",
     "typescript": "^5.3.3",
