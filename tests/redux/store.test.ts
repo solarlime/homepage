@@ -1,5 +1,6 @@
 import { http, HttpResponse, delay } from 'msw';
 import { setupServer } from 'msw/node';
+import { fireEvent } from '@testing-library/react';
 import {
   beforeAll, afterEach, afterAll, describe, test, expect,
 } from 'vitest';
@@ -7,6 +8,8 @@ import { createElement } from 'react';
 
 import renderWithProviders from '../prepareForTests';
 import { en, ru } from '../../src/redux/language/languageSlice';
+import App from '../../src/App';
+import { darkTheme, lightTheme } from '../../src/redux/theme/themeSlice';
 
 const handlers = [
   http.get('/api/:language/:component', async ({ params }) => {
@@ -43,5 +46,35 @@ describe.each([ru, en])('Testing content resolving: %s', (language) => {
     );
     const re = new RegExp(expected, 'i');
     expect(await findByText(re, { collapseWhitespace: false })).toBeInTheDocument();
+  });
+});
+
+describe('Changing language & theme', () => {
+  test('ru → en', async () => {
+    const response = await fetch('/api/en/Intro');
+    const content = await response.json();
+    const expected = Object.values(content)[0] as string;
+    const { getByRole, findByText } = renderWithProviders(
+      createElement(App, null),
+      { preloadedState: { language: ru } },
+    );
+    const languageButton = getByRole('button', { name: 'Сменить язык' });
+    fireEvent.click(languageButton);
+    const re = new RegExp(expected, 'i');
+    expect(await findByText(re, { collapseWhitespace: false })).toBeInTheDocument();
+  });
+
+  test('dark → light', () => {
+    const { getByRole } = renderWithProviders(
+      createElement(App, null),
+      { preloadedState: { language: ru, theme: lightTheme } },
+    );
+    const themeButton = getByRole('button', { name: 'Сменить тему' });
+    const baseContainer = getByRole('article');
+    fireEvent.click(themeButton);
+    expect(baseContainer).toHaveStyle({
+      color: darkTheme.color,
+      backgroundColor: darkTheme.backgroundColor,
+    });
   });
 });
