@@ -1,15 +1,12 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 import styles from './NotFound.module.sass';
-import { useAppSelector } from '../../redux/app/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
 import { selectLanguage } from '../../redux/language/languageSlice';
 import { ImageState, selectImage, tryToGetImage } from '../../redux/content/imageSlice';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 import SkeletonComponent from '../SkeletonComponent';
-import { store } from '../../redux/app/store';
-
-store.dispatch(tryToGetImage());
 
 const Image = memo((props: { image: ImageState }) => {
   const { image } = props;
@@ -52,7 +49,12 @@ const NotFound = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
   const image = useAppSelector(selectImage);
+  const dispatch = useAppDispatch();
   const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'notFound' });
+
+  useEffect(() => {
+    dispatch(tryToGetImage());
+  }, []);
 
   return (
     <article
