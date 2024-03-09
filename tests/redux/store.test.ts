@@ -1,5 +1,4 @@
-import { http, HttpResponse, delay } from 'msw';
-import { setupServer } from 'msw/node';
+import { http, HttpResponse } from 'msw';
 import { fireEvent, cleanup, waitFor } from '@testing-library/react';
 import {
   beforeAll, afterEach, afterAll, describe, test, expect,
@@ -11,49 +10,21 @@ import renderWithProviders from '../prepareForTests';
 import { en, ru } from '../../src/redux/language/languageSlice';
 import App from '../../src/App';
 import { darkTheme, lightTheme } from '../../src/redux/theme/themeSlice';
+import { server, unsplashResult } from '../server';
 
-const unsplashResult = {
-  urls: {
-    raw: 'test_raw',
-    thumb: 'test_thumb',
-  },
-  alt_description: 'test_description',
-  user: {
-    first_name: 'Test',
-    last_name: 'Test',
-    links: {
-      html: 'test_userlink',
-    },
-  },
-  links: {
-    html: 'test_photolink',
-  },
-};
-
-const handlers = [
-  http.get('/api/:language/:component', async ({ params }) => {
-    const { language, component } = params;
-    await delay(200);
-    // @ts-ignore
-    const answer = await import(`../../api/${language}/${component}`).then((res) => { const { response } = res; return response; });
-    return HttpResponse.json(answer);
-  }),
-  http.get('https://api.unsplash.com/photos/random', () => HttpResponse.json(unsplashResult)),
-];
-
-const server = setupServer(...handlers);
+const serverInstance = server();
 
 beforeAll(() => {
-  server.listen();
+  serverInstance.listen();
 });
 
 afterEach(() => {
   cleanup();
-  server.resetHandlers();
+  serverInstance.resetHandlers();
 });
 
 afterAll(async () => {
-  server.close();
+  serverInstance.close();
 });
 
 describe.each([ru, en])('Testing content resolving: %s', (language) => {
@@ -110,7 +81,7 @@ const statuses = [
 describe.each(statuses)('Picture resolving', (situation) => {
   test(`Try to fetch: ${situation.status}`, async () => {
     if (situation.status === 'fail') {
-      server.use(
+      serverInstance.use(
         http.get('https://api.unsplash.com/photos/random', () => HttpResponse.error()),
       );
     }
