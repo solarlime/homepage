@@ -1,8 +1,6 @@
 import { http, HttpResponse } from 'msw';
-import { fireEvent, cleanup, waitFor } from '@testing-library/react';
-import {
-  beforeAll, afterEach, afterAll, describe, test, expect,
-} from 'vitest';
+import { fireEvent, waitFor } from '@testing-library/react';
+import { describe, test, expect } from 'vitest';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -10,22 +8,8 @@ import renderWithProviders from '../prepareForTests';
 import { en, ru } from '../../src/redux/language/languageSlice';
 import App from '../../src/App';
 import { darkTheme, lightTheme } from '../../src/redux/theme/themeSlice';
-import { server, unsplashResult } from '../server';
-
-const serverInstance = server();
-
-beforeAll(() => {
-  serverInstance.listen();
-});
-
-afterEach(() => {
-  cleanup();
-  serverInstance.resetHandlers();
-});
-
-afterAll(async () => {
-  serverInstance.close();
-});
+import { unsplashResult } from '../mocks/handlers';
+import server from '../mocks/server';
 
 describe.each([ru, en])('Testing content resolving: %s', (language) => {
   test.each(['about', 'intro', 'notFound'])(`/${language.name}/%s`, async (component) => {
@@ -81,7 +65,7 @@ const statuses = [
 describe.each(statuses)('Picture resolving', (situation) => {
   test(`Try to fetch: ${situation.status}`, async () => {
     if (situation.status === 'fail') {
-      serverInstance.use(
+      server.use(
         http.get('https://api.unsplash.com/photos/random', () => HttpResponse.error()),
       );
     }

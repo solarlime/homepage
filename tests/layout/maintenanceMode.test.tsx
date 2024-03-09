@@ -1,29 +1,13 @@
 import {
-  describe, expect, test, beforeEach, beforeAll, afterEach, afterAll,
+  describe, expect, test, beforeEach,
 } from 'vitest';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { cleanup, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-import renderWithProviders from './prepareForTests';
-import App from '../src/App';
-import { en } from '../src/redux/language/languageSlice';
-import { server } from './server';
-
-const serverInstance = server();
-
-beforeAll(() => {
-  serverInstance.listen();
-});
-
-afterEach(() => {
-  cleanup();
-  serverInstance.resetHandlers();
-});
-
-afterAll(async () => {
-  serverInstance.close();
-});
+import renderWithProviders from '../prepareForTests';
+import App from '../../src/App';
+import { en } from '../../src/redux/language/languageSlice';
 
 type Situation = { maintenance: boolean, path: string, searchFor: string };
 

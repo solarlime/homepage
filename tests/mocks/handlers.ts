@@ -1,5 +1,4 @@
 import { delay, http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
 
 const unsplashResult = {
   urls: {
@@ -24,12 +23,10 @@ const handlers = [
     const { language, component } = params;
     await delay(200);
     // @ts-ignore
-    const answer = await import(`../api/${language}/${component}`).then((res) => { const { response } = res; return response; });
+    const answer = await import(`../../api/${language}/${component}`).then((res) => { const { response } = res; return response; });
     return HttpResponse.json(answer);
   }),
   http.get('https://api.unsplash.com/photos/random', () => HttpResponse.json(unsplashResult)),
 ];
 
-const server = () => setupServer(...handlers);
-
-export { server, unsplashResult };
+export { handlers, unsplashResult };
