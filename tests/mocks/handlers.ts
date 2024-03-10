@@ -27,6 +27,7 @@ const handlers = [
     return HttpResponse.json(answer);
   }),
   http.get('https://api.unsplash.com/photos/random', () => HttpResponse.json(unsplashResult)),
+  http.post(import.meta.env.VITE_APP_SERVER, () => HttpResponse.error()),
 ];
 
 export { handlers, unsplashResult };
