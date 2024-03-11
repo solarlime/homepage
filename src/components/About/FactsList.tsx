@@ -97,7 +97,7 @@ const FactsListItem = forwardRef((props: { id: string, item: Array<string> }, re
           {(languageName === 'ru') ? `Про ${item[0]}` : `About ${item[0]}`}
         </span>
       </button>
-      <div className={`${styles.fact_text}`} ref={textRef}>{item[1]}</div>
+      <div className={`${styles.fact_text}`} data-testid="description" ref={textRef}>{item[1]}</div>
     </li>
   );
 });
