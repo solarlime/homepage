@@ -12,15 +12,21 @@ import { unsplashResult } from '../mocks/handlers';
 import server from '../mocks/server';
 
 describe.each([ru, en])('Testing content resolving: %s', (language) => {
-  test.each(['about', 'intro', 'notFound'])(`/${language.name}/%s`, async (component) => {
-    const response = await fetch(`/api/${language.name}/${component}`);
+  test.each([
+    { name: 'about', path: `/${import.meta.env.VITE_APP_PLEASE}` },
+    { name: 'intro', path: '/' },
+    { name: 'notFound', path: '/random-string' },
+  ])(`/${language.name}/%s`, async (component) => {
+    const response = await fetch(`/api/${language.name}/${component.name}`);
     const content = await response.json();
     const expected = Object.values(content)[0] as string;
-    const componentName = component[0].toUpperCase() + component.slice(1);
-    const componentElement = await import(`../../src/components/${componentName}/${componentName}`).then((esm) => esm.default);
     const { findByText } = renderWithProviders(
-      createElement(componentElement, null),
-      { preloadedState: { language } },
+      createElement(App, null),
+      {
+        preloadedState: { language },
+        router: MemoryRouter,
+        props: { initialEntries: [component.path] },
+      },
     );
     const re = new RegExp(expected, 'i');
     expect(await findByText(re, { collapseWhitespace: false })).toBeInTheDocument();
