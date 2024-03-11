@@ -25,7 +25,7 @@ function App() {
   const theme = useAppSelector(selectTheme);
 
   return (
-    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>
+    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }} role="application">
       <Routes>
         <Route path="/" element={<AppContent />}>
           <Route

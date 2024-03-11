@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { useMatch } from 'react-router-dom';
 
 import type { ReactElement } from 'react';
@@ -9,14 +9,23 @@ import { useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
 
 const Bottom = memo((props: { bgColor: string, children: Array<ReactElement> }) => {
-  const root = document.querySelector('#root')!;
   const theme = useAppSelector(selectTheme);
   const isMain = useMatch('/');
   const { bgColor, children } = props;
+  // Tests cannot find root element via simple
+  // const root = document.querySelector('#root')!;
+  // useState, useEffect & parentElement fix it
+  const init: { root: null | Element } = { root: null };
+  const [root, setRoot] = useState(init.root);
+
+  useEffect(() => {
+    setRoot(document.querySelector('div.app')!.parentElement!);
+  });
 
   return (
     <div
       className={styles.bottom}
+      data-testid="bottom"
       style={{
         color: theme.backgroundColor,
         backgroundColor: bgColor,
@@ -46,7 +55,7 @@ const Bottom = memo((props: { bgColor: string, children: Array<ReactElement> }) 
           <button
             className={`${styles.button} ${styles.bottom__button}`}
             type="button"
-            onClick={() => root.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
+            onClick={() => { if (root) root.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); }}
           >
             {children[3]}
           </button>
