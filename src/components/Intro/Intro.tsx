@@ -152,7 +152,7 @@ const Intro = memo(() => {
               projectsObjectList.map((project, index) => {
                 const orderColor = (index % 2 === 0) ? theme.accentColor : theme.extraColor;
                 return (
-                  <li key={project.id} className={styles.projects_list__item}>
+                  <li key={project.id} className={styles.projects_list__item} data-testid="project">
                     <HookAndRope
                       className={styles.projects_list__item__rope}
                       ropeColor={theme.color}
