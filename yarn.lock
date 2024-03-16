@@ -2829,10 +2829,10 @@ __metadata:
     react-router-dom: ^6.20.1
     sass: ^1.69.5
     typescript: ^5.3.3
-    typograf: ^7.3.0
+    typograf: ~7.3.0
     uniqid: ^5.4.0
     unsplash-js: ^7.0.18
-    vite: ^5.0.7
+    vite: ~5.0.12
     vite-plugin-svgr: ^4.2.0
   languageName: unknown
   linkType: soft
@@ -4721,7 +4721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typograf@npm:^7.3.0":
+"typograf@npm:~7.3.0":
   version: 7.3.0
   resolution: "typograf@npm:7.3.0"
   checksum: a493b580e9d9a3f5b9f09e54c521b189a49cf85ab1e4814d5df2187766c51b44c854b2c233f8c4bf6b8b79c4eb49d4ccb99045b025d30b93457e1a83d9854e6e
@@ -4825,9 +4825,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.7":
-  version: 5.0.7
-  resolution: "vite@npm:5.0.7"
+"vite@npm:~5.0.12":
+  version: 5.0.12
+  resolution: "vite@npm:5.0.12"
   dependencies:
     esbuild: ^0.19.3
     fsevents: ~2.3.3
@@ -4861,7 +4861,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 18dcf69ccdb6d79d28c678dec4054ac92fd352fd8b2a1a1eb9512a7791d7036bc625bc1ee7c255edc940ad63ebbde8cc4407954e82c71dcbb70b1afeb345c267
+  checksum: b97b6f1c204d9091d0973626827a6e9d8e8b1959ebd0877b6f76e7068e1e7adf9ecd3b1cc382cbab9d421e3eeca5e1a95f27f9c1734439b229f5a58ef2052fa4
   languageName: node
   linkType: hard
 

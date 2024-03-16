@@ -27,7 +27,7 @@
     "react-dom": "^18.2.0",
     "react-masonry-component": "^6.3.0",
     "react-router-dom": "^6.20.1",
-    "typograf": "^7.3.0",
+    "typograf": "~7.3.0",
     "uniqid": "^5.4.0",
     "unsplash-js": "^7.0.18"
   },
@@ -52,7 +52,7 @@
     "postcss": "^8.4.32",
     "sass": "^1.69.5",
     "typescript": "^5.3.3",
-    "vite": "^5.0.7",
+    "vite": "~5.0.12",
     "vite-plugin-svgr": "^4.2.0"
   },
   "packageManager": "yarn@3.6.4"
