@@ -173,10 +173,12 @@ const Intro = memo(() => {
                         <source
                           srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.avif 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.avif 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.avif 1280w`}
                           sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
+                          type="image/avif"
                         />
                         <source
                           srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.jpg 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.jpg 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.jpg 1280w`}
                           sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
+                          type="image/jpeg"
                         />
                         <source srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}.avif`} type="image/avif" />
                         <img
