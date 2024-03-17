@@ -3479,6 +3479,7 @@ __metadata:
     react-router-dom: ^6.22.3
     sass: ^1.72.0
     typescript: ^5.4.2
+    typograf: ~7.3.0
     uniqid: ^5.4.0
     unsplash-js: ^7.0.19
     vite: ~5.0.12
@@ -5879,6 +5880,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: c1b669146bca5529873aae60870e243fa8140c85f57ca32c42f898f586d73ce4a6b4f6bb02ae312729e214d7f5859a0c70da3e527a116fdf5ad00c9fc733ecc6
+  languageName: node
+  linkType: hard
+
+"typograf@npm:~7.3.0":
+  version: 7.3.0
+  resolution: "typograf@npm:7.3.0"
+  checksum: a493b580e9d9a3f5b9f09e54c521b189a49cf85ab1e4814d5df2187766c51b44c854b2c233f8c4bf6b8b79c4eb49d4ccb99045b025d30b93457e1a83d9854e6e
   languageName: node
   linkType: hard
 

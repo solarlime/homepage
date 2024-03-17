@@ -1,4 +1,6 @@
 import uniqid from 'uniqid';
+// @ts-ignore
+import Typograf from 'typograf';
 import {
   forwardRef, memo, useMemo, useRef,
 } from 'react';
@@ -35,13 +37,16 @@ const importFacts = (language: 'ru' | 'en') => {
  * A function for preparing data for a render.
  * Takes 2-dimension array, corrects it and shuffles with an order given in a separate array.
  */
-const shuffledAndCorrected = (facts: string[][], order: Array<number>) => order.map((i) => {
-  const [key, value] = facts[i];
-  return [
-    key.replaceAll('_', ' '),
-    value,
-  ];
-});
+const shuffledAndCorrected = (facts: string[][], order: Array<number>) => {
+  const typo = new Typograf({ locale: ['ru', 'en-US'] });
+  return order.map((i) => {
+    const [key, value] = facts[i];
+    return [
+      key.replaceAll('_', ' '),
+      typo.execute(value),
+    ];
+  });
+};
 
 /**
  * A component for rendering a card
