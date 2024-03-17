@@ -35,7 +35,7 @@ describe.each([ru, en])('Testing content resolving: %s', (language) => {
 
 describe('Changing language & theme', () => {
   test('ru → en', async () => {
-    const response = await fetch('/api/en/Intro');
+    const response = await fetch('/api/en/intro');
     const content = await response.json();
     const expected = Object.values(content)[0] as string;
     const { getByRole, findByText } = renderWithProviders(
