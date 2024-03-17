@@ -1,36 +1,39 @@
-import { useContext } from 'react';
-import './App.sass';
+import { memo } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Header from './components/Header/Header';
-import Main, { AboutOrNot/* , Intro */ } from './components/Main/Main';
-import Maintenance from './components/Main/Maintenance';
-import Footer from './components/Footer/Footer';
-// import NotFound from './components/Main/NotFound/NotFound';
-import { ThemeContext } from './context/Theme';
+import './App.sass';
 
-function AppContent() {
-  return (
-    <>
-      <Header />
-      <div className="app-content">
-        <Main />
-      </div>
-      <Footer />
-    </>
-  );
-}
+import Header from './components/Header/Header';
+import Intro from './components/Intro/Intro';
+import Main, { AboutOrNot } from './components/Main/Main';
+import Maintenance from './components/Maintenance/Maintenance';
+import Footer from './components/Footer/Footer';
+import NotFound from './components/NotFound/NotFound';
+import { useAppSelector } from './redux/app/hooks';
+import { selectTheme } from './redux/theme/themeSlice';
+
+const AppContent = memo(() => (
+  <>
+    <Header />
+    <div className="app-content">
+      <Main />
+    </div>
+    <Footer />
+  </>
+));
 
 function App() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useAppSelector(selectTheme);
 
   return (
-    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }}>
+    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }} role="application">
       <Routes>
         <Route path="/" element={<AppContent />}>
-          <Route index element={<Maintenance />} />
-          {/* <Route index element={<Intro />} /> */}
+          <Route
+            index
+            element={(import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false') ? <Intro /> : <Maintenance />}
+          />
           <Route path=":please" element={<AboutOrNot />} />
-          {/* <Route path="*" element={<NotFound />} /> */}
+          <Route path="*" element={(import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false') ? <NotFound /> : <Maintenance />} />
         </Route>
       </Routes>
     </div>

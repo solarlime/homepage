@@ -9,10 +9,10 @@ sun.svg, moon.svg:
 - Source: https://www.svgrepo.com/collection/weather-4/
 - Licence: https://www.svgrepo.com/page/licensing
 
-logo.svg, email.svg, lime-logo.svg, logo192.png, logo512.png, favicon.png, imac-extras.svg:
+logo.svg, email.svg, lime-logo.svg, apple-touch-icon.png, android-icon.png, android-icon-maskable.png, favicon.svg, favicon.ico, mask-icon.svg, imac-extras.svg:
 - Author: me :)
 
-lime.jpg:
+lime.jpg, lime-thumb.jpg:
 - Author: Victor Figueroa (@vfigueroa)
 - Source: https://unsplash.com/photos/huUI0y0ERMM
 - Licence: https://unsplash.com/license

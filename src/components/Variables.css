@@ -15,6 +15,11 @@
     /* CV page */
     --photo-size: 500px;
     --small-gap: 20px;
+
+    /* Intro page */
+    --avatar-size: 260px;
+    --big-font-size: 64px;
+    --imac-font-size: calc(var(--base-font-size-pixels) * 1px)
 }
 @supports (height: clamp(20px, 7vw, 50px)) {
     :root {
@@ -56,6 +61,10 @@
 
         /* CV page */
         --photo-size: 350px;
+
+        /* Intro page */
+        --avatar-size: 220px;
+        --big-font-size: 58px;
     }
 }
 
@@ -68,6 +77,10 @@
 
         /* CV page */
         --photo-size: 250px;
+
+        /* Intro page */
+        --avatar-size: 200px;
+        --big-font-size: 56px;
     }
 }
 
@@ -79,6 +92,7 @@
 
         /* CV page */
         --photo-size: 200px;
+        --small-gap: 15px;
     }
 }
 
@@ -90,6 +104,7 @@
 
         /* CV page */
         --photo-size: 250px;
+        --small-gap: 20px;
     }
 }
 
@@ -102,6 +117,10 @@
 
         /* CV page */
         --photo-size: 220px;
+
+        /* Intro page */
+        --avatar-size: 180px;
+        --big-font-size: 50px;
     }
 }
 @media screen and (max-width: 499px) {
@@ -113,6 +132,11 @@
 
         /* CV page */
         --photo-size: 180px;
+
+        /* Intro page */
+        --avatar-size: 160px;
+        --big-font-size: 44px;
+        --imac-font-size: 16px;
     }
 }
 @media screen and (max-width: 399px) {
@@ -124,5 +148,10 @@
         /* CV page */
         --photo-size: 140px;
         --small-gap: 10px;
+
+        /* Intro page */
+        --avatar-size: 150px;
+        --big-font-size: 36px;
+        --imac-font-size: 13px;
     }
 }

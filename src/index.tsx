@@ -1,11 +1,13 @@
 import './wdyr';
-import { StrictMode } from 'react';
+
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import { StrictMode } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from './context/Theme';
-import { LanguageProvider } from './context/Language';
+import { Provider } from 'react-redux';
+
+import './index.css';
 import App from './App';
+import { store } from './redux/app/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -14,11 +16,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
-        <LanguageProvider>
-          <App />
-        </LanguageProvider>
-      </ThemeProvider>
+      <Provider store={store}>
+        <App />
+      </Provider>
     </BrowserRouter>
   </StrictMode>,
 );

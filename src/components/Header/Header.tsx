@@ -1,18 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState, memo } from 'react';
 import { Link, useMatch } from 'react-router-dom';
+
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import type { SerializedError } from '@reduxjs/toolkit';
+import type { ExtendedCSS } from '../types';
+
 import styles from './Header.module.sass';
-import { ThemeContext } from '../../context/Theme';
-import { ExtendedCSS } from '../types';
+import { useAppSelector, useAppDispatch } from '../../redux/app/hooks';
+import { selectTheme, selectThemeName, toggleTheme } from '../../redux/theme/themeSlice';
+import { selectLanguage, selectLanguageName } from '../../redux/language/languageSlice';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 import Logo from './Logo';
+
 import Github from '../../img/github.svg?react';
 import Telegram from '../../img/telegram.svg?react';
 import Print from '../../img/print.svg?react';
 import Download from '../../img/download.svg?react';
 import moon from '../../img/moon.svg';
 import sun from '../../img/sun.svg';
-import { LanguageContext } from '../../context/Language';
-import { getContent, PageComponent } from '../Content/getContent';
-import { Language, Theme } from '../../context/contextTypes';
+import SkeletonComponent from '../SkeletonComponent';
 
 /**
  * A component for rendering a theme changer switcher
@@ -20,8 +26,10 @@ import { Language, Theme } from '../../context/contextTypes';
  *                themeName: a string with a chosen theme name
  * @constructor
  */
-function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'dark', languageName: 'ru' | 'en' }) {
-  const { toggleTheme, themeName, languageName } = props;
+function ThemeChanger() {
+  const themeName = useAppSelector(selectThemeName);
+  const languageName = useAppSelector(selectLanguageName);
+  const dispatch = useAppDispatch();
 
   return (
     <button
@@ -29,7 +37,7 @@ function ThemeChanger(props: { toggleTheme: () => void, themeName: 'light' | 'da
       type="button"
       aria-label={(languageName === 'ru' ? 'Сменить тему' : 'Change theme')}
       aria-controls={(languageName === 'ru' ? `Текущая тема: ${(themeName === 'light') ? 'светлая' : 'тёмная'}` : `Theme changed to ${themeName}`)}
-      onClick={toggleTheme}
+      onClick={() => dispatch(toggleTheme())}
     >
       <img src={(themeName === 'dark') ? sun : moon} alt="" />
     </button>
@@ -43,8 +51,14 @@ type State = true | 'pending' | false;
  * It triggers server to open the page, save as pdf and send it to client
  * @constructor
  */
-function SavePDFButton(props: { language: Language, theme: Theme, content: PageComponent }) {
-  const { language, theme, content } = props;
+const SavePDFButton = memo((props: {
+  error: FetchBaseQueryError | SerializedError | undefined,
+  content: string | undefined,
+  isLoading: boolean,
+}) => {
+  const { content, error, isLoading } = props;
+  const theme = useAppSelector(selectTheme);
+  const languageName = useAppSelector(selectLanguageName);
   const [disabled, setDisabled] = useState(false as State);
 
   const handleDownload = () => {
@@ -55,7 +69,7 @@ function SavePDFButton(props: { language: Language, theme: Theme, content: PageC
         'Content-Type': 'application/pdf',
         'Cache-Control': 'no-cache',
       },
-      body: JSON.stringify({ language: language.name }),
+      body: JSON.stringify({ language: languageName }),
     })
       .then(
         (result) => {
@@ -73,7 +87,7 @@ function SavePDFButton(props: { language: Language, theme: Theme, content: PageC
 
                 const linkElement = document.createElement('a');
                 linkElement.href = url;
-                linkElement.download = `CV_Front-end_${import.meta.env[(language.name === 'ru') ? 'VITE_APP_ME_ru' : 'VITE_APP_ME_en']}.pdf`;
+                linkElement.download = `CV_Front-end_${import.meta.env[(languageName === 'ru') ? 'VITE_APP_ME_ru' : 'VITE_APP_ME_en']}.pdf`;
 
                 document.body.appendChild(linkElement);
                 linkElement.click();
@@ -93,7 +107,7 @@ function SavePDFButton(props: { language: Language, theme: Theme, content: PageC
     <button
       className={`${styles.link} ${(disabled === 'pending') ? styles.pending : ''}`}
       type="button"
-      aria-label={content.download}
+      aria-label={content}
       onClick={handleDownload}
       disabled={(typeof disabled === 'boolean') ? disabled : true}
     >
@@ -102,27 +116,28 @@ function SavePDFButton(props: { language: Language, theme: Theme, content: PageC
         // eslint-disable-next-line no-nested-ternary
         (typeof disabled === 'boolean')
           ? ((document.documentElement.clientWidth < 650)
-            ? <Download fill={(!disabled) ? theme.color : ''} /> : content.download)
+            ? <Download fill={(!disabled) ? theme.color : ''} /> : (
+              <SkeletonComponent
+                error={error}
+                isLoading={isLoading}
+                content={content}
+              />
+            ))
           : '...'
       }
     </button>
   );
-}
+});
 
 /**
  * A component for rendering a site footer
  * @constructor
  */
 function Header() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
-  const [content, setContent] = useState({} as PageComponent);
+  const theme = useAppSelector(selectTheme);
+  const language = useAppSelector(selectLanguage);
   const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
-
-  useEffect(() => {
-    getContent(language, 'header')
-      .then((res) => { setContent(res); });
-  }, [language]);
+  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'header' });
 
   return (
     <header
@@ -142,11 +157,15 @@ function Header() {
         <li className={styles['header-items__item_rest']}>
           {(isCV) ? (
             <>
-              <SavePDFButton language={language} theme={theme} content={content} />
+              <SavePDFButton
+                error={error}
+                isLoading={isLoading}
+                content={content?.download}
+              />
               <button
                 className={`${styles.link}`}
                 type="button"
-                aria-label={content.print}
+                aria-label={content?.print}
                 onClick={
                   () => {
                     const printTimeout = window.setTimeout(() => {
@@ -159,7 +178,13 @@ function Header() {
                 {
                   (document.documentElement.clientWidth < 650)
                     ? <Print fill={theme.color} />
-                    : content.print
+                    : (
+                      <SkeletonComponent
+                        error={error}
+                        isLoading={isLoading}
+                        content={content?.print}
+                      />
+                    )
                 }
               </button>
             </>
@@ -173,15 +198,13 @@ function Header() {
               </a>
             </>
           )}
-          <ThemeChanger
-            toggleTheme={toggleTheme}
-            themeName={theme.name}
-            languageName={language.name}
-          />
+          <ThemeChanger />
         </li>
       </ul>
     </header>
   );
 }
+
+Header.whyDidYouRender = true;
 
 export default Header;

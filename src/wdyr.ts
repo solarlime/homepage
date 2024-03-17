@@ -1,10 +1,11 @@
 /// <reference types="@welldone-software/why-did-you-render" />
 
-// import whyDidYouRender from '@welldone-software/why-did-you-render';
 import React from 'react';
+import whyDidYouRender from '@welldone-software/why-did-you-render';
 
 if (import.meta.env.DEV) {
-  const { default: whyDidYouRender } = await import('@welldone-software/why-did-you-render');
+  // For the future, where iOS 12 is gone
+  // const { default: whyDidYouRender } = await import('@welldone-software/why-did-you-render');
   whyDidYouRender(React, {
     trackAllPureComponents: true,
   });

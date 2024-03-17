@@ -1,0 +1,160 @@
+@use "Variables.css"
+
+$button-color: #{"var(--button-color)"}
+$hover-color: #{"var(--hover-color)"}
+$hover-bg-color: #{"var(--hover-bg-color)"}
+$focus-color: #{"var(--focus-color)"}
+$extra-color: #{"var(--extra-color)"}
+
+$side-margin-size: #{"var(--side-margin-size)"}
+$bar-height-size: #{"var(--bar-height-size)"}
+$bar-content-height: #{"var(--bar-content-height)"}
+$bar-font-size: #{"var(--bar-font-size)"}
+$svg-size: #{"var(--svg-size)"}
+$button-font-size: #{"var(--button-font-size)"}
+$outline: #{"var(--outline)"}
+$base-font-size-pixels: #{"var(--base-font-size-pixels)"}
+$gap: #{"var(--gap)"}
+
+$min-width: 280px
+$max-width: 1100px
+
+@mixin bar($shift)
+  display: flex
+  justify-content: center
+  flex-shrink: 0
+  width: 100%
+  height: $bar-height-size
+  margin: 0 auto
+  font-size: $bar-font-size
+  font-weight: 500
+  line-height: 1
+  box-shadow: 0 $shift 10px 0 rgba(0, 0, 0, 0.25)
+
+@mixin bar-items
+  display: flex
+  justify-content: space-between
+  align-items: center
+  min-width: $min-width
+  width: 100%
+  max-width: $max-width
+  height: 100%
+  padding: 0
+  margin: 0 $side-margin-size
+  list-style: none
+  text-transform: lowercase
+  box-sizing: border-box
+
+body
+  font-family: PTRootUIWebVF, "Helvetica Neue", sans-serif
+
+svg
+  display: block
+
+.link
+  padding: 0
+  border: 0
+  margin: 0
+  background: transparent
+  color: inherit
+  text-decoration: none
+  font-family: inherit
+  font-size: $bar-font-size
+  font-weight: 500
+  cursor: pointer
+
+  &:hover
+    text-decoration: underline currentColor solid 2px
+
+.button
+  display: flex
+  align-items: center
+  flex-shrink: 0
+  height: $svg-size
+  padding: calc($button-font-size * 0.6) calc($button-font-size * 0.93)
+  margin: 0
+  border: 0
+  border-radius: $button-font-size
+  outline: #FFCF48 solid $outline
+  outline: $hover-bg-color solid $outline
+  outline-offset: calc($outline * -1)
+  font-family: inherit
+  font-size: $button-font-size
+  font-weight: 400
+  text-decoration: none
+  color: inherit
+  color: $button-color
+  background-color: transparent
+  background-color: $extra-color
+  box-sizing: content-box
+  cursor: pointer
+
+  &:hover
+    color: #282C34
+    color: $hover-color
+    background-color: #FFCF48
+    background-color: $hover-bg-color
+    outline: none
+
+:where(.button, .link, .switcher, .logo-container, a):focus-visible
+  outline: #78b856 solid 3px
+  outline: $focus-color solid $outline
+  outline-offset: calc($outline * -1)
+
+.base
+  padding-top: calc($gap * 2)
+
+.base__item:not(:last-child)
+  margin-bottom: calc($gap * 2)
+
+.base__item__title
+  padding: 0
+  margin: 0 0 $gap 0
+  font-family: inherit
+  font-size: calc($base-font-size-pixels * 2px)
+  font-weight: 700
+
+.switcher
+  display: block
+  height: $bar-content-height
+  width: auto
+  padding: 0
+  margin: 0
+  border: 0
+  background: transparent
+
+  img
+    height: inherit
+
+    &:hover
+      filter: opacity(80%)
+
+button:disabled, button:disabled:hover
+  color: #999999
+  text-decoration: line-through
+
+  svg
+    fill: currentColor
+
+button.pending:disabled, button.pending:disabled:hover
+  text-decoration: none
+
+@keyframes sparkle
+  0%
+    opacity: 1
+
+  50%
+    opacity: 0.5
+
+  100%
+    opacity: 1
+
+.skeleton
+  display: inline-block
+  // ↓ clamp(100px, max(6em, 20vw), 250px)
+  width: max(100px, min(max(6em, 20vw), 250px))
+  height: 1em
+  vertical-align: sub
+  border-radius: 0.5em
+  background-color: #dddddd
+  animation: sparkle 2s linear infinite
