@@ -15,7 +15,8 @@ $base-font-size: calc($base-font-size-pixels * 1px)
     grid-template-columns: 100%
     min-height: 400px
     height: calc(100vh - 2 * $bar-height-size)
-    height: calc(100dvh - 2 * $bar-height-size)
+    // For the future, where iOS 12 is gone
+    //height: calc(100dvh - 2 * $bar-height-size)
 
     .not-found
       display: flex
@@ -47,7 +48,7 @@ $base-font-size: calc($base-font-size-pixels * 1px)
       display: flex
       justify-content: center
       grid-area: 1 / 1
-      height: 100%
+      height: auto
       overflow: hidden
 
       img
