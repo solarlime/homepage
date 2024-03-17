@@ -1,3 +1,14 @@
 # Homepage
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a repository for [my homepage](https://solarlime.dev). Development branch
+
+## What is used
+
+- TypeScript
+- React
+- React Router
+- Redux (RTK)
+
+Available in English & Russian. Switch between light & dark themes. Get useful information. Contact me. Together we can make something great!
+
+#### You are welcome to visit! 😉
