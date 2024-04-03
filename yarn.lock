@@ -3358,14 +3358,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^13.8.6":
-  version: 13.8.6
-  resolution: "happy-dom@npm:13.8.6"
+"happy-dom@npm:^14.3.10":
+  version: 14.3.10
+  resolution: "happy-dom@npm:14.3.10"
   dependencies:
     entities: ^4.5.0
     webidl-conversions: ^7.0.0
     whatwg-mimetype: ^3.0.0
-  checksum: c95007d4e7a1dcb8ecf5f457a021739619510087f0bd02ccd348cb5cdcbac32c106045a50934ebe6f32ddc773aad8b2fd9d663e816b5e7bb14cd4de0f52fff3b
+  checksum: 7f39426acd04c368323137987f196ffdca10e3b6f58df6459f035448740dc46b121f40ec3a99378c6884620409e0b2538cfebabf44f3760f12768ad48aeccc17
   languageName: node
   linkType: hard
 
@@ -3469,7 +3469,7 @@ __metadata:
     eslint-plugin-react: ^7.34.1
     eslint-plugin-react-hooks: ^4.6.0
     eslint-plugin-react-refresh: ^0.4.6
-    happy-dom: ^13.8.6
+    happy-dom: ^14.3.10
     msw: ^2.2.4
     postcss: ^8.4.32
     react: ^18.2.0
