@@ -59,7 +59,7 @@
     "postcss": "^8.4.32",
     "sass": "^1.72.0",
     "typescript": "^5.4.2",
-    "vite": "~5.0.12",
+    "vite": "~5.2.10",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^1.4.0"
   },
