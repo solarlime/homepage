@@ -22,7 +22,7 @@ function kebabaizer(projectName: string) {
 
 const projectsList = [
   'Like a Trello',
-  'Dogs and facts',
+  'Get a trip',
   'Simple chat',
   'Chest of notes',
   'GitHub Deployment Cleaner',
