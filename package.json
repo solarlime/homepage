@@ -63,5 +63,5 @@
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^1.4.0"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@4.3.1"
 }
