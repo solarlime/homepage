@@ -29,8 +29,10 @@ describe.each(situations)('Header', (path) => {
       second: null,
     };
 
+    // Vitest error: cannot spy on a non-function value (since happy-dom ^15)
     // @ts-ignore
-    vi.spyOn(document.documentElement, 'clientWidth').mockImplementation(() => 1024);
+    // vi.spyOn(document.documentElement, 'clientWidth').mockImplementation(() => 1024);
+    Object.defineProperty(HTMLElement.prototype, 'clientWidth', { configurable: true, value: 1024 });
     const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
 
     switch (path) {
