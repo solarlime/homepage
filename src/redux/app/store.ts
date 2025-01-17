@@ -5,6 +5,7 @@ import { themeReducer } from '../theme/themeSlice';
 import { languageReducer } from '../language/languageSlice';
 import { contentApi } from '../content/contentSlice';
 import imageSlice from '../content/imageSlice';
+import { sourceSlice } from '../content/sourceSlice';
 
 const rootReducer = combineReducers(
   {
@@ -12,6 +13,7 @@ const rootReducer = combineReducers(
     language: languageReducer,
     [contentApi.reducerPath]: contentApi.reducer,
     [imageSlice.reducerPath]: imageSlice.reducer,
+    [sourceSlice.reducerPath]: sourceSlice.reducer,
   },
 );
 

@@ -14,7 +14,7 @@ import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
 import projectsObjectList from './projectsList';
 import { PageComponent } from '../types';
-import { useAppSelector } from '../../redux/app/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
 import { selectLanguage } from '../../redux/language/languageSlice';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
@@ -25,6 +25,7 @@ import Cat from './SVGComponents/Cat';
 import HookAndRope from './SVGComponents/HookAndRope';
 import Tambourines from '../../img/tambourines.svg?react';
 import SkeletonComponent from '../SkeletonComponent';
+import { getSource, selectSource } from '../../redux/content/sourceSlice';
 
 /**
  * A component for rendering a name.
@@ -74,9 +75,15 @@ function Name(props: { content: PageComponent, textColor: string }) {
 const Intro = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
+  const source = useAppSelector(selectSource);
+  const dispatch = useAppDispatch();
   const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'intro' });
 
   let focused: HTMLAnchorElement | null = null;
+
+  useEffect(() => {
+    dispatch(getSource());
+  }, []);
 
   return (
     <article
@@ -182,20 +189,20 @@ const Intro = memo(() => {
                       </a>
                       <picture>
                         <source
-                          srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.avif 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.avif 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.avif 1280w`}
+                          srcSet={`${source}/${project.kebabedProjectName}320.avif 320w, ${source}/${project.kebabedProjectName}640.avif 640w, ${source}/${project.kebabedProjectName}1280.avif 1280w`}
                           sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
                           type="image/avif"
                         />
                         <source
-                          srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}320.jpg 320w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}640.jpg 640w, ${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}1280.jpg 1280w`}
+                          srcSet={`${source}/${project.kebabedProjectName}320.jpg 320w, ${source}/${project.kebabedProjectName}640.jpg 640w, ${source}/${project.kebabedProjectName}1280.jpg 1280w`}
                           sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
                           type="image/jpeg"
                         />
-                        <source srcSet={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}.avif`} type="image/avif" />
+                        <source srcSet={`${source}/${project.kebabedProjectName}.avif`} type="image/avif" />
                         <img
                           className={styles.projects_list__item__image}
                           style={{ color: orderColor, backgroundColor: theme.backgroundColor }}
-                          src={`${import.meta.env.VITE_APP_FILES}/projects/${project.kebabedProjectName}.jpg`}
+                          src={`${source}/${project.kebabedProjectName}.jpg`}
                           alt={project.projectName}
                           onClick={
                             (event) => {
