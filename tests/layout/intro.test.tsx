@@ -21,8 +21,10 @@ describe('Intro', () => {
     const initialName = await findByText('solarlime');
     expect(initialName).toBeInTheDocument();
 
+    const response = await fetch(`${import.meta.env.VITE_APP_STORAGE}/content/en/intro`);
+    const content = await response.json();
     await waitFor(() => {
-      expect(initialName).toHaveTextContent('Dmitriy');
+      expect(initialName).toHaveTextContent(content?.title_name);
     }, { timeout: 7000 });
   }, { timeout: 10000 });
 

@@ -1,5 +1,8 @@
 export const response = {
-  language: 'english version',
+  subtitle_1: 'Тт',
+  subtitle_2: 'Уу',
+  caption_1: 'Фф',
+  caption_2: 'Хх',
 };
 
 export default (req, res) => {

@@ -22,7 +22,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src", "api", "tests"
+    "src", "tests"
   ],
   "references": [{ "path": "./tsconfig.node.json"}],
 

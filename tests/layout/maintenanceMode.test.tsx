@@ -12,12 +12,12 @@ import { en } from '../../src/redux/language/languageSlice';
 type Situation = { maintenance: boolean, path: string, searchFor: string };
 
 const situations: Situation[] = [
-  { maintenance: false, path: '/', searchFor: 'Hi! I am' },
+  { maintenance: false, path: '/', searchFor: 'Jj' },
   { maintenance: false, path: '/random-string', searchFor: '404' },
-  { maintenance: false, path: `/${import.meta.env.VITE_APP_PLEASE}`, searchFor: 'Tools' },
+  { maintenance: false, path: `/${import.meta.env.VITE_APP_PLEASE}`, searchFor: 'Bb' },
   { maintenance: true, path: '/', searchFor: 'Wow!' },
   { maintenance: true, path: '/random-string', searchFor: 'Wow!' },
-  { maintenance: true, path: `/${import.meta.env.VITE_APP_PLEASE}`, searchFor: 'Tools' },
+  { maintenance: true, path: `/${import.meta.env.VITE_APP_PLEASE}`, searchFor: 'Bb' },
 ];
 
 describe.each(situations)('Page resolving', ({ maintenance, path, searchFor }: Situation) => {

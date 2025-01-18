@@ -17,7 +17,7 @@ describe.each([ru, en])('Testing content resolving: %s', (language) => {
     { name: 'intro', path: '/' },
     { name: 'notFound', path: '/random-string' },
   ])(`/${language.name}/%s`, async (component) => {
-    const response = await fetch(`/api/${language.name}/${component.name}`);
+    const response = await fetch(`${import.meta.env.VITE_APP_STORAGE}/content/${language.name}/${component.name}`);
     const content = await response.json();
     const expected = Object.values(content)[0] as string;
     const { findByText } = renderWithProviders(
@@ -35,7 +35,7 @@ describe.each([ru, en])('Testing content resolving: %s', (language) => {
 
 describe('Changing language & theme', () => {
   test('ru → en', async () => {
-    const response = await fetch('/api/en/intro');
+    const response = await fetch(`${import.meta.env.VITE_APP_STORAGE}/content/en/intro`);
     const content = await response.json();
     const expected = Object.values(content)[0] as string;
     const { getByRole, findByText } = renderWithProviders(

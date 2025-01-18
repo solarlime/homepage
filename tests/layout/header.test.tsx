@@ -37,7 +37,7 @@ describe.each(situations)('Header', (path) => {
 
     switch (path) {
       case `/${import.meta.env.VITE_APP_PLEASE}`: {
-        const response = await fetch('/api/en/header');
+        const response = await fetch(`${import.meta.env.VITE_APP_STORAGE}/content/en/header`);
         const content = await response.json();
         await waitFor(() => {
           buttons.first = queryByText(content?.download);

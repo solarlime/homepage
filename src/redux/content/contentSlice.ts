@@ -14,7 +14,7 @@ FetchBaseQueryMeta
   });
 
   const fallbackQuery = fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_APP_API,
+    baseUrl: `${import.meta.env.VITE_APP_STORAGE}/content`,
   });
 
   try {
@@ -30,7 +30,7 @@ export const contentApi = createApi({
   baseQuery: optionedBaseQuery,
   endpoints: (builder) => ({
     getContentByComponent: builder.query({
-      query: ({ languageName, component }) => `/${languageName}/${component}`,
+      query: ({ languageName, component }) => `/${languageName}/${component}.json`,
     }),
   }),
 });

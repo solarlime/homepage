@@ -19,12 +19,16 @@ const unsplashResult = {
 };
 
 const handlers = [
-  http.get('/api/:language/:component', async ({ params }) => {
+  http.get(`${import.meta.env.VITE_APP_STORAGE}/content/:language/:component`, async ({ params }) => {
     const { language, component } = params;
-    await delay(200);
-    // @ts-ignore
-    const answer = await import(`../../api/${language}/${component}`).then((res) => { const { response } = res; return response; });
-    return HttpResponse.json(answer);
+    if (language && component) {
+      const componentWithoutExtension = (component as string).replace('.json', '');
+      await delay(200);
+      // @ts-ignore
+      const answer = await import(`./api/${language}/${componentWithoutExtension}`).then((res) => { const { response } = res; return response; });
+      return HttpResponse.json(answer);
+    }
+    return HttpResponse.error();
   }),
   http.get('http://test.server/isServerDown', () => HttpResponse.error()),
   http.get('https://api.unsplash.com/photos/random', () => HttpResponse.json(unsplashResult)),
