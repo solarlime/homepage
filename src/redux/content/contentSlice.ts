@@ -36,7 +36,12 @@ export const contentApi = createApi({
   baseQuery: optionedBaseQuery,
   endpoints: (builder) => ({
     getContentByComponent: builder.query({
-      query: ({ languageName, component }) => `/${languageName}/${component}.json`,
+      query: ({ languageName, component, file }) => {
+        if (file) {
+          return `/${file}.json`;
+        }
+        return `/${languageName}/${component}.json`;
+      },
     }),
   }),
 });

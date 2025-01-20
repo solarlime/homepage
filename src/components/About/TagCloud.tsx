@@ -4,9 +4,9 @@ import uniqid from 'uniqid';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { SerializedError } from '@reduxjs/toolkit';
 
-import tags from '../../content/tagCloud.json';
 import styles from './About.module.sass';
 import { useAppSelector } from '../../redux/app/hooks';
+import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 import { selectTheme } from '../../redux/theme/themeSlice';
 import SkeletonComponent from '../SkeletonComponent';
 
@@ -19,13 +19,15 @@ const id = uniqid;
  * @param array - array for shuffling
  */
 export const shuffleArray = <T extends Array<string> | Array<number>>(array: T): T => {
-  for (let i = array.length - 1; i > 0; i -= 1) {
+  const newArray = array.slice();
+  for (let i = newArray.length - 1; i > 0; i -= 1) {
     // Выбираем индекс случайным образом (от 0 до i)
     const j = Math.floor(Math.random() * (i + 1));
     // eslint-disable-next-line no-param-reassign
-    [array[i], array[j]] = [array[j], array[i]];
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
-  return array;
+  // @ts-ignore
+  return newArray;
 };
 
 const randomArray = (length: number) => [...Array(length)].map(() => Math.random());
@@ -39,11 +41,12 @@ const TagCloud = memo((props: {
 }) => {
   const { isLoading, error } = props;
   const theme = useAppSelector(selectTheme);
+  const { data: tags, error: tagsError, isLoading: tagsAreLoading } = useGetContentByComponentQuery({ file: 'tagCloud' });
 
-  const shuffledTags = useMemo(() => shuffleArray(tags), []);
-  const colorsRandom = useMemo(() => randomArray(tags.length), []);
+  const shuffledTags = useMemo(() => (Array.isArray(tags) ? shuffleArray(tags) : []), [tags]);
+  const colorsRandom = useMemo(() => (Array.isArray(tags) ? randomArray(tags.length) : []), [tags]);
 
-  if (isLoading || error) {
+  if (isLoading || error || tagsError || tagsAreLoading) {
     return (
       <div className={styles.wrapper}>
         <ul className={styles['tag-cloud']}>

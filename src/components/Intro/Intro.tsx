@@ -1,9 +1,3 @@
-/*
-  eslint-disable
-  jsx-a11y/click-events-have-key-events,
-  jsx-a11y/no-noninteractive-element-interactions,
-*/
-
 import { useState, useEffect, memo } from 'react';
 import uniqid from 'uniqid';
 
@@ -12,7 +6,7 @@ import type { ExtendedCSS } from '../types';
 import styles from './Intro.module.sass';
 import TagCloud from '../About/TagCloud';
 import Bottom from '../Bottom/Bottom';
-import projectsObjectList from './projectsList';
+import getProjectsObjectList, { ProjectsObject } from './projectsList';
 import { PageComponent } from '../types';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
@@ -22,10 +16,10 @@ import { useGetContentByComponentQuery } from '../../redux/content/contentSlice'
 import Avatar from './SVGComponents/Avatar';
 import ImacExtras from './SVGComponents/ImacExtras';
 import Cat from './SVGComponents/Cat';
-import HookAndRope from './SVGComponents/HookAndRope';
 import Tambourines from '../../img/tambourines.svg?react';
 import SkeletonComponent from '../SkeletonComponent';
 import { getSource, selectSource } from '../../redux/content/sourceSlice';
+import Project from './Project';
 
 /**
  * A component for rendering a name.
@@ -78,12 +72,20 @@ const Intro = memo(() => {
   const source = useAppSelector(selectSource);
   const dispatch = useAppDispatch();
   const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'intro' });
+  const { data: projects, error: projectsError, isLoading: projectsAreLoading } = useGetContentByComponentQuery({ file: 'projects' });
+  const [projectsObjectList, setProjectsObjectList] = useState(null as ProjectsObject[] | null);
 
-  let focused: HTMLAnchorElement | null = null;
+  const focused: HTMLAnchorElement | null = null;
 
   useEffect(() => {
     dispatch(getSource());
   }, []);
+
+  useEffect(() => {
+    if (projects) {
+      setProjectsObjectList(getProjectsObjectList(projects));
+    }
+  }, [projects]);
 
   return (
     <article
@@ -155,76 +157,30 @@ const Intro = memo(() => {
             />
           </h2>
           <ul className={styles.projects_list}>
-            {
-              projectsObjectList.map((project, index) => {
-                const orderColor = (index % 2 === 0) ? theme.accentColor : theme.extraColor;
-                return (
-                  <li key={project.id} className={styles.projects_list__item} data-testid="project">
-                    <HookAndRope
-                      className={styles.projects_list__item__rope}
-                      ropeColor={theme.color}
-                      hookColor={orderColor}
-                    />
-                    <p
-                      onClickCapture={
-                        // Safari does not catch clicks on <a> and catches them on <p>. Workaround
-                        (event) => {
-                          if (focused && (event.target as HTMLParagraphElement).querySelector('a') === focused) {
-                            window.open(`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`, '_blank', 'noreferrer');
-                            focused.blur();
-                            focused = null;
-                          }
-                        }
-                      }
-                    >
-                      <a
-                        className={styles.projects_list__item__link}
-                        href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ color: orderColor, backgroundColor: theme.backgroundColor }}
-                        onClick={() => { if (focused) focused.blur(); }}
-                      >
-                        {project.projectName}
-                      </a>
-                      <picture>
-                        <source
-                          srcSet={`${source}/${project.kebabedProjectName}320.avif 320w, ${source}/${project.kebabedProjectName}640.avif 640w, ${source}/${project.kebabedProjectName}1280.avif 1280w`}
-                          sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
-                          type="image/avif"
-                        />
-                        <source
-                          srcSet={`${source}/${project.kebabedProjectName}320.jpg 320w, ${source}/${project.kebabedProjectName}640.jpg 640w, ${source}/${project.kebabedProjectName}1280.jpg 1280w`}
-                          sizes="(max-width: 1180px) 250px, (max-width: 1280px) 330px, 640px"
-                          type="image/jpeg"
-                        />
-                        <source srcSet={`${source}/${project.kebabedProjectName}.avif`} type="image/avif" />
-                        <img
-                          className={styles.projects_list__item__image}
-                          style={{ color: orderColor, backgroundColor: theme.backgroundColor }}
-                          src={`${source}/${project.kebabedProjectName}.jpg`}
-                          alt={project.projectName}
-                          onClick={
-                            (event) => {
-                              const image = event.target as HTMLAnchorElement;
-                              try {
-                                const picture = image.parentElement!;
-                                const link = picture.previousElementSibling as HTMLAnchorElement;
-                                link.focus();
-                                focused = link;
-                              } catch (e) {
-                                console.error(`An error with '${project.projectName}' occurred! Fallback mode is on`);
-                                window.open(`https://${import.meta.env.VITE_APP_LINK_GITHUB}/${project.kebabedProjectName}`, '_blank', 'noreferrer');
-                              }
-                            }
-                          }
-                        />
-                      </picture>
-                    </p>
-                  </li>
-                );
-              })
-            }
+            <SkeletonComponent
+              error={projectsError}
+              isLoading={projectsAreLoading}
+              content={undefined}
+            >
+              {
+                (projectsObjectList === null) ? null
+                  : projectsObjectList.map((project, index) => {
+                    const orderColor = (index % 2 === 0) ? theme.accentColor : theme.extraColor;
+                    return (
+                      <Project
+                        key={project.id}
+                        projectName={project.projectName}
+                        kebabedProjectName={project.kebabedProjectName}
+                        themeColor={theme.color}
+                        backgroundColor={theme.backgroundColor}
+                        orderColor={orderColor}
+                        focused={focused}
+                        source={source}
+                      />
+                    );
+                  })
+              }
+            </SkeletonComponent>
           </ul>
         </div>
       </section>

@@ -1,7 +1,5 @@
 import uniqid from 'uniqid';
 
-import projectsList from '../../content/projects.json';
-
 export type ProjectsObject = {
   id: string,
   projectName: string,
@@ -24,14 +22,16 @@ function kebabaizer(projectName: string) {
 
 export const kebabedList: Array<string> = [];
 
-const projectsObjectList: Array<ProjectsObject> = projectsList.map((item) => {
-  const kebabed = kebabaizer(item);
-  kebabedList.push(kebabed);
-  return {
-    id: uniqid(),
-    projectName: item,
-    kebabedProjectName: kebabaizer(item),
-  };
-});
+const getProjectsObjectList:
+(projectsList: string[]) => Array<ProjectsObject> = (projectsList: string[]) => (projectsList)
+  .map((item) => {
+    const kebabed = kebabaizer(item);
+    kebabedList.push(kebabed);
+    return {
+      id: uniqid(),
+      projectName: item,
+      kebabedProjectName: kebabaizer(item),
+    };
+  });
 
-export default projectsObjectList;
+export default getProjectsObjectList;
