@@ -3,26 +3,32 @@ import type {
   BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query/react';
 
+const makeReturnQueryObject = async () => {
+  let serverIsDown = false;
+  try {
+    await fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`);
+  } catch (e) {
+    serverIsDown = true;
+  }
+
+  return function returnQueryObject() {
+    if (serverIsDown) {
+      return { baseUrl: `${import.meta.env.VITE_APP_STORAGE}/content` };
+    }
+    return { baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/content` };
+  };
+};
+
+const returnQueryObject = await makeReturnQueryObject();
+
 const optionedBaseQuery: BaseQueryFn<
 string | FetchArgs,
 unknown, FetchBaseQueryError,
 {},
 FetchBaseQueryMeta
 > = async (args, api, extraOptions) => {
-  const mainQuery = fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/content`,
-  });
-
-  const fallbackQuery = fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_APP_STORAGE}/content`,
-  });
-
-  try {
-    await fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`);
-    return await mainQuery(args, api, extraOptions);
-  } catch (e) {
-    return fallbackQuery(args, api, extraOptions);
-  }
+  const query = fetchBaseQuery(returnQueryObject());
+  return query(args, api, extraOptions);
 };
 
 export const contentApi = createApi({
