@@ -45,21 +45,31 @@ function getAge(language: 'ru' | 'en') {
 const About = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'about' });
+  const {
+    data: content,
+    error,
+    isLoading,
+  } = useGetContentByComponentQuery({
+    languageName: language.name,
+    component: 'about',
+  });
 
   const age = useMemo(() => getAge(language.name), [language.name]);
 
   return (
     <article
       className={`${styles.base} ${styles.about}`}
-      style={{
-        color: theme.color,
-        backgroundColor: theme.backgroundColor,
-        '--button-color': (theme.name === 'dark') ? theme.extraColor : theme.color,
-        '--hover-color': theme.backgroundColor,
-        '--hover-bg-color': theme.extraColor,
-        '--focus-color': theme.accentColor,
-      } as ExtendedCSS}
+      style={
+        {
+          color: theme.color,
+          backgroundColor: theme.backgroundColor,
+          '--button-color':
+            theme.name === 'dark' ? theme.extraColor : theme.color,
+          '--hover-color': theme.backgroundColor,
+          '--hover-bg-color': theme.extraColor,
+          '--focus-color': theme.accentColor,
+        } as ExtendedCSS
+      }
     >
       <section className={` ${styles.base__item} ${styles.about__contacts}`}>
         <h1 className={styles.contacts__title}>
@@ -86,40 +96,63 @@ const About = memo(() => {
           </p>
         </h1>
         <div className={styles.contacts__buttons}>
-          {
-            (isLoading || error)
-              ? (
-                <SkeletonComponent
-                  error={error}
-                  isLoading={isLoading}
-                  content={content?.skills_title}
-                />
-              ) : (
-                <>
-                  <img className={styles.qr} src={`${import.meta.env.VITE_APP_FILES}/qr.svg`} alt="about me" />
-                  <div>
-                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_GITHUB}>
-                      <GitHub fill={theme.color} />
-                      <span>github</span>
-                    </a>
-                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`} data-url={import.meta.env.VITE_APP_LINK_MAIL}>
-                      <Email fill={theme.color} />
-                      <span>e-mail</span>
-                    </a>
-                  </div>
-                  <div>
-                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}>
-                      <LinkedIn fill={theme.color} />
-                      <span>linkedin</span>
-                    </a>
-                    <a className={`${styles.button} ${styles.contacts__buttons__item}`} href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`} target="_blank" rel="noreferrer" data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}>
-                      <Telegram fill={theme.color} />
-                      <span>telegram</span>
-                    </a>
-                  </div>
-                </>
-              )
-          }
+          {isLoading || error ? (
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={content?.skills_title}
+            />
+          ) : (
+            <>
+              <img
+                className={styles.qr}
+                src={`${import.meta.env.VITE_APP_FILES}/qr.svg`}
+                alt="about me"
+              />
+              <div>
+                <a
+                  className={`${styles.button} ${styles.contacts__buttons__item}`}
+                  href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-url={import.meta.env.VITE_APP_LINK_GITHUB}
+                >
+                  <GitHub fill={theme.color} />
+                  <span>github</span>
+                </a>
+                <a
+                  className={`${styles.button} ${styles.contacts__buttons__item}`}
+                  href={`mailto:${import.meta.env.VITE_APP_LINK_MAIL}?subject=Предложение о сотрудничестве`}
+                  data-url={import.meta.env.VITE_APP_LINK_MAIL}
+                >
+                  <Email fill={theme.color} />
+                  <span>e-mail</span>
+                </a>
+              </div>
+              <div>
+                <a
+                  className={`${styles.button} ${styles.contacts__buttons__item}`}
+                  href={`https://${import.meta.env.VITE_APP_LINK_LINKEDIN}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-url={import.meta.env.VITE_APP_LINK_LINKEDIN}
+                >
+                  <LinkedIn fill={theme.color} />
+                  <span>linkedin</span>
+                </a>
+                <a
+                  className={`${styles.button} ${styles.contacts__buttons__item}`}
+                  href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-url={import.meta.env.VITE_APP_LINK_TELEGRAM}
+                >
+                  <Telegram fill={theme.color} />
+                  <span>telegram</span>
+                </a>
+              </div>
+            </>
+          )}
         </div>
         <picture className={styles.contacts__image}>
           <source
@@ -150,22 +183,22 @@ const About = memo(() => {
         <FactsList error={error} isLoading={isLoading} />
       </section>
       <section className={`${styles.base__item}`}>
-        <Bottom bgColor={(theme.name === 'dark') ? theme.extraColor : theme.accentColor}>
-          {
-            [
-              content?.bottom_text_1,
-              content?.bottom_text_2,
-              content?.bottom_text_3,
-              content?.bottom_button,
-            ].map((text) => (
-              <SkeletonComponent
-                key={uniqid()}
-                error={error}
-                isLoading={isLoading}
-                content={text}
-              />
-            ))
-          }
+        <Bottom
+          bgColor={theme.name === 'dark' ? theme.extraColor : theme.accentColor}
+        >
+          {[
+            content?.bottom_text_1,
+            content?.bottom_text_2,
+            content?.bottom_text_3,
+            content?.bottom_button,
+          ].map((text) => (
+            <SkeletonComponent
+              key={uniqid()}
+              error={error}
+              isLoading={isLoading}
+              content={text}
+            />
+          ))}
         </Bottom>
       </section>
     </article>

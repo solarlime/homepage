@@ -1,6 +1,4 @@
-import {
-  describe, expect, test, vi,
-} from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { fireEvent, waitFor } from '@testing-library/react';
@@ -15,14 +13,11 @@ type Buttons<T extends string> = { [key in T]: HTMLElement | null };
 
 describe.each(situations)('Header', (path) => {
   test(`Path: ${path}`, async () => {
-    const { queryByText } = renderWithProviders(
-      createElement(Header, null),
-      {
-        preloadedState: { language: en },
-        router: MemoryRouter,
-        props: { initialEntries: [path] },
-      },
-    );
+    const { queryByText } = renderWithProviders(createElement(Header, null), {
+      preloadedState: { language: en },
+      router: MemoryRouter,
+      props: { initialEntries: [path] },
+    });
 
     const buttons: Buttons<'first' | 'second'> = {
       first: null,
@@ -32,12 +27,17 @@ describe.each(situations)('Header', (path) => {
     // Vitest error: cannot spy on a non-function value (since happy-dom ^15)
     // @ts-ignore
     // vi.spyOn(document.documentElement, 'clientWidth').mockImplementation(() => 1024);
-    Object.defineProperty(HTMLElement.prototype, 'clientWidth', { configurable: true, value: 1024 });
+    Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
+      configurable: true,
+      value: 1024,
+    });
     const printSpy = vi.spyOn(window, 'print').mockImplementation(() => {});
 
     switch (path) {
       case `/${import.meta.env.VITE_APP_PLEASE}`: {
-        const response = await fetch(`${import.meta.env.VITE_APP_STORAGE}/content/en/header`);
+        const response = await fetch(
+          `${import.meta.env.VITE_APP_STORAGE}/content/en/header`,
+        );
         const content = await response.json();
         await waitFor(() => {
           buttons.first = queryByText(content?.download);
@@ -49,9 +49,12 @@ describe.each(situations)('Header', (path) => {
 
         // Try to print
         fireEvent.click(buttons.second as HTMLButtonElement);
-        await waitFor(() => {
-          expect(printSpy).toHaveBeenCalledOnce();
-        }, { timeout: 1500 });
+        await waitFor(
+          () => {
+            expect(printSpy).toHaveBeenCalledOnce();
+          },
+          { timeout: 1500 },
+        );
 
         // Try to download (fail)
         fireEvent.click(buttons.first as HTMLButtonElement);

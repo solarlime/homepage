@@ -4,9 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 
 import '@testing-library/jest-dom/vitest';
-import {
-  afterEach, afterAll, beforeAll, vi,
-} from 'vitest';
+import { afterEach, afterAll, beforeAll, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 import server from './mocks/server';

@@ -1,7 +1,10 @@
 import { describe, test, expect } from 'vitest';
 
 import {
-  themeReducer, toggleTheme, lightTheme, darkTheme,
+  themeReducer,
+  toggleTheme,
+  lightTheme,
+  darkTheme,
 } from '../../src/redux/theme/themeSlice';
 
 describe('Theme reducer', () => {

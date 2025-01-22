@@ -7,7 +7,11 @@ import type { ExtendedCSS } from '../types';
 import styles from './Footer.module.sass';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
-import { selectLanguage, selectLanguageName, toggleLanguage } from '../../redux/language/languageSlice';
+import {
+  selectLanguage,
+  selectLanguageName,
+  toggleLanguage,
+} from '../../redux/language/languageSlice';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 
 import ru from '../../img/ru.png';
@@ -20,40 +24,44 @@ import SkeletonComponent from '../SkeletonComponent';
  *                languageName: a string with a chosen language
  * @constructor
  */
-const LanguageChanger = memo((props: {
-  error: FetchBaseQueryError | SerializedError | undefined,
-  content: string | undefined,
-  isLoading: boolean,
-}) => {
-  const { error, content, isLoading } = props;
+const LanguageChanger = memo(
+  (props: {
+    error: FetchBaseQueryError | SerializedError | undefined;
+    content: string | undefined;
+    isLoading: boolean;
+  }) => {
+    const { error, content, isLoading } = props;
 
-  const languageName = useAppSelector(selectLanguageName);
-  const dispatch = useAppDispatch();
+    const languageName = useAppSelector(selectLanguageName);
+    const dispatch = useAppDispatch();
 
-  return (
-    <button
-      className={`${(document.documentElement.clientWidth < 550) ? styles.switcher : styles.link}`}
-      type="button"
-      aria-label={(languageName === 'ru' ? 'Сменить язык' : 'Change language')}
-      aria-controls={(languageName === 'ru' ? `Текущий язык: ${(languageName === 'ru') ? 'русский' : 'английский'}` : `Theme changed to ${languageName}`)}
-      onClick={() => dispatch(toggleLanguage())}
-    >
-      {
-        (document.documentElement.clientWidth < 550)
-          ? <img src={(languageName === 'ru') ? en : ru} alt="" />
-          : (
-            <span>
-              <SkeletonComponent
-                error={error}
-                isLoading={isLoading}
-                content={content}
-              />
-            </span>
-          )
-      }
-    </button>
-  );
-});
+    return (
+      <button
+        className={`${document.documentElement.clientWidth < 550 ? styles.switcher : styles.link}`}
+        type="button"
+        aria-label={languageName === 'ru' ? 'Сменить язык' : 'Change language'}
+        aria-controls={
+          languageName === 'ru'
+            ? `Текущий язык: ${languageName === 'ru' ? 'русский' : 'английский'}`
+            : `Theme changed to ${languageName}`
+        }
+        onClick={() => dispatch(toggleLanguage())}
+      >
+        {document.documentElement.clientWidth < 550 ? (
+          <img src={languageName === 'ru' ? en : ru} alt="" />
+        ) : (
+          <span>
+            <SkeletonComponent
+              error={error}
+              isLoading={isLoading}
+              content={content}
+            />
+          </span>
+        )}
+      </button>
+    );
+  },
+);
 
 /**
  * A simple function for fetching a current year
@@ -70,27 +78,39 @@ const getYear = () => {
 function Footer() {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
-  const { data: content, error, isLoading } = useGetContentByComponentQuery({ languageName: language.name, component: 'footer' });
+  const {
+    data: content,
+    error,
+    isLoading,
+  } = useGetContentByComponentQuery({
+    languageName: language.name,
+    component: 'footer',
+  });
 
   const year = useMemo(() => getYear(), []);
 
   return (
     <footer
       className={styles.footer}
-      style={{
-        color: theme.color,
-        backgroundColor: theme.backgroundColor,
-        '--focus-color': theme.accentColor,
-      } as ExtendedCSS}
+      style={
+        {
+          color: theme.color,
+          backgroundColor: theme.backgroundColor,
+          '--focus-color': theme.accentColor,
+        } as ExtendedCSS
+      }
     >
       <div className={styles['footer-items']}>
         <p className={styles['footer-items__item_copyright']}>
-          &copy;
-          solarlime.dev,
+          &copy; solarlime.dev,
           {` ${year} `}
         </p>
-        {/* eslint-disable-next-line no-nested-ternary */}
-        <LanguageChanger content={content?.language} isLoading={isLoading} error={error} />
+        {}
+        <LanguageChanger
+          content={content?.language}
+          isLoading={isLoading}
+          error={error}
+        />
       </div>
     </footer>
   );

@@ -25,15 +25,34 @@ function App() {
   const theme = useAppSelector(selectTheme);
 
   return (
-    <div className="app" style={{ color: theme.color, backgroundColor: theme.backgroundColor }} role="application">
+    <div
+      className="app"
+      style={{ color: theme.color, backgroundColor: theme.backgroundColor }}
+      role="application"
+    >
       <Routes>
         <Route path="/" element={<AppContent />}>
           <Route
             index
-            element={(import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false') ? <Intro /> : <Maintenance />}
+            element={
+              import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false' ? (
+                <Intro />
+              ) : (
+                <Maintenance />
+              )
+            }
           />
           <Route path=":please" element={<AboutOrNot />} />
-          <Route path="*" element={(import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false') ? <NotFound /> : <Maintenance />} />
+          <Route
+            path="*"
+            element={
+              import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false' ? (
+                <NotFound />
+              ) : (
+                <Maintenance />
+              )
+            }
+          />
         </Route>
       </Routes>
     </div>

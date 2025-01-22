@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type {
-  BaseQueryFn, FetchArgs, FetchBaseQueryError, FetchBaseQueryMeta,
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query/react';
 
 const makeReturnQueryObject = async () => {
@@ -15,17 +18,20 @@ const makeReturnQueryObject = async () => {
     if (serverIsDown) {
       return { baseUrl: `${import.meta.env.VITE_APP_STORAGE}/content` };
     }
-    return { baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/content` };
+    return {
+      baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/content`,
+    };
   };
 };
 
 const returnQueryObject = await makeReturnQueryObject();
 
 const optionedBaseQuery: BaseQueryFn<
-string | FetchArgs,
-unknown, FetchBaseQueryError,
-{},
-FetchBaseQueryMeta
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError,
+  object,
+  FetchBaseQueryMeta
 > = async (args, api, extraOptions) => {
   const query = fetchBaseQuery(returnQueryObject());
   return query(args, api, extraOptions);
