@@ -13,7 +13,7 @@ type Buttons<T extends string> = { [key in T]: HTMLElement | null };
 
 describe.each(situations)('Header', (path) => {
   test(`Path: ${path}`, async () => {
-    const { queryByText } = renderWithProviders(createElement(Header, null), {
+    const { queryByTitle } = renderWithProviders(createElement(Header, null), {
       preloadedState: { language: en },
       router: MemoryRouter,
       props: { initialEntries: [path] },
@@ -26,7 +26,9 @@ describe.each(situations)('Header', (path) => {
 
     // Vitest error: cannot spy on a non-function value (since happy-dom ^15)
     // @ts-ignore
-    // vi.spyOn(document.documentElement, 'clientWidth').mockImplementation(() => 1024);
+    // vi.spyOn(document.documentElement, 'clientWidth').mockImplementation(
+    //   () => 1024,
+    // );
     Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
       configurable: true,
       value: 1024,
@@ -35,15 +37,11 @@ describe.each(situations)('Header', (path) => {
 
     switch (path) {
       case `/${import.meta.env.VITE_APP_PLEASE}`: {
-        const response = await fetch(
-          `${import.meta.env.VITE_APP_STORAGE}/content/en/header`,
-        );
-        const content = await response.json();
         await waitFor(() => {
-          buttons.first = queryByText(content?.download);
+          buttons.first = queryByTitle('download .pdf');
           expect(buttons.first).toBeVisible();
 
-          buttons.second = queryByText(content?.print);
+          buttons.second = queryByTitle('print cv');
           expect(buttons.second).toBeVisible();
         });
 
@@ -63,11 +61,11 @@ describe.each(situations)('Header', (path) => {
       }
       default: {
         await waitFor(() => {
-          buttons.first = queryByText('github');
+          buttons.first = queryByTitle('github');
           expect(buttons.first).toBeVisible();
           expect(buttons.first).toHaveAttribute('href');
 
-          buttons.second = queryByText('telegram');
+          buttons.second = queryByTitle('telegram');
           expect(buttons.second).toBeVisible();
           expect(buttons.second).toHaveAttribute('href');
         });

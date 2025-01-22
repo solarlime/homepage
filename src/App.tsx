@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.sass';
 
@@ -8,8 +8,9 @@ import Main, { AboutOrNot } from './components/Main/Main';
 import Maintenance from './components/Maintenance/Maintenance';
 import Footer from './components/Footer/Footer';
 import NotFound from './components/NotFound/NotFound';
-import { useAppSelector } from './redux/app/hooks';
+import { useAppDispatch, useAppSelector } from './redux/app/hooks';
 import { selectTheme } from './redux/theme/themeSlice';
+import { setIsCompact } from './redux/layout/isCompactSlice.ts';
 
 const AppContent = memo(() => (
   <>
@@ -23,6 +24,28 @@ const AppContent = memo(() => (
 
 function App() {
   const theme = useAppSelector(selectTheme);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const compactMatcher = window.matchMedia('(max-width: 699px)');
+    const handleChange = (event: MediaQueryListEvent) => {
+      dispatch(setIsCompact(event.matches));
+    };
+    if (compactMatcher.addEventListener) {
+      compactMatcher.addEventListener('change', handleChange);
+    } else {
+      // fallback for Safari 12
+      compactMatcher.addListener(handleChange);
+    }
+    return () => {
+      if (compactMatcher.removeEventListener) {
+        compactMatcher.removeEventListener('change', handleChange);
+      } else {
+        // fallback for Safari 12
+        compactMatcher.removeListener(handleChange);
+      }
+    };
+  }, []);
 
   return (
     <div

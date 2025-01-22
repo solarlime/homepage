@@ -6,6 +6,7 @@ import { languageReducer } from '../language/languageSlice';
 import { contentApi } from '../content/contentSlice';
 import imageSlice from '../content/imageSlice';
 import { sourceSlice } from '../content/sourceSlice';
+import { isCompactSlice } from '../layout/isCompactSlice.ts';
 
 const rootReducer = combineReducers({
   theme: themeReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   [contentApi.reducerPath]: contentApi.reducer,
   [imageSlice.reducerPath]: imageSlice.reducer,
   [sourceSlice.reducerPath]: sourceSlice.reducer,
+  [isCompactSlice.reducerPath]: isCompactSlice.reducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) =>

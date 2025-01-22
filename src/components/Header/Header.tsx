@@ -16,6 +16,7 @@ import {
   selectLanguage,
   selectLanguageName,
 } from '../../redux/language/languageSlice';
+import { selectIsCompact } from '../../redux/layout/isCompactSlice.ts';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 import Logo from './Logo';
 
@@ -71,6 +72,7 @@ const SavePDFButton = memo(
     const { content, error, isLoading } = props;
     const theme = useAppSelector(selectTheme);
     const languageName = useAppSelector(selectLanguageName);
+    const isCompact = useAppSelector(selectIsCompact);
     const [disabled, setDisabled] = useState(false as State);
 
     const handleDownload = () => {
@@ -116,6 +118,7 @@ const SavePDFButton = memo(
       <button
         className={`${styles.link} ${disabled === 'pending' ? styles.pending : ''}`}
         type="button"
+        title="download .pdf"
         aria-label={content}
         onClick={handleDownload}
         disabled={typeof disabled === 'boolean' ? disabled : true}
@@ -124,7 +127,7 @@ const SavePDFButton = memo(
           // At first, find out if state is 'pending' and then deside what to use: svg or text
 
           typeof disabled === 'boolean' ? (
-            document.documentElement.clientWidth < 650 ? (
+            isCompact ? (
               <Download fill={!disabled ? theme.color : ''} />
             ) : (
               <SkeletonComponent
@@ -149,6 +152,7 @@ const SavePDFButton = memo(
 function Header() {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
+  const isCompact = useAppSelector(selectIsCompact);
   const isCV = useMatch(`/${import.meta.env.VITE_APP_PLEASE}`);
   const {
     data: content,
@@ -191,6 +195,7 @@ function Header() {
               <button
                 className={`${styles.link}`}
                 type="button"
+                title="print cv"
                 aria-label={content?.print}
                 onClick={() => {
                   const printTimeout = window.setTimeout(() => {
@@ -199,7 +204,7 @@ function Header() {
                   }, 1000);
                 }}
               >
-                {document.documentElement.clientWidth < 650 ? (
+                {isCompact ? (
                   <Print fill={theme.color} />
                 ) : (
                   <SkeletonComponent
@@ -215,26 +220,20 @@ function Header() {
               <a
                 className={`${styles.link}`}
                 href={`https://${import.meta.env.VITE_APP_LINK_GITHUB}`}
+                title="github"
                 target="_blank"
                 rel="noreferrer"
               >
-                {document.documentElement.clientWidth < 550 ? (
-                  <Github fill={theme.color} />
-                ) : (
-                  'github'
-                )}
+                {isCompact ? <Github fill={theme.color} /> : 'github'}
               </a>
               <a
                 className={`${styles.link}`}
                 href={`https://${import.meta.env.VITE_APP_LINK_TELEGRAM}`}
+                title="telegram"
                 target="_blank"
                 rel="noreferrer"
               >
-                {document.documentElement.clientWidth < 550 ? (
-                  <Telegram fill={theme.color} />
-                ) : (
-                  'telegram'
-                )}
+                {isCompact ? <Telegram fill={theme.color} /> : 'telegram'}
               </a>
             </>
           )}

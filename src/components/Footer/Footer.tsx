@@ -12,6 +12,7 @@ import {
   selectLanguageName,
   toggleLanguage,
 } from '../../redux/language/languageSlice';
+import { selectIsCompact } from '../../redux/layout/isCompactSlice.ts';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
 
 import ru from '../../img/ru.png';
@@ -33,11 +34,12 @@ const LanguageChanger = memo(
     const { error, content, isLoading } = props;
 
     const languageName = useAppSelector(selectLanguageName);
+    const isCompact = useAppSelector(selectIsCompact);
     const dispatch = useAppDispatch();
 
     return (
       <button
-        className={`${document.documentElement.clientWidth < 550 ? styles.switcher : styles.link}`}
+        className={`${isCompact ? styles.switcher : styles.link}`}
         type="button"
         aria-label={languageName === 'ru' ? 'Сменить язык' : 'Change language'}
         aria-controls={
@@ -47,7 +49,7 @@ const LanguageChanger = memo(
         }
         onClick={() => dispatch(toggleLanguage())}
       >
-        {document.documentElement.clientWidth < 550 ? (
+        {isCompact ? (
           <img src={languageName === 'ru' ? en : ru} alt="" />
         ) : (
           <span>
