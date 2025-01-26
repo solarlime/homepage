@@ -16,10 +16,10 @@ const makeReturnQueryObject = async () => {
 
   return function returnQueryObject() {
     if (serverIsDown) {
-      return { baseUrl: `${import.meta.env.VITE_APP_STORAGE}/content` };
+      return { baseUrl: `${import.meta.env.VITE_APP_STORAGE}` };
     }
     return {
-      baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/content`,
+      baseUrl: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage`,
     };
   };
 };
@@ -44,9 +44,9 @@ export const contentApi = createApi({
     getContentByComponent: builder.query({
       query: ({ languageName, component, file }) => {
         if (file) {
-          return `/${file}.json`;
+          return file;
         }
-        return `/${languageName}/${component}.json`;
+        return `/content/${languageName}/${component}.json`;
       },
     }),
   }),

@@ -50,7 +50,7 @@ const TagCloud = memo(
       data: tags,
       error: tagsError,
       isLoading: tagsAreLoading,
-    } = useGetContentByComponentQuery({ file: 'tagCloud' });
+    } = useGetContentByComponentQuery({ file: `/content/tagCloud.json` });
 
     const shuffledTags = useMemo(
       () => (Array.isArray(tags) ? shuffleArray(tags) : []),

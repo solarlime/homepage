@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import uniqid from 'uniqid';
 
 import type { ExtendedCSS } from '../types';
@@ -7,7 +7,7 @@ import styles from './About.module.sass';
 import TagCloud from './TagCloud';
 import FactsList from './FactsList';
 import Bottom from '../Bottom/Bottom';
-import { useAppSelector } from '../../redux/app/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { selectTheme } from '../../redux/theme/themeSlice';
 import { selectLanguage } from '../../redux/language/languageSlice';
 import { useGetContentByComponentQuery } from '../../redux/content/contentSlice';
@@ -17,6 +17,7 @@ import GitHub from '../../img/github.svg?react';
 import LinkedIn from '../../img/linkedin.svg?react';
 import Email from '../../img/email.svg?react';
 import Telegram from '../../img/telegram.svg?react';
+import { getSource, selectSource } from '../../redux/content/sourceSlice.ts';
 
 /**
  * A function for counting the age
@@ -45,6 +46,8 @@ function getAge(language: 'ru' | 'en') {
 const About = memo(() => {
   const theme = useAppSelector(selectTheme);
   const language = useAppSelector(selectLanguage);
+  const source = useAppSelector(selectSource);
+  const dispatch = useAppDispatch();
   const {
     data: content,
     error,
@@ -55,6 +58,10 @@ const About = memo(() => {
   });
 
   const age = useMemo(() => getAge(language.name), [language.name]);
+
+  useEffect(() => {
+    if (!source) dispatch(getSource());
+  }, []);
 
   return (
     <article
@@ -106,7 +113,7 @@ const About = memo(() => {
             <>
               <img
                 className={styles.qr}
-                src={`${import.meta.env.VITE_APP_FILES}/qr.svg`}
+                src={`${source}/qr.svg`}
                 alt="about me"
               />
               <div>
@@ -156,10 +163,10 @@ const About = memo(() => {
         </div>
         <picture className={styles.contacts__image}>
           <source
-            srcSet={`${import.meta.env.VITE_APP_FILES}/me320.jpg 320w, ${import.meta.env.VITE_APP_FILES}/me640.jpg 640w, ${import.meta.env.VITE_APP_FILES}/me1280.jpg 1280w`}
+            srcSet={`${source}/me320.jpg 320w, ${source}/me640.jpg 640w, ${source}/me1280.jpg 1280w`}
             sizes="(max-width: 899px) 250px, (max-width: 1280px) 500px, 1000px"
           />
-          <img src={`${import.meta.env.VITE_APP_FILES}/me.jpg`} alt="Me" />
+          <img src={`${source}/me.jpg`} alt="Me" />
         </picture>
       </section>
       <section className={`${styles.base__item} ${styles.about__skills}`}>

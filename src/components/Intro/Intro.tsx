@@ -88,7 +88,7 @@ const Intro = memo(() => {
     data: projects,
     error: projectsError,
     isLoading: projectsAreLoading,
-  } = useGetContentByComponentQuery({ file: 'projects' });
+  } = useGetContentByComponentQuery({ file: `/content/projects.json` });
   const [projectsObjectList, setProjectsObjectList] = useState(
     null as ProjectsObject[] | null,
   );
@@ -96,7 +96,7 @@ const Intro = memo(() => {
   const focused: HTMLAnchorElement | null = null;
 
   useEffect(() => {
-    dispatch(getSource());
+    if (!source) dispatch(getSource());
   }, []);
 
   useEffect(() => {
@@ -224,7 +224,7 @@ const Intro = memo(() => {
                         backgroundColor={theme.backgroundColor}
                         orderColor={orderColor}
                         focused={focused}
-                        source={source}
+                        source={`${source}/projects`}
                       />
                     );
                   })}

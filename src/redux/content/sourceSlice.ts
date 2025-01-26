@@ -1,9 +1,15 @@
- 
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from '../app/store';
 
-const sourceState: string = `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/projects`;
+type SourceState = {
+  source: string;
+  isServerDown: boolean;
+};
+
+const sourceState: SourceState = {
+  source: '',
+  isServerDown: true,
+};
 
 const defineSource = () =>
   new Promise<void>((resolve, reject) => {
@@ -12,25 +18,30 @@ const defineSource = () =>
       .catch(() => reject());
   });
 
-export const getSource = createAsyncThunk('source/getSource', defineSource);
+export const getSource = createAsyncThunk(
+  'sourceState/getSource',
+  defineSource,
+);
 
 export const sourceSlice = createSlice({
-  name: 'source',
+  name: 'sourceState',
   initialState: sourceState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       // @ts-ignore
-      .addCase(
-        getSource.fulfilled,
-        () => `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage/projects`,
-      )
+      .addCase(getSource.fulfilled, () => ({
+        isServerDown: false,
+        source: `${import.meta.env.VITE_APP_SERVER_PUBLIC}/homepage`,
+      }))
       // @ts-ignore
-      .addCase(
-        getSource.rejected,
-        () => `${import.meta.env.VITE_APP_STORAGE}/projects`,
-      );
+      .addCase(getSource.rejected, () => ({
+        isServerDown: true,
+        source: `${import.meta.env.VITE_APP_STORAGE}`,
+      }));
   },
 });
 
-export const selectSource = (state: RootState) => state.source;
+export const selectSource = (state: RootState) => state.sourceState.source;
+export const selectIsServerDown = (state: RootState) =>
+  state.sourceState.isServerDown;
