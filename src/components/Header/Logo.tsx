@@ -1,7 +1,7 @@
 export default function Logo(props: {
-  className: string,
-  green: string,
-  notGreen: string
+  className: string;
+  green: string;
+  notGreen: string;
 }) {
   const { className, green, notGreen } = props;
   return (
@@ -10,7 +10,10 @@ export default function Logo(props: {
       height="100%"
       strokeMiterlimit="10"
       style={{
-        fillRule: 'nonzero', clipRule: 'evenodd', strokeLinecap: 'round', strokeLinejoin: 'round',
+        fillRule: 'nonzero',
+        clipRule: 'evenodd',
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
       }}
       version="1.1"
       viewBox="0 0 1094.08 235.866"

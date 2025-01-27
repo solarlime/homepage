@@ -8,33 +8,38 @@ import { en } from '../../src/redux/language/languageSlice';
 import App from '../../src/App';
 
 describe('Intro', () => {
-  test('Name', async () => {
-    const { findByText } = renderWithProviders(
-      createElement(App, null),
-      {
+  test(
+    'Name',
+    async () => {
+      const { findByText } = renderWithProviders(createElement(App, null), {
         preloadedState: { language: en },
         router: MemoryRouter,
         props: { initialEntries: ['/'] },
-      },
-    );
+      });
 
-    const initialName = await findByText('solarlime');
-    expect(initialName).toBeInTheDocument();
+      const initialName = await findByText('solarlime');
+      expect(initialName).toBeInTheDocument();
 
-    await waitFor(() => {
-      expect(initialName).toHaveTextContent('Dmitriy');
-    }, { timeout: 7000 });
-  }, { timeout: 10000 });
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_STORAGE}/content/en/intro`,
+      );
+      const content = await response.json();
+      await waitFor(
+        () => {
+          expect(initialName).toHaveTextContent(content?.title_name);
+        },
+        { timeout: 7000 },
+      );
+    },
+    { timeout: 10000 },
+  );
 
   test('Projects', async () => {
-    const { findAllByTestId } = renderWithProviders(
-      createElement(App, null),
-      {
-        preloadedState: { language: en },
-        router: MemoryRouter,
-        props: { initialEntries: ['/'] },
-      },
-    );
+    const { findAllByTestId } = renderWithProviders(createElement(App, null), {
+      preloadedState: { language: en },
+      router: MemoryRouter,
+      props: { initialEntries: ['/'] },
+    });
 
     const projects = await findAllByTestId('project');
     const imageOne = await findByRole(projects[0], 'img');

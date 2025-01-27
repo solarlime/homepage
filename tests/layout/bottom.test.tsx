@@ -1,10 +1,11 @@
-import {
-  describe, expect, test, vi,
-} from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { createElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import {
-  fireEvent, waitFor, screen, queryByRole,
+  fireEvent,
+  waitFor,
+  screen,
+  queryByRole,
 } from '@testing-library/react';
 
 import renderWithProviders from '../prepareForTests';
@@ -15,14 +16,11 @@ const situations = [`/${import.meta.env.VITE_APP_PLEASE}`, '/'];
 
 describe.each(situations)('Bottom', (path) => {
   test(`Path: ${path}`, async () => {
-    renderWithProviders(
-      createElement(App, null),
-      {
-        preloadedState: { language: en },
-        router: MemoryRouter,
-        props: { initialEntries: [path] },
-      },
-    );
+    renderWithProviders(createElement(App, null), {
+      preloadedState: { language: en },
+      router: MemoryRouter,
+      props: { initialEntries: [path] },
+    });
 
     const bottom = screen.queryByTestId('bottom');
     expect(bottom).toBeTruthy();
@@ -36,7 +34,9 @@ describe.each(situations)('Bottom', (path) => {
           expect(button).toBeTruthy();
         });
 
-        const root = await screen.findByRole('application').then((r) => r.parentElement);
+        const root = await screen
+          .findByRole('application')
+          .then((r) => r.parentElement);
         expect(root).toBeTruthy();
 
         // @ts-ignore

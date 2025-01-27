@@ -1,5 +1,5 @@
 export const response = {
-  language: 'русская версия',
+  language: 'Яя',
 };
 
 export default (req, res) => {

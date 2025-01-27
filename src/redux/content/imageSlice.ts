@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createApi } from 'unsplash-js';
 
@@ -11,17 +9,17 @@ import lime from '../../img/lime.jpg';
 import limeThumb from '../../img/lime-thumb.jpg';
 
 interface Photo {
-  raw: string | undefined,
-  thumb: string,
-  alt_description: string | null,
-  author: string,
-  userLink: string,
-  photoLink: string,
+  raw: string | undefined;
+  thumb: string;
+  alt_description: string | null;
+  author: string;
+  userLink: string;
+  photoLink: string;
 }
 
 export interface ImageState {
-  photo: Photo | null
-  status: 'idle' | 'pending' | 'succeeded' | 'failed'
+  photo: Photo | null;
+  status: 'idle' | 'pending' | 'succeeded' | 'failed';
 }
 
 // @ts-ignore
@@ -32,10 +30,15 @@ const unsplash = createApi({
 const utmString = '?utm_source=Homepage&utm_medium=referral';
 
 const getImage = async (utm: string): Promise<Photo> => {
-  const result = await Promise.any([
-    unsplash.photos.getRandom({ collectionIds: ['228275'], orientation: 'landscape' }),
-    new Promise((resolve) => { setTimeout(() => resolve({}), 1000); }),
-  ]) as ApiResponse<Random>;
+  const result = (await Promise.any([
+    unsplash.photos.getRandom({
+      collectionIds: ['228275'],
+      orientation: 'landscape',
+    }),
+    new Promise((resolve) => {
+      setTimeout(() => resolve({}), 1000);
+    }),
+  ])) as ApiResponse<Random>;
   if (result.response) {
     return {
       raw: result.response.urls.raw,
@@ -49,7 +52,9 @@ const getImage = async (utm: string): Promise<Photo> => {
   throw Error('Fallback image is used');
 };
 
-export const tryToGetImage = createAsyncThunk('image/getImage', async () => getImage(utmString));
+export const tryToGetImage = createAsyncThunk('image/getImage', async () =>
+  getImage(utmString),
+);
 
 const initialState: ImageState = {
   photo: null,

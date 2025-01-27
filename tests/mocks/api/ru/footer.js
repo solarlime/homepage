@@ -1,6 +1,5 @@
 export const response = {
-  print: 'print cv',
-  download: 'download .pdf',
+  language: 'Zz',
 };
 
 export default (req, res) => {

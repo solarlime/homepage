@@ -1,7 +1,10 @@
 import { describe, test, expect } from 'vitest';
 
 import {
-  languageReducer, toggleLanguage, ru, en,
+  languageReducer,
+  toggleLanguage,
+  ru,
+  en,
 } from '../../src/redux/language/languageSlice';
 
 describe('Theme reducer', () => {

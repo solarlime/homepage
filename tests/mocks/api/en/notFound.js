@@ -1,6 +1,8 @@
 export const response = {
-  print: 'напечатать резюме',
-  download: 'загрузить .pdf',
+  subtitle_1: 'Tt',
+  subtitle_2: 'Uu',
+  caption_1: 'Vv',
+  caption_2: 'Ww',
 };
 
 export default (req, res) => {

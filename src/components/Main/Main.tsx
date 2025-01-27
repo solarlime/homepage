@@ -17,9 +17,9 @@ export function AboutOrNot() {
     return <About />;
   }
   if (import.meta.env.VITE_APP_MAINTENANCE_MODE === 'false') {
-    return (<NotFound />);
+    return <NotFound />;
   }
-  return (<Maintenance />);
+  return <Maintenance />;
 }
 
 /**

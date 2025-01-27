@@ -10,10 +10,10 @@ import type { AppStore, RootState } from '../src/redux/app/store';
 import { setupStore } from '../src/redux/app/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  router?: typeof BrowserRouter | typeof MemoryRouter,
-  props?: null | object
-  preloadedState?: Partial<RootState>,
-  store?: AppStore,
+  router?: typeof BrowserRouter | typeof MemoryRouter;
+  props?: null | object;
+  preloadedState?: Partial<RootState>;
+  store?: AppStore;
 }
 
 const renderWithProviders = (
@@ -26,8 +26,12 @@ const renderWithProviders = (
     ...renderOptions
   }: ExtendedRenderOptions,
 ) => {
-  function Wrapper({ children }: PropsWithChildren<{}>): ReactElement {
-    return createElement(router, props, <Provider store={store}>{children}</Provider>);
+  function Wrapper({ children }: PropsWithChildren<object>): ReactElement {
+    return createElement(
+      router,
+      props,
+      <Provider store={store}>{children}</Provider>,
+    );
   }
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) };
 };

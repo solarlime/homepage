@@ -1,17 +1,21 @@
 export interface Theme {
-  name: 'light' | 'dark', color: string, backgroundColor: string, accentColor: string, extraColor: string,
+  name: 'light' | 'dark';
+  color: string;
+  backgroundColor: string;
+  accentColor: string;
+  extraColor: string;
 }
 
 export interface Themes {
-  light: Theme
-  dark: Theme
+  light: Theme;
+  dark: Theme;
 }
 
 export interface Language {
-  name: 'ru' | 'en'
+  name: 'ru' | 'en';
 }
 
 export interface Languages {
-  ru: Language
-  en: Language
+  ru: Language;
+  en: Language;
 }

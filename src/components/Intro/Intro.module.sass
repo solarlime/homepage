@@ -188,7 +188,7 @@ $not-green-color: #{"var(--not-green-color)"}
       display: flex
       flex-wrap: wrap
       justify-content: space-between
-      gap: $gap
+      row-gap: $gap
       list-style: none
       padding: 0
       margin: 0
@@ -218,19 +218,53 @@ $not-green-color: #{"var(--not-green-color)"}
         100%
           transform: rotate(0deg)
 
+      @function centerIt($project-width, $items_in_row)
+        @return calc(50% / ($project-width / 100) - 50%)
+
+      @keyframes frame-swing-centered
+        0%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(0deg)
+
+        15%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(5deg)
+
+        30%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(-5deg)
+
+        45%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(3deg)
+
+        60%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(-3deg)
+
+        75%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(1deg)
+
+        90%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(-1deg)
+
+        100%
+          transform: translateX(centerIt(var(--project-width), 2)) rotate(0deg)
+
       .projects_list__item:has(a:focus)
         transform-origin: 50%  0
         animation: frame-swing 1.5s ease-in-out
 
+        &:last-child:nth-child(2n + 1)
+          animation: frame-swing-centered 1.5s ease-in-out
+
       .projects_list__item
+        --project-width: 30
         flex-shrink: 0
-        width: 30%
+        width: calc(var(--project-width) * 1%)
         height: auto
 
+        &:last-child:nth-child(2n + 1)
+          transform: translateX(centerIt(var(--project-width), 2))
 
         @media (max-width: 799px)
           &
-            width: 45%
+            --project-width: 45
 
         p
           display: grid
