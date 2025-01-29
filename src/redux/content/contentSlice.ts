@@ -8,8 +8,18 @@ import type {
 
 const makeReturnQueryObject = async () => {
   let serverIsDown = false;
+  let timeout: any = null;
   try {
-    await fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`);
+    await Promise.race([
+      fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`),
+      new Promise((_resolve, reject) => {
+        timeout = setTimeout(() => {
+          clearTimeout(timeout);
+          console.info('Content will be fetched from the fallback source');
+          reject(new Error('Server did not respond in estimated time'));
+        }, 2000);
+      }),
+    ]);
   } catch (e) {
     serverIsDown = true;
   }
