@@ -13,7 +13,17 @@ const sourceState: SourceState = {
 
 const defineSource = () =>
   new Promise<void>((resolve, reject) => {
-    fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`)
+    let timeout: any = null;
+    Promise.race([
+      fetch(`${import.meta.env.VITE_APP_SERVER_PUBLIC}/isServerDown`),
+      new Promise((_resolve, reject) => {
+        timeout = setTimeout(() => {
+          clearTimeout(timeout);
+          console.info('Fallback source is chosen');
+          reject(new Error('Server did not respond in estimated time'));
+        }, 2000);
+      }),
+    ])
       .then(() => resolve())
       .catch(() => reject());
   });
