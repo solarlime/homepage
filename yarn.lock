@@ -1656,14 +1656,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@welldone-software/why-did-you-render@npm:^8.0.1":
-  version: 8.0.1
-  resolution: "@welldone-software/why-did-you-render@npm:8.0.1"
+"@welldone-software/why-did-you-render@npm:^10.0.1":
+  version: 10.0.1
+  resolution: "@welldone-software/why-did-you-render@npm:10.0.1"
   dependencies:
     lodash: "npm:^4"
   peerDependencies:
-    react: ^18
-  checksum: 10/bfa9ad79bd61d6d003733f21842eb79eda33f19354aed85a6bec860ace51d7276aff52a0947a982c00e992baef94b8c4dc63545713d5df72a7d014adaa74cc99
+    react: ^19
+  checksum: 10/da37a677b7e275bf5b4b615cd45bd23c83125d04c9a292b8af5920837d5c65ebf63c8229ff963feb038787938e024dc6d3cfa6c3277e68e24b8b066292453117
   languageName: node
   linkType: hard
 
@@ -3658,7 +3658,7 @@ __metadata:
     "@types/react-dom": "npm:^18.2.22"
     "@types/uniqid": "npm:^5.3.4"
     "@vitejs/plugin-react": "npm:^4.2.1"
-    "@welldone-software/why-did-you-render": "npm:^8.0.1"
+    "@welldone-software/why-did-you-render": "npm:^10.0.1"
     autoprefixer: "npm:^10.4.18"
     eslint: "npm:^9.18.0"
     eslint-config-prettier: "npm:^10.0.1"
