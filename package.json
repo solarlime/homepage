@@ -32,13 +32,13 @@
     "unsplash-js": "^7.0.19"
   },
   "devDependencies": {
-    "@types/node": "^20.11.28",
+    "@types/node": "^20.19.10",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/uniqid": "^5.3.4",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.7.0",
     "@welldone-software/why-did-you-render": "^8.0.1",
     "autoprefixer": "^10.4.18",
     "eslint": "^8.57.0",
@@ -52,7 +52,7 @@
     "postcss": "^8.4.32",
     "sass": "^1.72.0",
     "typescript": "^5.4.2",
-    "vite": "^5.4.12",
+    "vite": "^6.3.5",
     "vite-plugin-svgr": "^4.2.0"
   },
   "packageManager": "yarn@4.3.1"
