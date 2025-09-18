@@ -52,7 +52,7 @@
     "postcss": "^8.4.32",
     "sass": "^1.72.0",
     "typescript": "^5.4.2",
-    "vite": "^6.3.5",
+    "vite": "^6.3.6",
     "vite-plugin-svgr": "^4.2.0"
   },
   "packageManager": "yarn@4.3.1"
