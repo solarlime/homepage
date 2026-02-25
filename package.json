@@ -26,7 +26,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-masonry-component": "^6.3.0",
-    "react-router-dom": "^6.22.3",
+    "react-router-dom": "^6.30.3",
     "typograf": "~7.3.0",
     "uniqid": "^5.4.0",
     "unsplash-js": "^7.0.19"
